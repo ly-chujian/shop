@@ -1,2 +1,2 @@
 # shop
-简易版商城
+React + nodeJs + mongodb 简易版商城
