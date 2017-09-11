@@ -1,9 +1,9 @@
 
 module.exports = {
     devtool: 'eval-source-map',
-    entry: __dirname + "/client/app.jsx",
+    entry: __dirname + "/dataCenter/app.jsx",
     output: {
-        path: __dirname + "/build",
+        path: __dirname + "/data",
         filename: "bundle.js"
     },
     module: {
