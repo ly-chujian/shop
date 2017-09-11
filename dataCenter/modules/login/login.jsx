@@ -2,6 +2,7 @@ import React from 'react';
 import {Link,NavLink,BrowserRouter,Switch,Route,HashRouter} from 'react-router-dom';
 import LoginCss from './login.css';
 
+import Util from "../../core/tools/util.jsx";
 import Layout from "../layout/layout.jsx";
 
 export default class Login extends React.Component{
@@ -31,9 +32,14 @@ export class LoginTmp extends React.Component{
         var pwd = this.refs['__loginPwd'].value;
 
         if(name != "" && pwd != ""){
-            cacheCtl.set(CacheKeys.USERNAME,name);
-            alert("登录成功!");
-            this.props.history.push({pathname:"/layout"});
+            Util.fetchAjax(DataCenterAjaxUrl.LOGIN,"post",{name:name,pwd:pwd}).then(d=>{
+                if(d.rc){
+                    cacheCtl.set(CacheKeys.USERNAME,name);
+                    this.props.history.push({pathname:"/layout"});
+                }else{
+                    alert(d.data);
+                }
+            })
         }
     }
 
@@ -48,7 +54,7 @@ export class LoginTmp extends React.Component{
 
                     <div className={LoginCss.item}>
                         <label>密码：</label>
-                        <input className={LoginCss.ml14} type="text" ref="__loginPwd" />
+                        <input className={LoginCss.ml14} type="password" ref="__loginPwd" />
                     </div>
                     <div className={LoginCss.btn} onClick={e=>this.login()}>登录</div>
                 </div>

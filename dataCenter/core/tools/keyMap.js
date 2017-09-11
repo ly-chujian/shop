@@ -10,3 +10,7 @@ var EventKeys = {
 var CacheKeys = {
     PERSONAGE:"person_age"
 };
+
+var DataCenterAjaxUrl = {
+    "LOGIN":"/api/login/login"
+}
