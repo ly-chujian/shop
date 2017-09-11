@@ -2,9 +2,9 @@ import React from 'react';
 import {Link,BrowserRouter,Route,Switch} from 'react-router-dom';
 import LayoutCss from '../layout/layout.css';
 
-import Todo from '../../modules/todo/todo.jsx';
-import TodoNewDetail from '../../modules/todo/todoDetail.jsx';
-import Car from '../../modules/car/car.jsx';
+import Goods from "../goods/goods.jsx";
+import Order from "../order/order.jsx";
+import User from "../user/user.jsx";
 
 export default class Layout extends React.Component{
     constructor(props){
@@ -13,7 +13,7 @@ export default class Layout extends React.Component{
     }
 
     componentWillMount(){
-        this.userName = cachePub.get(CacheKeys.USERNAME);
+        this.userName = cacheCtl.get(CacheKeys.USERNAME);
         if(!this.userName){
             //this.props.history.push({pathname:"/"});
         }
@@ -29,8 +29,9 @@ export default class Layout extends React.Component{
             <div className={LayoutCss.container}>
                 <div className={LayoutCss.nav}>
                     <ul>
-                        <li><Link to={`${this.props.match.url}/car`}>Car</Link></li>
-                        <li><Link to={`${this.props.match.url}/todo`}>Todo</Link></li>
+                        <li><Link to={`${this.props.match.url}/goods`}>Goods</Link></li>
+                        <li><Link to={`${this.props.match.url}/order`}>Order</Link></li>
+                        <li><Link to={`${this.props.match.url}/user`}>User</Link></li>
                     </ul>
                 </div>
                 <div className={LayoutCss.rightBox}>
@@ -40,9 +41,9 @@ export default class Layout extends React.Component{
                     </div>
                     <div className={LayoutCss.box}>
                         <Switch>
-                            <Route path={`${this.props.match.url}/car`} component={Car} />
-                            <Route path={`${this.props.match.url}/todo`} component={Todo}/>
-                            <Route path={`${this.props.match.url}/todoDetail/:id`} component={TodoNewDetail}/>
+                            <Route path={`${this.props.match.url}/goods`} component={Goods} />
+                            <Route path={`${this.props.match.url}/order`} component={Order}/>
+                            <Route path={`${this.props.match.url}/user`} component={User}/>
                         </Switch>
                     </div>
                 </div>

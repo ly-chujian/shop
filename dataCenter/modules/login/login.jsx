@@ -2,7 +2,7 @@ import React from 'react';
 import {Link,NavLink,BrowserRouter,Switch,Route,HashRouter} from 'react-router-dom';
 import LoginCss from './login.css';
 
-import Layout from "../../router/layout/layout.jsx";
+import Layout from "../layout/layout.jsx";
 
 export default class Login extends React.Component{
     constructor(props){
@@ -11,12 +11,12 @@ export default class Login extends React.Component{
 
     render(){
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <div>
                     <Route exact path="/" component={LoginTmp} />
                     <Route path="/layout" component={Layout} />
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 }
@@ -31,7 +31,7 @@ export class LoginTmp extends React.Component{
         var pwd = this.refs['__loginPwd'].value;
 
         if(name != "" && pwd != ""){
-            cachePub.set(CacheKeys.USERNAME,name);
+            cacheCtl.set(CacheKeys.USERNAME,name);
             alert("登录成功!");
             this.props.history.push({pathname:"/layout"});
         }

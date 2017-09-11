@@ -8,7 +8,7 @@ import ReactDom from 'react-dom';
 import Login from "./modules/login/login.jsx";
 
 ReactDom.render(
-    <Login />, document.getElementById('c')
+    <Login />, document.getElementById('example')
 );
 
 //路由的生命周期
