@@ -1,0 +1,6 @@
+.table_kill{
+    border: 1px solid red;
+}
+.table_kill .btn{margin:0 5px;}
+.table_kill .input{border-radius: 4px;border:1px solid #ddd;text-align: center;margin:0 4px;width:20px;}
+

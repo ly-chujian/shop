@@ -1,0 +1,77 @@
+.selectSearch{
+    width: 200px;
+    display:inline-block;
+    position: absolute;
+    background: #fff;
+}
+.selectSearch .inputSel{
+    width:200px;
+    height: 26px;
+    border:1px solid #ddd;
+    text-indent: 10px;
+}
+.selectSearch .triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 9px solid #999;
+    position: absolute;
+    right: 4px;top:10px;
+}
+
+.selectSearch .rotateUp {
+    transform:rotate(180deg);
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+.selectSearch .rotateDown {
+    transform:rotate(0deg);
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.selectSearch .search{
+    border: 1px solid #ccc;
+    border-top: 0px;width:200px;
+    box-shadow: 1px 1px 3px #ededed;
+}
+.selectSearch table{
+    border-collapse: collapse;
+    width:200px;
+}
+.selectSearch table tr td:first-child{
+    padding-left: 10px;
+    width: 38px;
+}
+.selectSearch table tr td{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 150px;
+}
+.selectSearch table tr:hover{background: #eee;}
+
+.selectSearch .saveBtn{
+    width: 40px;
+    line-height: 20px;
+    border: none;
+    background: #31b0d5;
+    color: #fff;
+    border-radius: 4px;
+    outline: none;
+    padding:0px;
+}
+.selectSearch .closeBtn{
+    line-height: 18px;
+    background: #fff;
+    color: #000;
+    border:1px solid #cccccc;
+    margin-right: 4px;
+}
+.selectSearch .footerBtn{
+    padding:10px;text-align: right;border-top: 1px solid #ccc;
+}
+.selectSearch .divSearchContainer{
+    max-height: 200px;min-height:100px;overflow: auto;overflow-x: hidden;
+}
