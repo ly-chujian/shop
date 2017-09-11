@@ -1,4 +1,5 @@
 logs/*
+build/*
 !.gitkeep
 node_modules/
 bower_components/
@@ -7,4 +8,3 @@ tmp
 .idea/*
 .project
 dist/*
-build/*
