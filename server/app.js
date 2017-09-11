@@ -48,7 +48,8 @@ server.listen(port, function() {
 });
 
 app.get("*",function(req,res){
-    res.sendFile(path.resolve(__dirname, '../index.html'));
+    console.log(1);
+    //res.sendFile(path.resolve(__dirname, '../index.html'));
     //res.redirect("http://r.com/");
 })
 

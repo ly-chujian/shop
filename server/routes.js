@@ -4,6 +4,5 @@
 
 //输出路由模块
 module.exports = function(app) {
-    app.use('/person',require('./api/person'));
-    app.use('/enmu',require('./api/enmuTable'));
+    app.use('/login',require('./api/login'));
 }
