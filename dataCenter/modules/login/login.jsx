@@ -28,7 +28,6 @@ export class LoginTmp extends React.Component{
     }
 
     login(){
-        alert(1);
         var name = this.refs['__loginName'].value;
         var pwd = this.refs['__loginPwd'].value;
 
