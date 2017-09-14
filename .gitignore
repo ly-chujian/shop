@@ -1,5 +1,5 @@
 logs/*
-build/*
+dataCenter/build/*
 !.gitkeep
 node_modules/
 bower_components/

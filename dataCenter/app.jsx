@@ -13,7 +13,7 @@ ReactDom.render(
 
 //路由的生命周期
 //在react-router V4中去掉了on****的路由生命周期的钩子，
-//但是可以在组件中用componentDidMount 或 componentWillMount代替 onEnter，
+//但是可以在组件中用componentDidMount 或 componentWillMount 代替 onEnter，
 //可以用componentWillUpdate 或 componentWillReceiveProps 代替 onUpdate，
 //可以用componentWillUnmount代替 onLeave。
 

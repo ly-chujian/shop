@@ -15,6 +15,7 @@ export default class Login extends React.Component{
             <HashRouter>
                 <div>
                     <Route exact path="/" component={LoginTmp} />
+                    <Route exact path="/login" component={LoginTmp} />
                     <Route path="/layout" component={Layout} />
                 </div>
             </HashRouter>

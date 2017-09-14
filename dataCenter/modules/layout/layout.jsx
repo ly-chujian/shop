@@ -2,6 +2,7 @@ import React from 'react';
 import {Link,BrowserRouter,Route,Switch} from 'react-router-dom';
 import LayoutCss from '../layout/layout.css';
 
+import Util from "../../core/tools/util.jsx";
 import Goods from "../goods/goods.jsx";
 import Order from "../order/order.jsx";
 import User from "../user/user.jsx";
@@ -13,15 +14,21 @@ export default class Layout extends React.Component{
     }
 
     componentWillMount(){
-        this.userName = cacheCtl.get(CacheKeys.USERNAME);
-        if(!this.userName){
-            //this.props.history.push({pathname:"/"});
-        }
+        Util.fetchAjax("/api/login/check").then(d=>{
+            if(d.rc){
+                this.userName = d.data.name;
+                cacheCtl.set(CacheKeys.USERNAME, d.data.name);
+            }else{
+                this.props.history.push({pathname:"/login"});
+            }
+        })
     }
 
     logOut(){
-        //cachePub.set(CacheKeys.USERNAME,"");
-        //this.props.history.push({pathname:"/"});
+        cacheCtl.set(CacheKeys.USERNAME,"");
+        Util.fetchAjax("/api/login/logOut","post",null).then(e=>{
+            this.props.history.push({pathname:"/"});
+        });
     }
 
     render(){

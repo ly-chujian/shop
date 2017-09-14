@@ -17,6 +17,8 @@ var loginCtl = {
                 return res.status(200).json({rc:false,data:err});
             }else{
                 if(docs.length == 1){
+                    req.session.user = docs[0];
+                    console.log(req.session.user);
                     return res.status(200).json({rc:true,data:"登录成功!"});
                 }else{
                     return res.status(200).json({rc:false,data:"账号密码错误!"});
@@ -25,10 +27,15 @@ var loginCtl = {
         })
     },
     logOut:function(req,res){
-
+        req.session.user = null;
+        return res.status(200).json({rc:true,data:"退出成功!"});
     },
     check:function(req,res){
-
+        if(req.session.user){
+            return res.status(200).json({rc:true,data:req.session.user});
+        }else{
+            return res.status(200).json({rc:false,data:"not ok!"});
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 var path 			= require('path');
 var express 		= require('express');
 var mongoose		= require('mongoose');
+var session = require('express-session');
 //最新版本要加上这行代码，否则会有个警告,导致save等操作失败
 //这是由于版本升级导致的
 //Mongoose: mpromise (mongoose’s default promise library) is deprecated, plug in your own promise library instead:
@@ -35,8 +36,36 @@ var server = require('http').createServer(app);
 //设置端口号
 app.set('port',port);
 
+app.use(session({
+    resave: true, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'shop session'
+}));
+
 //这个也非常重要，设置前端HTML页面的相对路径, 后面的参数可按照实际情况修改
 //app.use(express.static(path.join(__dirname,'../Client')));
+
+app.all("*",function(req,res,next){
+    console.log(req.url);
+    //不拦截登录的action api
+    if(req.url.indexOf('/login/login') != -1){
+        console.log("login action!");
+        next();
+    }else{
+        //如果请求里面包含api, 那么肯定是由nginx转发过来的, 输出index
+        if(req.url.indexOf('/api') != -1){
+            console.log("not api action, out index.html page!");
+            res.sendFile(path.resolve(__dirname, '../dataCenter/index.html'));
+        }else{
+            //正常调用api，验证用户权限
+            if (!req.session.user) {
+                return res.status(200).json({rc:false,data:"not login!"});
+            }else{
+                next();
+            }
+        }
+    }
+})
 
 //引入路由文件,  路由全部在routes.js里面
 require('./routes')(app);
@@ -46,11 +75,6 @@ server.listen(port, function() {
     console.log('Your node server is running on '
         + app.get('env') + ' at ' + port + ' ~');
 });
-
-app.get("*",function(req,res){
-    res.sendFile(path.resolve(__dirname, '../dataCenter/index.html'));
-    //res.redirect("http://r.com/");
-})
 
 //没有找到路由的情况下发送404
 app.use(function(req, res) {
