@@ -9,6 +9,7 @@ var controller = require('./controller');
 
 var router = express.Router();
 
+router.post("/register",controller.loginCtl.register);
 router.post("/login",controller.loginCtl.login);
 router.post("/logOut",controller.loginCtl.logOut);
 router.get("/check",controller.loginCtl.check);

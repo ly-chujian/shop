@@ -48,7 +48,7 @@ app.use(session({
 app.all("*",function(req,res,next){
     console.log(req.url);
     //不拦截登录的action api
-    if(req.url.indexOf('/login/login') != -1){
+    if(req.url.indexOf('/login/login') != -1 || req.url.indexOf('/login/register') != -1){
         console.log("login action!");
         next();
     }else{
@@ -58,11 +58,12 @@ app.all("*",function(req,res,next){
             res.sendFile(path.resolve(__dirname, '../dataCenter/index.html'));
         }else{
             //正常调用api，验证用户权限
-            if (!req.session.user) {
-                return res.status(200).json({rc:false,data:"not login!"});
-            }else{
-                next();
-            }
+            next();
+            //if (!req.session.user) {
+            //    return res.status(200).json({rc:false,data:"not login!"});
+            //}else{
+            //    next();
+            //}
         }
     }
 })

@@ -5,8 +5,18 @@
 var Login = require('./model.js');
 
 var loginCtl = {
+    register:function(req,res){
+        var login = new Login({name:req.body.name,pwd:req.body.pwd});
+        login.save(function(error,doc){
+            if(error){
+                return res.status(200).json({rc:false,data:error});
+            }else{
+                console.log("register success!");
+                return res.status(200).json({rc:true,data:doc});
+            }
+        });
+    },
     login:function(req,res){
-
         var name = req.body.name;
         var pwd = req.body.pwd;
         if(!name || !pwd){
@@ -16,12 +26,12 @@ var loginCtl = {
             if(err){
                 return res.status(200).json({rc:false,data:err});
             }else{
-                if(docs.length == 1){
+                if(docs.length >= 1){
                     req.session.user = docs[0];
                     console.log(req.session.user);
                     return res.status(200).json({rc:true,data:"登录成功!"});
                 }else{
-                    return res.status(200).json({rc:false,data:"账号密码错误!"});
+                    return res.status(200).json({rc:false,data:"账号密码异常!"});
                 }
             }
         })

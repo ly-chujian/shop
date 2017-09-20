@@ -28,6 +28,10 @@
     "css-loader": "^0.25.0",
     "style-loader": "^0.18.2",
     "webpack": "^3.4.1",
-    "webpack-dev-server": "^2.6.1"
+    "webpack-dev-server": "^2.6.1",
+    "mocha": "^2.3.4",
+    "should": "^1.2.1",
+    "chai": "~3.4.1",
+    "superagent": "^1.4.0"
   }
 }
