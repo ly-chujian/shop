@@ -6,16 +6,6 @@ var EnumTable = require('./model.js');
 var Q = require('q');
 
 var enmuCtl = {
-    getAgeByCode:function(code,data){
-        var tmp = "";
-        for(var i =0;i<data.length;i++){
-            if(code.toString() == data[i].code.toString()){
-                tmp = data[i].name;
-                break;
-            }
-        }
-        return tmp;
-    },
     getEnmuByType:function(type){
         var defer = Q.defer();
         EnumTable.find({name:type},function(error,data){

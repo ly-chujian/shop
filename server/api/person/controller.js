@@ -6,16 +6,25 @@ var Person = require('./model.js');
 var EnumCtl = require('../enmuTable/controller.js');
 var Q = require('q');
 
+function getAgeByCode(code,data){
+    var tmp = "";
+    for(var i =0;i<data.length;i++){
+        if(code.toString() == data[i].code.toString()){
+            tmp = data[i].name;
+            break;
+        }
+    }
+    return tmp;
+}
+
 function convertAge(ages,data){
     var res = [];
     for(var i=0;i<data.length;i++){
         var tmp = {};
-        data[i].ageName = EnumCtl.enmuCtl.getAgeByCode(data[i].age,ages);
-        data[i].ageCode = data[i].age;
         tmp._id = data[i]._id;
         tmp.name = data[i].name;
         tmp.ageCode = data[i].age;
-        tmp.ageName = EnumCtl.enmuCtl.getAgeByCode(data[i].age,ages);
+        tmp.ageName = getAgeByCode(data[i].age,ages);
         tmp.address = data[i].address;
         res.push(tmp);
     }
