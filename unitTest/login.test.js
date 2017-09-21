@@ -28,10 +28,7 @@ describe('test login', function () {
     //验证登录是否成功
     it('login action', function (done) {
         request.post(loginUrl)
-        .send({
-            name:"aaa1",
-            pwd:"aaa"
-        })
+        .send({name:"aaa", pwd:"aaa"})
         .end(function (err, res) {
             if(err){
                 if(res.statusCode == 404){
