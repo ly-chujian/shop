@@ -7,7 +7,7 @@ var should = require('should');
 var expect = require('chai').expect;
 var unitTestConfig = require('./config.js');
 
-var logTitle = "login action test";
+var logTitle = 'login action test';
 var registerUrl = unitTestConfig.base + unitTestConfig.registerUrl;
 var loginUrl =  unitTestConfig.base + unitTestConfig.loginUrl;
 var logAddUrl = unitTestConfig.base + unitTestConfig.logAdd;
@@ -28,19 +28,19 @@ describe('test login', function () {
     //验证登录是否成功
     it('login action', function (done) {
         request.post(loginUrl)
-        .send({name:"aaa", pwd:"aaa"})
+        .send({name:'aaa', pwd:'aaa'})
         .end(function (err, res) {
             if(err){
                 if(res.statusCode == 404){
-                    request.post(logAddUrl).send({title:logTitle, content:"API:" + loginUrl + " 404",type:"1"}).end();
+                    request.post(logAddUrl).send({title:logTitle, content:'API:' + loginUrl + ' 404',type:'1'}).end();
                 }else{
-                    request.post(logAddUrl).send({title:logTitle, content:res.error,type:"1"}).end();
+                    request.post(logAddUrl).send({title:logTitle, content:res.error,type:'1'}).end();
                 }
             }else{
                 if(res.body.rc){
-                    request.post(logAddUrl).send({title:logTitle, content:"登录成功",type:"1"}).end();
+                    request.post(logAddUrl).send({title:logTitle, content:'登录成功',type:'1'}).end();
                 }else{
-                    request.post(logAddUrl).send({title:logTitle, content:"登录失败",type:"1"}).end();
+                    request.post(logAddUrl).send({title:logTitle, content:'登录失败',type:'1'}).end();
                 }
                 should.not.exist(err);
             }

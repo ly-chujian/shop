@@ -8,4 +8,5 @@ module.exports = function(app) {
     app.use('/person',require('./api/person'));
 
     app.use('/log',require('./api/log'));
+    app.use('/at',require('./api/autoTest'));
 }

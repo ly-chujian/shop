@@ -6,7 +6,8 @@ var unitTestConfig = {
     base:"http://s.com",
     logAdd:"/api/log/add",
     registerUrl:"/api/login/register",
-    loginUrl:"/api/login/login"
+    loginUrl:"/api/login/login",
+    personListUrl:"/api/person/list"
 }
 
 module.exports = unitTestConfig;
