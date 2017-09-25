@@ -59,6 +59,7 @@ var personCtl = {
             }
         });
     },
+    //mongoose查询出来的其实不是你的User Object，只是mongoose的model，所以对它赋值没有任何用处。
     getList:function(req,res){
         var promiseAge = EnumCtl.enmuCtl.getEnmuByType("AGE");
         var promisePerson = personCtl.getPerson(req.query.name);
