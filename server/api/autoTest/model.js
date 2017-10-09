@@ -18,7 +18,8 @@ var autoTestSchema = new Schema({
     sendData:Schema.Types.Mixed,    //发送数据json对象
     describe:String,   // 测试用例描述
     logTitle:String,    //log日志title
-    operator:String   //操作人
+    operator:String,   //操作人
+    runTime:Date      //运行时间
 });
 
 module.exports = mongoose.model('autoTest',autoTestSchema);
