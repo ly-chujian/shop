@@ -13,7 +13,9 @@ export default class Body extends React.Component{
     }
 
     getActionsById(item,row){
-        item.action(row);
+        if(item.action){
+            item.action(row);
+        }
     }
 
     componentWillMount(){

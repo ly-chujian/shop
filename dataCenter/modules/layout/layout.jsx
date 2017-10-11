@@ -6,6 +6,7 @@ import Util from "../../core/tools/util.jsx";
 import Goods from "../goods/goods.jsx";
 import Order from "../order/order.jsx";
 import User from "../user/user.jsx";
+import AutoTest from "../autoTest/autotest.jsx";
 
 export default class Layout extends React.Component{
     constructor(props){
@@ -39,6 +40,7 @@ export default class Layout extends React.Component{
                         <li><Link to={`${this.props.match.url}/goods`}>Goods</Link></li>
                         <li><Link to={`${this.props.match.url}/order`}>Order</Link></li>
                         <li><Link to={`${this.props.match.url}/user`}>User</Link></li>
+                        <li><Link to={`${this.props.match.url}/auto`}>Auto Test</Link></li>
                     </ul>
                 </div>
                 <div className={LayoutCss.rightBox}>
@@ -51,6 +53,7 @@ export default class Layout extends React.Component{
                             <Route path={`${this.props.match.url}/goods`} component={Goods} />
                             <Route path={`${this.props.match.url}/order`} component={Order}/>
                             <Route path={`${this.props.match.url}/user`} component={User}/>
+                            <Route path={`${this.props.match.url}/auto`} component={AutoTest}/>
                         </Switch>
                     </div>
                 </div>
