@@ -65,14 +65,12 @@ export default class TK extends React.Component {
 		});
 	}
 
-	search(){
-		this.state.options.index = 1;
-		if(this.refs['__body']){
-			this.refs['__body'].setCkAll(false);
+	search(current){
+		if(!current){
+			this.state.options.index = 1;
 		}
-		if(this.refs['__header']){
-			this.refs['__header'].setCkAllStatus(false);
-		}
+		this.refs['__body'].setCkAll(false);
+		this.refs['__header'].setCkAllStatus(false);
 		this.getData();
 	}
 
@@ -138,7 +136,7 @@ export default class TK extends React.Component {
 
 		//没有数据源的情况下，停止渲染
 		if(this.option.getUrl() == ""){
-			return <div>getUrl Not Found</div>;
+			return <div>Ajax URL Not Found</div>;
 		}
 
 		var actionArray = [];
@@ -147,11 +145,13 @@ export default class TK extends React.Component {
 		}
 		if(cols != null && cols.length != 0){
 			return (
-				<div className={Css.table_kill}>
-					<table className="table table-bordered">
-						<Header ref="__header" actions={actionArray} cols={cols} ckcb={this.headCallback} showCk={this.option.showCk} />
-						<Body ref="__body" actions={actionArray} data={this.state.arr} cols={cols} ckcb={this.bodyCallback} showCk={this.option.showCk} />
-					</table>
+				<div className={Css.panel_table + " text-center"}>
+					<div className={Css.overflow_table}>
+						<table>
+							<Header ref="__header" actions={actionArray} cols={cols} ckcb={this.headCallback} showCk={this.option.showCk} />
+							<Body ref="__body" actions={actionArray} data={this.state.arr} cols={cols} ckcb={this.bodyCallback} showCk={this.option.showCk} />
+						</table>
+					</div>
 					<Paging goNext={this.next} goPrev={this.prev} options={this.state.options} goIndex={this.goIndex.bind(this)} />
 				</div>
 			);

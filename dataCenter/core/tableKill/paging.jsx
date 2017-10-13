@@ -1,5 +1,7 @@
 
 import React from "react";
+import TKCls from "./__tk.css";
+
 export default class Paging extends React.Component {
     constructor(props) {
         super(props);
@@ -27,13 +29,13 @@ export default class Paging extends React.Component {
         var index = this.props.options.index;
         var total = this.props.options.total;
         return (
-            <div className="pull-right bot">
-                总条数:<span className="red">{count}</span>
-                <button className="btn btn-info btn-xs" type="button" onClick={this.prev}>上一页</button>
-                <button className="btn btn-info btn-xs" type="button" onClick={this.next}>下一页</button>
-                当前页<span className="red">{index}</span>/<span className="red">{total}</span>
-                到<input className="input" type="text" ref="__pIndex" />页
-                <button className="btn btn-info btn-xs" type="button" onClick={that.goIndex.bind(this)}>确定</button>
+            <div className={TKCls.paging + " text-right"}>
+                <span>共<em>{count}</em>条</span>
+                <input type="button" title="上一页" onClick={this.prev} value="<" />
+                <input type="button" title="下一页" onClick={this.next} value=">" />
+                <span>当前第<em>{index}</em>/<em>{total}</em>页</span>
+                <span>到 <input type="text" ref="__pIndex"/> 页</span>
+                <input type="button" value="确定" onClick={that.goIndex.bind(this)}/>
             </div>
         );
     }
