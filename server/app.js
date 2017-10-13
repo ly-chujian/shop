@@ -65,7 +65,7 @@ app.all("*",function(req,res,next){
             //    next();
             //}
         }
-    }
+    }/*11*/
 })
 
 //引入路由文件,  路由全部在routes.js里面
