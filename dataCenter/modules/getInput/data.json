@@ -1,0 +1,11 @@
+{
+  "data":[
+    {
+      "text" : "textVal",
+      "select" : 1,
+      "radio": "red",
+      "checkbox" : "yellow"
+
+    }
+  ]
+}
