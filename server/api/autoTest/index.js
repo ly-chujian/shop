@@ -13,7 +13,7 @@ router.post("/add",controller.autoTestCtl.add);
 router.post("/edit/:id",controller.autoTestCtl.edit);
 router.get("/remove",controller.autoTestCtl.del);
 router.get("/list",controller.autoTestCtl.list);
-router.get("/getItem/:id",controller.autoTestCtl.getItemById);
+router.get("/getItems/:ids",controller.autoTestCtl.getItemByIds);
 
 router.get("/run",controller.autoTestCtl.run);
 

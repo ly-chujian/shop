@@ -12,6 +12,8 @@ var registerUrl = unitTestConfig.base + unitTestConfig.registerUrl;
 var loginUrl =  unitTestConfig.base + unitTestConfig.loginUrl;
 var logAddUrl = unitTestConfig.base + unitTestConfig.logAdd;
 
+var personListUrl = unitTestConfig.base + unitTestConfig.personListUrl;
+
 //登录模块的测试用例
 describe('test login', function () {
     //先植入一个用户
@@ -19,9 +21,7 @@ describe('test login', function () {
         request.post(registerUrl)
         .send({ name: 'aaa', pwd: 'aaa' })
         .end(function (err, res) {
-            if(err){
-                console.log(res.error);
-            }
+            if(err){console.log(res.error);}
             done();
         });
     });
@@ -47,11 +47,7 @@ describe('test login', function () {
             done();
         })
     })
-})
 
-
-var personListUrl = unitTestConfig.base + unitTestConfig.personListUrl;
-describe('test person', function () {
     it('person action', function (done) {
         request.get(personListUrl)
             .end(function (err, res) {
