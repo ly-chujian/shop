@@ -71,8 +71,13 @@ var autoTestCtl = {
     },
     run1:function(req,res){
         var ids = req.query.id.split(',');
-
-        FsTool.write("a.test.js","function a(){\r\nalert(1);\r\n};\r\n a();").then(function (d) {
+        var promiseArr = [];
+        autoTestCtl.getItems(ids).then(function(d){
+            for(var i = 0;i< d.length;i++){
+                promiseArr.push(FsTool.write(new Date().getTime() + ".test.js",autoTestCtl.writeFileByDoc(d[i])));
+            }
+        })
+        Q.all(promiseArr).then(function(d){
             return res.status(200).json({rc:true,data:d});
         })
     },
@@ -161,14 +166,21 @@ var autoTestCtl = {
             }
         })
     },
-    getItemByIds:function(req,res){
-        var ids = req.params.ids.split(',');
+    getItems:function(ids){
+        var defer = Q.defer();
         var promiseArr = [];
         for(var i=0;i<ids.length;i++){
-            promiseArr.push(this.getOne(ids[i]));
+            promiseArr.push(autoTestCtl.getOne(ids[i]));
         }
         Q.all(promiseArr).then(function(d){
-            return res.status(200).json({rc:true,data:d});
+            defer.resolve(d);
+        })
+        return defer.promise;
+    },
+    getItemByIds:function(req,res){
+        var ids = req.params.ids.split(',');
+        autoTestCtl.getItems(ids).then(function(d){
+            res.status(200).json({rc:true,data:d});
         })
     },
     getOne:function(id){
