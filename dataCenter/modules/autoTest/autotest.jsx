@@ -2,6 +2,7 @@ import React from 'react';
 
 import Util from "../../core/tools/util.jsx";
 import TK from "../../core/tableKill/table.jsx";
+import AutoTestDialog from "./dialog.jsx";
 
 export default class AutoTest extends React.Component{
     constructor(props){
@@ -31,7 +32,7 @@ export default class AutoTest extends React.Component{
                 {key:"runTime",val:"操作时间",convert:that.cTime}
             ],
             getUrl:function(){
-                return "/api/at/list?name="+that.state.name;
+                return "/api/at/list?describe="+that.state.name;
             },
             pageOption:{sizeKey:"size",indexKey:"index"},
             analysis:function(data){
@@ -64,12 +65,19 @@ export default class AutoTest extends React.Component{
         this.refs['tableKill'].search();
     }
 
+    addItem(){
+        alert(1);
+    }
+
     render(){
         return (
             <div>
+                <input type="button" value="Add" onClick = {e=>this.addItem()} />
                 name:<input type="text" value={this.state.name} onChange={e=>{this.setState({name:e.target.value});this.tableOptions.isReRender = false;}} />
                 <input type="button" value="Search" onClick={e=>{this.tableOptions.isReRender=true;this.search();}} />
                 <TK ref="tableKill" option ={this.tableOptions}></TK>
+
+                <AutoTestDialog />
             </div>
         );
     }

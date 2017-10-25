@@ -12,13 +12,15 @@ import GetInput from "../getInput/getInput.jsx";
 export default class Layout extends React.Component{
     constructor(props){
         super(props);
-        this.userName = "";
+        this.state = {
+            userName:""
+        }
     }
 
     componentWillMount(){
         Util.fetchAjax("/api/login/check").then(d=>{
             if(d.rc){
-                this.userName = d.data.name;
+                this.setState({userName:d.data.name});
                 cacheCtl.set(CacheKeys.USERNAME, d.data.name);
             }else{
                 this.props.history.push({pathname:"/login"});
@@ -47,7 +49,7 @@ export default class Layout extends React.Component{
                 </div>
                 <div className={LayoutCss.rightBox}>
                     <div className={LayoutCss.top}>
-                        <span>{this.userName}</span>
+                        <span>{this.state.userName}</span>
                         <span className={LayoutCss.logout} onClick={e=>this.logOut()}>退出</span>
                     </div>
                     <div className={LayoutCss.box}>
