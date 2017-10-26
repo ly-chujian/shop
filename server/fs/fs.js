@@ -16,9 +16,9 @@ var fsCtl = {
         var defer = Q.defer();
         fs.writeFile(_path,data,function(err){
             if(err){
-                defer.resolve({rc:false,data:fileName + " write file faild"});
+                defer.resolve({rc:false,data:{fileName:fileName,msg:err}});
             }else{
-                defer.resolve({rc:true,data:fileName + " write file success"});
+                defer.resolve({rc:true,data:{fileName:fileName,msg:"ok"}});
             }
         })
         return defer.promise;

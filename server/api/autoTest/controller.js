@@ -3,7 +3,7 @@
  */
 
 var FsTool = require("../../fs/fs.js");
-var exec = require('child_process').exec;
+var child_process = require('child_process');
 
 var fileName  = "a.test.js";
 
@@ -17,18 +17,17 @@ var autoTestCtl = {
         strs.push("var request = require('superagent');");
         strs.push("var should = require('should');");
         strs.push("var expect = require('chai').expect;");
-        strs.push("var logTitle = '"+doc.logTitle+" test';");
-        strs.push("var reqUrl = '"+doc.url+"';");
-        strs.push("var logAddUrl = '"+logAddUrl+"'");
+        strs.push("var logAddUrl = '"+logAddUrl+"';");
 
         strs.push("describe('"+doc.describe+"', function () {");
-        if(doc.isBefore){
+
+        if(doc.before.isBefore == "true"){
             strs.push("before(function (done) {");
-            if(doc.beforeType == "get"){
-                strs.push("request.get('"+doc.beforeUrl+"')");
+            if(doc.before.beforeType == "get"){
+                strs.push("request.get('"+doc.before.beforeUrl+"')");
             }else{
-                strs.push("request.post('"+doc.beforeUrl+"')");
-                strs.push(".send("+doc.beforeData+")");
+                strs.push("request.post('"+doc.before.beforeUrl+"')");
+                strs.push(".send("+doc.before.beforeData+")");
             }
             strs.push(".end(function (err, res) {");
             strs.push("if(err){console.log(res.error);}");
@@ -40,7 +39,7 @@ var autoTestCtl = {
         /* 允许多个API测试 */
         for(var i=0;i<tmp.length;i++){
             strs.push("it('"+tmp[i].itemDesc+"', function (done) {");
-            strs.push("var logTitle = " + tmp[i].itemDesc + " test");
+            strs.push("var logTitle = '"+tmp[i].itemDesc+" test';");
             if(tmp[i].sendType == "get"){
                 strs.push("request.get('"+tmp[i].url+"')");
             }else{
@@ -50,15 +49,15 @@ var autoTestCtl = {
             strs.push(".end(function (err, res) {");
             strs.push("if(err){");
             strs.push("if(res.statusCode == 404){");
-            strs.push("request.post(logAddUrl).send({title:'logTitle', content:'API:' + "+tmp[i].url+" + ' 404',type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:logTitle, content:'api ["+tmp[i].url+"] 404',type:'1'}).end();");
             strs.push("}else{");
-            strs.push("request.post(logAddUrl).send({title:'logTitle', content:res.error,type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:logTitle, content:res.error,type:'1'}).end();");
             strs.push("}");
             strs.push("}else{");
             strs.push("if(res.body.rc){");
-            strs.push("request.post(logAddUrl).send({title:'logTitle', content:'api ["+tmp[i].url+"] operator success',type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:logTitle, content:'api ["+tmp[i].url+"] operator success',type:'1'}).end();");
             strs.push("}else{");
-            strs.push("request.post(logAddUrl).send({title:'logTitle', content:'api ["+tmp[i].url+"] operator failed',type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:logTitle, content:'api ["+tmp[i].url+"] operator failed',type:'1'}).end();");
             strs.push("}");
             strs.push("should.not.exist(err);");
             strs.push("}");
@@ -70,19 +69,41 @@ var autoTestCtl = {
 
         return strs.join("\r\n");
     },
-    run1:function(req,res){
+    run:function(req,res){
         var ids = req.query.id.split(',');
+        console.log(11111,ids);
         var promiseArr = [];
         autoTestCtl.getItems(ids).then(function(d){
+            console.log(22222,d);
             for(var i = 0;i< d.length;i++){
-                promiseArr.push(FsTool.write(new Date().getTime() + ".test.js",autoTestCtl.writeFileByDoc(d[i])));
+                promiseArr.push(FsTool.write(ids[i] + "_"+ new Date().getTime() + ".test.js",autoTestCtl.writeFileByDoc(d[i].data)));
             }
-        })
-        Q.all(promiseArr).then(function(d){
-            return res.status(200).json({rc:true,data:d});
+
+            Q.all(promiseArr).then(function(d){
+                console.log(333333,d);
+                var y = [];
+                var n = [];
+                var count = 0;
+                (function(arr){
+                    console.log(4444444444444,count);
+                    if(count == arr.length){
+                        console.log("completed");
+                        return res.status(200).json({rc:true,data:{y:y,n:n}});
+                    }
+                    if(arr[count].rc){
+                        y.push(arr[count].data.fileName);
+                        child_process.exec("mocha " + FsTool.getFullPath(arr[count].data.fileName));
+                    }else{
+                        n.push(arr[count].data.fileName);
+                    }
+                    count++;
+                    var arg = arguments;
+                    setTimeout(function(){ arg.callee(arr); },2000);
+                })(d);
+            })
         })
     },
-    run:function(req,res){
+    run1:function(req,res){
         var _path = FsTool.getFullPath(fileName);
         console.log(_path);
         var arr = [FsTool.getFullPath("a.test.js"),FsTool.getFullPath("login.test.js")];

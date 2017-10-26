@@ -69,7 +69,23 @@ export default class AutoTest extends React.Component{
     }
 
     run(item){
-        this.selectSingleItemId = item._id;
+        Util.fetchAjax("/api/at/run?id="+item._id).then(d=>{
+            if(d.rc){
+                alert("成功运行的case:"+ d.data.y.join(','));
+            }else{
+                alert(d.data);
+            }
+        })
+    }
+
+    runMultiple(){
+        Util.fetchAjax("/api/at/run?id="+Util.getArrayByField("_id",this.selectedItems).join(',')).then(d=>{
+            if(d.rc){
+                alert("成功运行的case:"+ d.data.y.join(','));
+            }else{
+                alert(d.data);
+            }
+        })
     }
 
     search(){
@@ -94,6 +110,7 @@ export default class AutoTest extends React.Component{
         return (
             <div>
                 <input type="button" value="Add" onClick = {e=>this.addItem()} />
+                <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
                 name:<input type="text" value={this.state.name} onChange={e=>{this.setState({name:e.target.value});this.tableOptions.isReRender = false;}} />
                 <input type="button" value="Search" onClick={e=>{this.tableOptions.isReRender=true;this.search();}} />
                 <TK ref="tableKill" option ={this.tableOptions}></TK>
