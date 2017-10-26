@@ -85,7 +85,6 @@ var autoTestCtl = {
                 var n = [];
                 var count = 0;
                 (function(arr){
-                    console.log(4444444444444,count);
                     if(count == arr.length){
                         console.log("completed");
                         return res.status(200).json({rc:true,data:{y:y,n:n}});
