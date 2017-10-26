@@ -17,7 +17,7 @@ var autoTestCtl = {
         strs.push("var request = require('superagent');");
         strs.push("var should = require('should');");
         strs.push("var expect = require('chai').expect;");
-        strs.push("var logTitle = '"+doc.logTitle+"';");
+        strs.push("var logTitle = '"+doc.logTitle+" test';");
         strs.push("var reqUrl = '"+doc.url+"';");
         strs.push("var logAddUrl = '"+logAddUrl+"'");
 
@@ -40,6 +40,7 @@ var autoTestCtl = {
         /* 允许多个API测试 */
         for(var i=0;i<tmp.length;i++){
             strs.push("it('"+tmp[i].itemDesc+"', function (done) {");
+            strs.push("var logTitle = " + tmp[i].itemDesc + " test");
             if(tmp[i].sendType == "get"){
                 strs.push("request.get('"+tmp[i].url+"')");
             }else{
@@ -49,15 +50,15 @@ var autoTestCtl = {
             strs.push(".end(function (err, res) {");
             strs.push("if(err){");
             strs.push("if(res.statusCode == 404){");
-            strs.push("request.post(logAddUrl).send({title:'"+tmp[i].logTitle+"', content:'API:' + "+tmp[i].url+" + ' 404',type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:'logTitle', content:'API:' + "+tmp[i].url+" + ' 404',type:'1'}).end();");
             strs.push("}else{");
-            strs.push("request.post(logAddUrl).send({title:'"+tmp[i].logTitle+"', content:res.error,type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:'logTitle', content:res.error,type:'1'}).end();");
             strs.push("}");
             strs.push("}else{");
             strs.push("if(res.body.rc){");
-            strs.push("request.post(logAddUrl).send({title:'"+tmp[i].logTitle+"', content:'api ["+tmp[i].url+"] operator success',type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:'logTitle', content:'api ["+tmp[i].url+"] operator success',type:'1'}).end();");
             strs.push("}else{");
-            strs.push("request.post(logAddUrl).send({title:'"+tmp[i].logTitle+"', content:'api ["+tmp[i].url+"] operator failed',type:'1'}).end();");
+            strs.push("request.post(logAddUrl).send({title:'logTitle', content:'api ["+tmp[i].url+"] operator failed',type:'1'}).end();");
             strs.push("}");
             strs.push("should.not.exist(err);");
             strs.push("}");
@@ -91,48 +92,39 @@ var autoTestCtl = {
         return res.status(200).json({rc:true,data:"ok"});
     },
     add:function(req,res){
-        var url = req.body.url;
-        var sendType = req.body.sendType;
-        var sendData = req.body.sendData?req.body.sendData:{};
+
         var describe = req.body.describe;
-        var logTitle = req.body.logTitle;
+        var before = req.body.before;
+        var items = req.body.items;
         var operator = req.session.user.name;
-        var isBefore = req.body.isBefore;
-        var beforeType = req.body.beforeType;
-        var beforeData = req.body.beforeData?req.body.beforeData:{};
-        var runTime = req.body.runTime;
+        var runTime = new Date().getTime();
 
         var at = new AutoTest({
-            url:url,sendType:sendType,sendData:sendData,
-            describe:describe,logTitle:logTitle,operator:operator,
-            isBefore:isBefore,beforeType:beforeType,beforeData:beforeData,runTime:runTime
+            before:before,describe:describe,items:items,operator:operator,runTime:runTime
         })
+        if(at.before.beforeData){
+            at.markModified(at.before.beforeData);
+        }
+        at.markModified(at.items);
         at.save(function(error,doc){
             if(error){
                 return res.status(200).json({rc:false,data:error});
             }else{
-                console.log("insert success!");
+                console.log("auto test insert success!");
                 return res.status(200).json({rc:true,data:doc});
             }
         });
     },
     edit:function(req,res){
-        var id = req.body.id;
-        var url = req.body.url;
-        var sendType = req.body.sendType;
-        var sendData = req.body.sendData?req.body.sendData:{};
+        var id = req.params.id;
         var describe = req.body.describe;
-        var logTitle = req.body.logTitle;
+        var before = req.body.before;
+        var items = req.body.items;
         var operator = req.session.user.name;
-        var isBefore = req.body.isBefore;
-        var beforeType = req.body.beforeType;
-        var beforeData = req.body.beforeData?req.body.beforeData:{};
-        var runTime = req.body.runTime;
-
+        var runTime = new Date().getTime();
+        console.log(id,describe,before,items);
         AutoTest.findByIdAndUpdate(id,{
-            url:url,sendType:sendType,sendData:sendData,
-            describe:describe,logTitle:logTitle,operator:operator,
-            isBefore:isBefore,beforeType:beforeType,beforeData:beforeData,runTime:runTime
+            before:before,describe:describe,items:items,operator:operator,runTime:runTime
         },function(error,doc){
             if(error){
                 return res.status(200).json({rc:false,data:error});
@@ -187,7 +179,6 @@ var autoTestCtl = {
         var defer = Q.defer();
         //var id = req.params.id;
         AutoTest.findById(id,function(err,doc){
-            console.log(doc);
             if(err){
                 defer.resolve({rc:false,data:error});
             }else{

@@ -10,8 +10,12 @@ export default class AutoTest extends React.Component{
 
         this.state = {
             name:"",
-            data:""
+            data:"",
+            showDialog:false
         }
+
+        this.edit = this.edit.bind(this);
+        this.run = this.run.bind(this);
 
         var that = this;
         this.selectedItems = [];
@@ -25,11 +29,10 @@ export default class AutoTest extends React.Component{
                 that.selectedItems = items;
             },
             map:[
-                {key:"url",val:"url"},
-                {key:"sendType",val:"请求类型"},
                 {key:"describe",val:"测试用例描述"},
                 {key:"operator",val:"操作人"},
-                {key:"runTime",val:"操作时间",convert:that.cTime}
+                {key:"runTime",val:"操作时间",convert:that.cTime},
+                {key:"before",val:"用例个数",convert:that.cCount}
             ],
             getUrl:function(){
                 return "/api/at/list?describe="+that.state.name;
@@ -46,6 +49,12 @@ export default class AutoTest extends React.Component{
             //是否重新渲染table
             isReRender:true
         }
+
+        this.selectSingleItemId = "";
+    }
+
+    cCount(item){
+        return item.items.length;
     }
 
     cTime(item){
@@ -54,11 +63,13 @@ export default class AutoTest extends React.Component{
     }
 
     edit(item){
-
+        this.selectSingleItemId = item._id;
+        this.tableOptions.isReRender = false;
+        this.setState({showDialog:true});
     }
 
     run(item){
-
+        this.selectSingleItemId = item._id;
     }
 
     search(){
@@ -66,7 +77,17 @@ export default class AutoTest extends React.Component{
     }
 
     addItem(){
-        alert(1);
+        this.selectSingleItemId = "";
+        this.tableOptions.isReRender = false;
+        this.setState({showDialog:true});
+    }
+
+    cb(flag){
+        if(flag){
+            this.tableOptions.isReRender = true;
+            this.refs["tableKill"].search();
+        }
+        this.setState({showDialog:false});
     }
 
     render(){
@@ -77,7 +98,7 @@ export default class AutoTest extends React.Component{
                 <input type="button" value="Search" onClick={e=>{this.tableOptions.isReRender=true;this.search();}} />
                 <TK ref="tableKill" option ={this.tableOptions}></TK>
 
-                <AutoTestDialog />
+                <AutoTestDialog id={this.selectSingleItemId} show={this.state.showDialog} cb={flag=>{this.cb(flag);}} />
             </div>
         );
     }

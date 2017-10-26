@@ -5,3 +5,15 @@
     background: #000;opacity: 0.5;
     z-index: 999;
 }
+textarea{
+    margin: 0px; width: 368px; height: 67px;
+}
+
+.inline{
+    display:inline;
+}
+
+.overflowY{
+    height: 500px;
+    overflow-y: auto;
+}
