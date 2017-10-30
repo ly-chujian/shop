@@ -33,6 +33,20 @@ var logCtl = {
                 return res.status(200).json({rc:true,data:doc});
             }
         });
+    },
+    list:function(req,res){
+        Log.find({title:new RegExp(req.query.title)},function(error,d){
+            if(error){
+                res.status(200).json({rc:false,data:error});
+            }else{
+                var data = {
+                    count:d.length,
+                    total: 1,
+                    data:d
+                }
+                res.status(200).json({rc:true,data:data});
+            }
+        })
     }
 }
 

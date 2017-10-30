@@ -9,6 +9,7 @@ var controller = require('./controller');
 
 var router = express.Router();
 
+router.get("/list",controller.logCtl.list);
 router.post("/add",controller.logCtl.addLog);
 router.get("/delete",controller.logCtl.delLog);
 
