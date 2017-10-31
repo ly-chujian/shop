@@ -107,6 +107,7 @@ export default class AutoTest extends React.Component{
     }
 
     render(){
+        console.log("1xxxxxxx",this.selectSingleItemId);
         return (
             <div>
                 <input type="button" value="Add" onClick = {e=>this.addItem()} />

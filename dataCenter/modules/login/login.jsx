@@ -1,29 +1,30 @@
 import React from 'react';
 import {Link,NavLink,BrowserRouter,Switch,Route,HashRouter} from 'react-router-dom';
 import LoginCss from './login.css';
+import { renderRoutes } from 'react-router-config';
 
 import Util from "../../core/tools/util.jsx";
 import Layout from "../layout/layout.jsx";
 
-export default class Login extends React.Component{
-    constructor(props){
-        super(props);
-    }
+//export default class Login extends React.Component{
+//    constructor(props){
+//        super(props);
+//    }
+//
+//    render(){
+//        return (
+//            <HashRouter>
+//                <div>
+//                    <Route exact path="/" component={LoginTmp} />
+//                    <Route exact path="/login" component={LoginTmp} />
+//                    <Route path="/layout" component={Layout} />
+//                </div>
+//            </HashRouter>
+//        );
+//    }
+//}
 
-    render(){
-        return (
-            <HashRouter>
-                <div>
-                    <Route exact path="/" component={LoginTmp} />
-                    <Route exact path="/login" component={LoginTmp} />
-                    <Route path="/layout" component={Layout} />
-                </div>
-            </HashRouter>
-        );
-    }
-}
-
-export class LoginTmp extends React.Component{
+export default class LoginTmp extends React.Component{
     constructor(props){
         super(props);
     }
@@ -36,7 +37,7 @@ export class LoginTmp extends React.Component{
             Util.fetchAjax(DataCenterAjaxUrl.LOGIN,"post",{name:name,pwd:pwd}).then(d=>{
                 if(d.rc){
                     cacheCtl.set(CacheKeys.USERNAME,name);
-                    this.props.history.push({pathname:"/layout"});
+                    this.props.history.push({pathname:"/"});
                 }else{
                     alert(d.data);
                 }

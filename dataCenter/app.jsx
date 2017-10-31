@@ -5,10 +5,10 @@
 
 import React from 'react';
 import ReactDom from 'react-dom';
-import Login from "./modules/login/login.jsx";
+import RouterConfig from "./route/router.jsx";
 
 ReactDom.render(
-    <Login />, document.getElementById('example')
+    <RouterConfig />, document.getElementById('example')
 );
 
 //路由的生命周期

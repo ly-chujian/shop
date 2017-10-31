@@ -2,12 +2,14 @@ import React from 'react';
 import {Link,BrowserRouter,Route,Switch} from 'react-router-dom';
 import LayoutCss from '../layout/layout.css';
 
+import { renderRoutes } from 'react-router-config';
 import Util from "../../core/tools/util.jsx";
-import Goods from "../goods/goods.jsx";
-import Order from "../order/order.jsx";
-import User from "../user/user.jsx";
-import AutoTest from "../autoTest/autotest.jsx";
-import GetInput from "../getInput/getInput.jsx";
+
+//import Goods from "../goods/goods.jsx";
+//import Order from "../order/order.jsx";
+//import User from "../user/user.jsx";
+//import AutoTest from "../autoTest/autotest.jsx";
+//import GetInput from "../getInput/getInput.jsx";
 
 export default class Layout extends React.Component{
     constructor(props){
@@ -31,7 +33,7 @@ export default class Layout extends React.Component{
     logOut(){
         cacheCtl.set(CacheKeys.USERNAME,"");
         Util.fetchAjax("/api/login/logOut","post",null).then(e=>{
-            this.props.history.push({pathname:"/"});
+            this.props.history.push({pathname:"/login"});
         });
     }
 
@@ -40,11 +42,11 @@ export default class Layout extends React.Component{
             <div className={LayoutCss.container}>
                 <div className={LayoutCss.nav}>
                     <ul>
-                        <li><Link to={`${this.props.match.url}/goods`}>Goods</Link></li>
-                        <li><Link to={`${this.props.match.url}/order`}>Order</Link></li>
-                        <li><Link to={`${this.props.match.url}/user`}>User</Link></li>
-                        <li><Link to={`${this.props.match.url}/auto`}>Auto Test</Link></li>
-                        <li><Link to={`${this.props.match.url}/getInput`}>getInput</Link></li>
+                        <li><Link to="/goods">Goods</Link></li>
+                        <li><Link to="/order">Order</Link></li>
+                        <li><Link to="/user">User</Link></li>
+                        <li><Link to="/auto">Auto Test</Link></li>
+                        <li><Link to="/getInput">getInput</Link></li>
                     </ul>
                 </div>
                 <div className={LayoutCss.rightBox}>
@@ -52,7 +54,8 @@ export default class Layout extends React.Component{
                         <span>{this.state.userName}</span>
                         <span className={LayoutCss.logout} onClick={e=>this.logOut()}>退出</span>
                     </div>
-                    <div className={LayoutCss.box}>
+                    {renderRoutes(this.props.route.routes)}
+                    {/*<div className={LayoutCss.box}>
                         <Switch>
                             <Route path={`${this.props.match.url}/goods`} component={Goods} />
                             <Route path={`${this.props.match.url}/order`} component={Order}/>
@@ -60,8 +63,9 @@ export default class Layout extends React.Component{
                             <Route path={`${this.props.match.url}/auto`} component={AutoTest}/>
                             <Route path={`${this.props.match.url}/getInput`} component={GetInput}/>
                         </Switch>
-                    </div>
+                    </div>*/}
                 </div>
+
             </div>
         )
     }
