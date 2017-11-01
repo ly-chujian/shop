@@ -1,77 +1,46 @@
 import React from 'react';
 import Util from "../../core/tools/util.jsx";
 import Css from "./autotest.css";
+import { observer, inject } from 'mobx-react';
 
+@inject('autoTestStore')
+@observer
 export default class AutoTestDialog extends React.Component{
     constructor(props) {
         super(props);
 
-        this.state = {
-            data:{
-                describe:"",
-                before:{
-                    isBefore:"false",
-                    beforeType:"get",
-                    beforeUrl:"",
-                    beforeData:null
-                },
-                items:[
-                    {
-                        url:"",
-                        sendType:"get",
-                        sendData:null,
-                        itemDesc:""
-                    }
-                ]
-            },
-            show:this.props.show,
-            id:this.props.id
-        };
+
+        this.observer = this.props.autoTestStore;
+        this.initData =this.observer.dialogData.data;
+        this.observer.setDialogAllStates(this.initData,{show:this.props.show,id:this.props.id});
     }
 
     cancel(){
         this.props.cb(false);
     }
 
-    componentWillReceiveProps(next){
-        if(next.id && next.show){
-            Util.fetchAjax("/api/at/getItems/"+next.id).then(d=>{
+    componentWillReceiveProps(nextProps,nextState){
+        if(nextProps.id && nextProps.show){
+            Util.fetchAjax("/api/at/getItems/"+nextProps.id).then(d=>{
                 if(d.data.length == 1){
-                    this.setState({show:next.show,data: d.data[0].data,id:next.id});
+                    this.observer.setDialogAllStates(d.data[0].data,{show:nextProps.show,id:nextProps.id});
                 }
             })
         }else{
-            var tmp = {
-                describe:"",
-                    before:{
-                    isBefore:"false",
-                        beforeType:"get",
-                        beforeUrl:"",
-                        beforeData:null
-                },
-                items:[
-                    {
-                        url:"",
-                        sendType:"get",
-                        sendData:null,
-                        itemDesc:""
-                    }
-                ]
-            }
-            this.setState({show:next.show,data:tmp,id:""});
+            this.observer.setDialogAllStates(this.initData,{show:nextProps.show,id:""});
         }
     }
 
     save(){
-        if(this.state.show && this.state.id){
-            Util.fetchAjax("/api/at/edit/"+this.state.id,"post",this.state.data).then(d=>{
+        if(this.observer.dialogData.params.show && this.observer.dialogData.params.id){
+            Util.fetchAjax("/api/at/edit/"+this.observer.dialogData.params.id,"post",this.observer.dialogData.data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }
                 this.props.cb(true);
             })
         }else{
-            Util.fetchAjax("/api/at/add","post",this.state.data).then(d=>{
+            Util.fetchAjax("/api/at/add","post",this.observer.dialogData.data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }
@@ -81,29 +50,30 @@ export default class AutoTestDialog extends React.Component{
     }
 
     addItems(){
-        this.state.data.items.push({
+        this.observer.dialogData.data.items.push({
             url:"",
             sendType:"get",
             sendData:null,
             itemDesc:""
         });
-        this.setState({data:this.state.data});
+        this.observer.setDialogItems(this.observer.dialogData.data);
+        //this.observer.dialogData.data = {...this.observer.dialogData.data};
     }
 
     reduce(item){
-        this.state.data.items.removeItems([item]);
-        this.setState({data:this.state.data});
+        this.observer.dialogData.data.items.removeItems([item]);
+        this.observer.setDialogItems(this.observer.dialogData.data);
     }
 
     changeInput(item,field,e){
         item[field] = e.target.value;
-        this.setState({data:this.state.data});
+        this.observer.setDialogItems(this.observer.dialogData.data);
     }
 
     render(){
-        if(this.state.show){
+        if(this.observer.dialogData.params.show){
             return (
-                <div style={{display:this.state.show==true?"block":"none"}}>
+                <div style={{display:this.observer.dialogData.params.show==true?"block":"none"}}>
                     <div className={Css.black}></div>
                     <div class="modal" style={{display:"block"}}>
                         <div class="modal-dialog">
@@ -118,35 +88,36 @@ export default class AutoTestDialog extends React.Component{
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label titleLang" >测试用例描述:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control input-sm" value={this.state.data.describe} onChange={e=>{this.changeInput(this.state.data,"describe",e)}} />
+
+                                                <input type="text" class="form-control input-sm" value={this.observer.dialogData.data.describe} onChange={e=>{this.changeInput(this.observer.dialogData.data,"describe",e)}} />
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label titleLang" >是否需要注入数据:</label>
                                             <div class="col-sm-8">
-                                                <input type="radio" class="input-sm" value="true" name="isBefore" checked={this.state.data.before.isBefore == "true"} onChange={e=>{this.changeInput(this.state.data.before,"isBefore",e);}}/>是
-                                                <input type="radio" class="input-sm" value="false" name="isBefore" checked={this.state.data.before.isBefore == "false"} onChange={e=>{this.changeInput(this.state.data.before,"isBefore",e);}}/>否
+                                                <input type="radio" class="input-sm" value="true" name="isBefore" checked={this.observer.dialogData.data.before.isBefore == "true"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"isBefore",e);}}/>是
+                                                <input type="radio" class="input-sm" value="false" name="isBefore" checked={this.observer.dialogData.data.before.isBefore == "false"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"isBefore",e);}}/>否
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label titleLang" >请求URL:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control input-sm" value={this.state.data.before.beforeUrl} onChange={e=>{this.changeInput(this.state.data.before,"beforeUrl",e);}}/>
+                                                <input type="text" class="form-control input-sm" value={this.observer.dialogData.data.before.beforeUrl} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeUrl",e);}}/>
                                             </div>
                                             <label class="col-sm-3 control-label titleLang" >请求方式:</label>
                                             <div class="col-sm-8">
-                                                <input type="radio" class="input-sm" name="beforeType" value="get" checked={this.state.data.before.beforeType == "get"} onChange={e=>{this.changeInput(this.state.data.before,"beforeType",e);}}/>get
-                                                <input type="radio" class="input-sm" name="beforeType" value="post" checked={this.state.data.before.beforeType == "post"} onChange={e=>{this.changeInput(this.state.data.before,"beforeType",e);}}/>post
+                                                <input type="radio" class="input-sm" name="beforeType" value="get" checked={this.observer.dialogData.data.before.beforeType == "get"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeType",e);}}/>get
+                                                <input type="radio" class="input-sm" name="beforeType" value="post" checked={this.observer.dialogData.data.before.beforeType == "post"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeType",e);}}/>post
                                             </div>
                                             <label class="col-sm-3 control-label titleLang" >参数data:</label>
                                             <div class="col-sm-8">
-                                                <textarea value={this.state.data.before.beforeData} onChange={e=>{this.changeInput(this.state.data.before,"beforeData",e);}}></textarea>
+                                                <textarea value={this.observer.dialogData.data.before.beforeData} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeData",e);}}></textarea>
                                             </div>
                                         </div>
                                         <h3 className={Css.inline}>单元测试数据</h3> <input class="btn btn-default btn-sm" type="button" value=" + " onClick={e=>{this.addItems();}} />
 
-                                        {this.state.data.items.map(item =>{
+                                        {this.observer.dialogData.data.items.map(item =>{
                                             return (
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label titleLang" >描述:</label>

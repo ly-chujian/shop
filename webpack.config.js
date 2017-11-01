@@ -14,8 +14,8 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 query:{
-                	presets:['react','es2015'],
-                	plugins:['react-html-attrs'],//添加组件的插件配置
+                	presets:['react','es2015','stage-1'],
+                	plugins:['react-html-attrs','transform-decorators-legacy','transform-decorators'],//添加组件的插件配置
                 }
             },
             //下面是添加csss的loader，即css模块化的配置方法

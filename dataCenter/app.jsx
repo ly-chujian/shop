@@ -6,9 +6,16 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import RouterConfig from "./route/router.jsx";
+import { Provider } from 'mobx-react';
+
+import { AutoTestStore } from "./store/autoTest/store";
 
 ReactDom.render(
-    <RouterConfig />, document.getElementById('example')
+
+    <Provider
+        autoTestStore={AutoTestStore} >
+        <RouterConfig />
+    </Provider>, document.getElementById('example')
 );
 
 //路由的生命周期

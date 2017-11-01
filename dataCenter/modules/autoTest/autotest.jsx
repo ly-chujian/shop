@@ -3,16 +3,20 @@ import React from 'react';
 import Util from "../../core/tools/util.jsx";
 import TK from "../../core/tableKill/table.jsx";
 import AutoTestDialog from "./dialog.jsx";
+import { observer, inject } from 'mobx-react';
 
+@inject('autoTestStore')
+@observer
 export default class AutoTest extends React.Component{
     constructor(props){
         super(props);
 
-        this.state = {
-            name:"",
-            data:"",
-            showDialog:false
-        }
+        //this.state = {
+        //    name:"",
+        //    showDialog:false
+        //};
+
+        this.observer = this.props.autoTestStore;
 
         this.edit = this.edit.bind(this);
         this.run = this.run.bind(this);
@@ -35,7 +39,7 @@ export default class AutoTest extends React.Component{
                 {key:"before",val:"用例个数",convert:that.cCount}
             ],
             getUrl:function(){
-                return "/api/at/list?describe="+that.state.name;
+                return "/api/at/list?describe="+that.observer.name;
             },
             pageOption:{sizeKey:"size",indexKey:"index"},
             analysis:function(data){
@@ -65,7 +69,7 @@ export default class AutoTest extends React.Component{
     edit(item){
         this.selectSingleItemId = item._id;
         this.tableOptions.isReRender = false;
-        this.setState({showDialog:true});
+        this.observer.setAutoTestShow(true);
     }
 
     run(item){
@@ -95,7 +99,7 @@ export default class AutoTest extends React.Component{
     addItem(){
         this.selectSingleItemId = "";
         this.tableOptions.isReRender = false;
-        this.setState({showDialog:true});
+        this.observer.setAutoTestShow(true);
     }
 
     cb(flag){
@@ -103,20 +107,19 @@ export default class AutoTest extends React.Component{
             this.tableOptions.isReRender = true;
             this.refs["tableKill"].search();
         }
-        this.setState({showDialog:false});
+        this.observer.setAutoTestShow(false);
     }
 
     render(){
-        console.log("1xxxxxxx",this.selectSingleItemId);
         return (
             <div>
                 <input type="button" value="Add" onClick = {e=>this.addItem()} />
                 <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
-                name:<input type="text" value={this.state.name} onChange={e=>{this.setState({name:e.target.value});this.tableOptions.isReRender = false;}} />
+                name:<input type="text" value={this.observer.name} onChange={e=>{this.observer.name = e.target.value ;this.tableOptions.isReRender = false;}} />
                 <input type="button" value="Search" onClick={e=>{this.tableOptions.isReRender=true;this.search();}} />
                 <TK ref="tableKill" option ={this.tableOptions}></TK>
 
-                <AutoTestDialog id={this.selectSingleItemId} show={this.state.showDialog} cb={flag=>{this.cb(flag);}} />
+                <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} />
             </div>
         );
     }
