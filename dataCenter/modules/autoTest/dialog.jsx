@@ -9,10 +9,21 @@ export default class AutoTestDialog extends React.Component{
     constructor(props) {
         super(props);
 
+        this.describeEl = null;
+        this.isBeforeEl = null;
+        this.beforeUrlEl = null;
+        this.beforeTypeEl = null;
+        this.beforeDataEl = null;
 
         this.observer = this.props.autoTestStore;
         this.initData =this.observer.dialogData.data;
         this.observer.setDialogAllStates(this.initData,{show:this.props.show,id:this.props.id});
+
+        this.getBeforeData = this.getBeforeData.bind(this);
+        this.getCaseItems = this.getCaseItems.bind(this);
+        this.getCkStatus = this.getCkStatus.bind(this);
+
+        this.caseItems = null;
     }
 
     cancel(){
@@ -23,24 +34,31 @@ export default class AutoTestDialog extends React.Component{
         if(nextProps.id && nextProps.show){
             Util.fetchAjax("/api/at/getItems/"+nextProps.id).then(d=>{
                 if(d.data.length == 1){
+                    this.caseItems = [...d.data[0].data.items];
                     this.observer.setDialogAllStates(d.data[0].data,{show:nextProps.show,id:nextProps.id});
                 }
             })
         }else{
+            this.caseItems = [...this.initData.items];
             this.observer.setDialogAllStates(this.initData,{show:nextProps.show,id:""});
         }
     }
 
     save(){
+        var data = {
+            describe:this.describeEl.value,
+            before:this.getBeforeData(),
+            items:this.getCaseItems()
+        }
         if(this.observer.dialogData.params.show && this.observer.dialogData.params.id){
-            Util.fetchAjax("/api/at/edit/"+this.observer.dialogData.params.id,"post",this.observer.dialogData.data).then(d=>{
+            Util.fetchAjax("/api/at/edit/"+this.observer.dialogData.params.id,"post",data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }
                 this.props.cb(true);
             })
         }else{
-            Util.fetchAjax("/api/at/add","post",this.observer.dialogData.data).then(d=>{
+            Util.fetchAjax("/api/at/add","post",data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }
@@ -50,24 +68,51 @@ export default class AutoTestDialog extends React.Component{
     }
 
     addItems(){
-        this.observer.dialogData.data.items.push({
+        this.caseItems.push({
             url:"",
             sendType:"get",
             sendData:null,
             itemDesc:""
         });
-        this.observer.setDialogItems(this.observer.dialogData.data);
-        //this.observer.dialogData.data = {...this.observer.dialogData.data};
+        this.observer.setCaseItems(this.caseItems);
     }
 
-    reduce(item){
-        this.observer.dialogData.data.items.removeItems([item]);
-        this.observer.setDialogItems(this.observer.dialogData.data);
+    reduce(item,index){
+        this.caseItems.splice(index,1);
+        this.observer.setCaseItems(this.caseItems);
     }
 
-    changeInput(item,field,e){
-        item[field] = e.target.value;
-        this.observer.setDialogItems(this.observer.dialogData.data);
+    getCkStatus(data){
+        var res = "";
+        for(var i =0;i<data.length;i++){
+            if(data[i].checked){
+                res = data[i].value;
+                break;
+            }
+        }
+        return res;
+    }
+
+    getBeforeData(){
+        return {
+            isBefore:this.getCkStatus(this.isBeforeEl.querySelectorAll("input[type=radio]")),
+            beforeType:this.getCkStatus(this.beforeTypeEl.querySelectorAll("input[type=radio]")),
+            beforeUrl:this.beforeUrlEl.value,
+            beforeData:this.beforeDataEl.value
+        }
+    }
+    getCaseItems(){
+        this.caseItems.map(item=>{
+            item.itemDesc = item.itemDescEl.value;
+            item.sendData = item.sendDataEl.value;
+            item.sendType = this.getCkStatus(item.sendTypeEl.querySelectorAll("input[type=radio]"));
+            item.url = item.urlEl.value;
+            delete item.itemDescEl;
+            delete item.sendDataEl;
+            delete item.sendTypeEl;
+            delete item.urlEl;
+        })
+        return this.caseItems;
     }
 
     render(){
@@ -88,55 +133,54 @@ export default class AutoTestDialog extends React.Component{
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label titleLang" >测试用例描述:</label>
                                             <div class="col-sm-8">
-
-                                                <input type="text" class="form-control input-sm" value={this.observer.dialogData.data.describe} onChange={e=>{this.changeInput(this.observer.dialogData.data,"describe",e)}} />
+                                                <input type="text" ref={el=>{this.describeEl = el;}} class="form-control input-sm" defaultValue={this.observer.dialogData.data.describe} />
                                             </div>
                                         </div>
-
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label titleLang" >是否需要注入数据:</label>
-                                            <div class="col-sm-8">
-                                                <input type="radio" class="input-sm" value="true" name="isBefore" checked={this.observer.dialogData.data.before.isBefore == "true"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"isBefore",e);}}/>是
-                                                <input type="radio" class="input-sm" value="false" name="isBefore" checked={this.observer.dialogData.data.before.isBefore == "false"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"isBefore",e);}}/>否
+                                            <div class="col-sm-8" ref={el=>{this.isBeforeEl = el;}}>
+                                                <input type="radio" class="input-sm" value="true" name="isBefore" defaultChecked={this.observer.dialogData.data.before.isBefore == "true"} />是
+                                                <input type="radio" class="input-sm" value="false" name="isBefore" defaultChecked={this.observer.dialogData.data.before.isBefore == "false"}/>否
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-3 control-label titleLang" >请求URL:</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control input-sm" value={this.observer.dialogData.data.before.beforeUrl} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeUrl",e);}}/>
+                                                <input type="text" ref={el=>{this.beforeUrlEl = el;}} class="form-control input-sm" defaultValue={this.observer.dialogData.data.before.beforeUrl} />
                                             </div>
                                             <label class="col-sm-3 control-label titleLang" >请求方式:</label>
-                                            <div class="col-sm-8">
-                                                <input type="radio" class="input-sm" name="beforeType" value="get" checked={this.observer.dialogData.data.before.beforeType == "get"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeType",e);}}/>get
-                                                <input type="radio" class="input-sm" name="beforeType" value="post" checked={this.observer.dialogData.data.before.beforeType == "post"} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeType",e);}}/>post
+                                            <div class="col-sm-8" ref={el=>{this.beforeTypeEl = el;}}>
+                                                <input type="radio" class="input-sm" name="beforeType" value="get" defaultChecked={this.observer.dialogData.data.before.beforeType == "get"} />get
+                                                <input type="radio" class="input-sm" name="beforeType" value="post" defaultChecked={this.observer.dialogData.data.before.beforeType == "post"} />post
                                             </div>
                                             <label class="col-sm-3 control-label titleLang" >参数data:</label>
                                             <div class="col-sm-8">
-                                                <textarea value={this.observer.dialogData.data.before.beforeData} onChange={e=>{this.changeInput(this.observer.dialogData.data.before,"beforeData",e);}}></textarea>
+                                                <textarea ref={el=>{this.beforeDataEl = el;}} defaultValue={this.observer.dialogData.data.before.beforeData}></textarea>
                                             </div>
                                         </div>
                                         <h3 className={Css.inline}>单元测试数据</h3> <input class="btn btn-default btn-sm" type="button" value=" + " onClick={e=>{this.addItems();}} />
 
-                                        {this.observer.dialogData.data.items.map(item =>{
+                                        {this.caseItems.map((item,index) =>{
+                                            var ckName = Math.ceil(Math.random()*1000000);
                                             return (
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label titleLang" >描述:</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control input-sm" value={item.itemDesc} onChange={e=>{this.changeInput(item,"itemDesc",e);}}/>
+                                                        <input type="text" ref={el=>item.itemDescEl = el} class="form-control input-sm" defaultValue={item.itemDesc} />
                                                     </div>
                                                     <label class="col-sm-3 control-label titleLang" >请求URL:</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" class="form-control input-sm" value={item.url} onChange={e=>{this.changeInput(item,"url",e);}}/>
+                                                        <input type="text" ref={el=>item.urlEl = el} class="form-control input-sm" defaultValue={item.url} />
                                                     </div>
                                                     <label class="col-sm-3 control-label titleLang" >请求方式:</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="radio" class="input-sm" value="get" name={Math.ceil(Math.random()*1000000)} checked={item.sendType == "get"} onChange={e=>{this.changeInput(item,"sendType",e);}}/>get
-                                                        <input type="radio" class="input-sm" value="post" name={Math.ceil(Math.random()*1000000)} checked={item.sendType == "post"} onChange={e=>{this.changeInput(item,"sendType",e);}}/>post
+                                                    <div class="col-sm-8" ref={el=>item.sendTypeEl = el}>
+                                                        <input type="radio" class="input-sm" value="get" name={ckName} defaultChecked={item.sendType == "get"} />get
+                                                        <input type="radio" class="input-sm" value="post" name={ckName} defaultChecked={item.sendType == "post"} />post
                                                     </div>
                                                     <label class="col-sm-3 control-label titleLang" >参数data:</label>
-                                                    <input type="button" value=" - " class="btn btn-default btn-sm" onClick={e=>{this.reduce(item);}} />
+                                                    <input type="button" value=" - " class="btn btn-default btn-sm" onClick={e=>{this.reduce(item,index);}} />
                                                     <div class="col-sm-8">
-                                                        <textarea value={item.sendData} onChange={e=>{this.changeInput(item,"sendData",e);}}></textarea>
+                                                        <textarea defaultValue={item.sendData} ref={el=>item.sendDataEl = el}></textarea>
                                                     </div>
                                                 </div>
                                             );

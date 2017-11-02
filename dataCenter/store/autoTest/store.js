@@ -47,9 +47,12 @@ class ObservableStore {
             params:params
         }
     }
+
     //设置dialog除去参数部分的更新
-    setDialogItems(data){
-        this.dialogData.data = data;
+    setCaseItems(data){
+        //复杂数据类型，必须改变根元素指针
+        this.dialogData.data.items = data;
+        this.dialogData = {...this.dialogData};
     }
 
     setAutoTestShow(flag){
