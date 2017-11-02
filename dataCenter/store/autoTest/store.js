@@ -58,8 +58,6 @@ class ObservableStore {
     setAutoTestShow(flag){
         this.showDialog = flag;
     }
-
 }
 
 export const AutoTestStore = new ObservableStore();
-console.log(AutoTestStore);

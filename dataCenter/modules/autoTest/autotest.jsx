@@ -21,25 +21,31 @@ export default class AutoTest extends React.Component{
         this.edit = this.edit.bind(this);
         this.run = this.run.bind(this);
 
-        var that = this;
+        this.selectSingleItemId = "";
         this.selectedItems = [];
+
+        var that = this;
         this.tableOptions = {
             actions :[
                 {key:"edit",val:"修改",action:this.edit},
                 {key:"run",val:"Run",action:this.run}
             ],
             showCk:true,
-            scb:function(items){
-                that.selectedItems = items;
+            scb:(item)=>{
+                this.selectedItems = items;
             },
             map:[
                 {key:"describe",val:"测试用例描述"},
                 {key:"operator",val:"操作人"},
-                {key:"runTime",val:"操作时间",convert:that.cTime},
-                {key:"before",val:"用例个数",convert:that.cCount}
+                {key:"runTime",val:"操作时间",convert:this.cTime},
+                {key:"before",val:"用例个数",convert:this.cCount}
             ],
-            getUrl:function(){
-                return "/api/at/list?describe="+that.observer.name;
+            getUrl:()=>{
+                var name = that.observer.name;
+                if(that.searchNameEl){
+                    name = that.searchNameEl.value;
+                }
+                return "/api/at/list?describe="+name;
             },
             pageOption:{sizeKey:"size",indexKey:"index"},
             analysis:function(data){
@@ -54,7 +60,11 @@ export default class AutoTest extends React.Component{
             isReRender:true
         }
 
-        this.selectSingleItemId = "";
+        this.searchNameEl = null;
+    }
+
+    componentDidMount(){
+
     }
 
     cCount(item){
@@ -93,6 +103,7 @@ export default class AutoTest extends React.Component{
     }
 
     search(){
+        this.tableOptions.isReRender=true;
         this.refs['tableKill'].search();
     }
 
@@ -111,12 +122,13 @@ export default class AutoTest extends React.Component{
     }
 
     render(){
+        console.log("render auto test");
         return (
             <div>
                 <input type="button" value="Add" onClick = {e=>this.addItem()} />
                 <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
-                name:<input type="text" value={this.observer.name} onChange={e=>{this.observer.name = e.target.value ;this.tableOptions.isReRender = false;}} />
-                <input type="button" value="Search" onClick={e=>{this.tableOptions.isReRender=true;this.search();}} />
+                name:<input type="text" defaultValue={this.observer.name} ref={el=>this.searchNameEl = el} />
+                <input type="button" value="Search" onClick={e=>{this.search();}} />
                 <TK ref="tableKill" option ={this.tableOptions}></TK>
 
                 <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} />

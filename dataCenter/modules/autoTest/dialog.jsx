@@ -116,6 +116,7 @@ export default class AutoTestDialog extends React.Component{
     }
 
     render(){
+        console.log("render dialog");
         if(this.observer.dialogData.params.show){
             return (
                 <div style={{display:this.observer.dialogData.params.show==true?"block":"none"}}>
