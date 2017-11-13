@@ -27,5 +27,58 @@
 //        window.setTimeout(function(){ arg.callee(arr) },2000);
 //    })(arr);
 
+    var a = [{name:1},{name:2},{name:3},{name:4},{name:5},{name:6}];
+
+    var b = a.filter(function(item,index,array){
+        return item.name > 3;
+    })
+
+    var c = a.reduce(function(prev,next,index,array){
+        var tmp = prev;
+        if(prev instanceof Object){
+            tmp = prev.name;
+        }
+        return tmp + next.name;
+    })
+
+    function sum(a,b){
+        return a + b;
+    }
+//    alert(sum(1,2));
+    var s1 = sum;
+//    alert(s1(2,2));
+
+    sum = null;
+
+    function out(){
+        inner();
+    }
+    function inner(){
+        alert(arguments.callee.caller);
+    }
+//    out();
+
+    var Person = function(){
+        this.name = "";
+        this.arr = [1,2,3];
+    }
+    Person.prototype.sayName = function(){
+        return this.name;
+    }
+
+    var Man = function(){
+        Person.apply(this,arguments);
+        this.age = "12";
+    }
+    Man.prototype = new Person();
+    Man.prototype.constructor = Man;
+
+    var m1 = new Man();
+    var m2 = new Man();
+
+    m1.arr.push(4);
+    debugger
+
+
 </script>
 <script src="/build/bundle.js"></script>

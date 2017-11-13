@@ -27,6 +27,7 @@ export default class AutoTestDialog extends React.Component{
     }
 
     cancel(){
+        //this.observer.showDialog = false;
         this.props.cb(false);
     }
 

@@ -9,6 +9,7 @@ class ObservableStore {
     //autotest.jsx
     @observable name = "";
     @observable showDialog = false;
+
     //dialog.jsx
     @observable dialogData = {
         data:{
