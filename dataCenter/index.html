@@ -7,11 +7,15 @@
     <link href="/resource/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <script src="/core/tools/keyMap.js"></script>
     <script src="/core/tools/event.js"></script>
+    <script src="/core/tools/performance.js"></script>
     <script src="/core/tools/cache.js"></script>
-    <script src="/core/tools/baseObject.js"></script>
+    <script src="/core/tools/baseToolV1.js"></script>
+    <script src="/core/tools/customEvent.js"></script>
 </head>
 <body>
     <div id="example"></div>
+    <input type="button" value="测试Object自定义事件" id="btn1" />
+    <input type="button" value="测试DOM自定义事件" id="btn2" />
 </body>
 </html>
 <script>
@@ -117,40 +121,34 @@
     console.log(Object.prototype.constructor.prototype);
     console.log(m1.__proto__.__proto__.__proto__);
 
-    var PerformanceTool = function(){
+    var myEvents = new CustomEvent();
 
-        this.apiArray = [];
-
-        this.start = 0;
-        this.end = 0;
-
-        this.checkKeyExist = function(apiKey){
-            return this.apiArray.some(function(item){
-                return item.key == apiKey;
-            })
-        }
-
-        this.setStart = function(){
-            this.start = new Date().getTime();
-        }
-
-        this.compare = function(apiKey){
-            if(this.checkKeyExist(apiKey)){
-                return;
-            }
-            this.end = new Date().getTime();
-            if(this.start == 0){
-                console.log("["+apiKey+"] must set Start function.");
-            }else{
-                var result = this.end - this.start;
-                this.apiArray.push({key:apiKey,val:result});
-                this.start = 0;
-                console.log("[" + apiKey + "] request time is:" + result + " ms");
-            }
-        }
+    var fn1 = function(p1,p2){
+        alert(1111);
     }
+    var fn2 = function(p1,p2){
+        alert(222);
+    }
+    myEvents.on("clickA",fn1).on("clickA",fn2);
 
-    var performanceTool = new PerformanceTool();
+    document.querySelector("#btn1").addEventListener("click",function(){
+        myEvents.fire("clickA").remove("clickA").fire("clickA");
+    },false);
+
+
+    //扩展DOM的自定义事件，没什么意义
+//    HTMLElement.prototype.addEvent = function(type,fn,capture){
+//        var el = this;
+//        el.addEventListener(type,function(e){
+//            fn.call(el,e);
+//        },capture);
+//    }
+//
+//    document.querySelector("#btn2").addEvent("click",function(p1,p2){
+//        debugger
+//    },false);
+
+
 
 </script>
 <script src="/build/bundle.js"></script>
