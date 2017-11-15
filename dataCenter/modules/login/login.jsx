@@ -34,8 +34,10 @@ export default class LoginTmp extends React.Component{
         var pwd = this.refs['__loginPwd'].value;
 
         if(name != "" && pwd != ""){
+            performanceTool.setStart();
             Util.fetchAjax(DataCenterAjaxUrl.LOGIN,"post",{name:name,pwd:pwd}).then(d=>{
                 if(d.rc){
+                    performanceTool.compare("LOGIN");
                     cacheCtl.set(CacheKeys.USERNAME,name);
                     this.props.history.push({pathname:"/"});
                 }else{

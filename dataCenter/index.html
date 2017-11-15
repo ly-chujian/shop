@@ -70,15 +70,87 @@
         Person.apply(this,arguments);
         this.age = "12";
     }
-    Man.prototype = new Person();
+    Man.prototype = Person.prototype;
     Man.prototype.constructor = Man;
 
     var m1 = new Man();
     var m2 = new Man();
 
     m1.arr.push(4);
-    debugger
+    console.log("xxxxx",m2.arr);
+    console.log("qqqqq",m1.arr);
 
+    function aaa(){
+        var result = [];
+        for(var i=0;i<10;i++){
+           (function(index){
+               result[index] =  function(){
+                   console.log(this);
+                   return index;
+               }
+           })(i)
+        }
+        return result;
+    }
+
+    aaa()[0].apply();
+
+    function abc(){
+        return 1;
+    }
+    abc.apply();
+
+    arr1 = [1,2,3];
+    arr2 = [4,5,6];
+    Array.prototype.push.apply(arr1,arr2);
+    //result ==> arr1 = [1,2,3,4,5,6]
+
+
+    var a={t:1};
+    var b={t:100};
+    (function(){
+        this.t++;
+    }).apply(b);
+    console.log(a);
+    console.log(b);
+
+    console.log(Object.prototype.constructor.prototype);
+    console.log(m1.__proto__.__proto__.__proto__);
+
+    var PerformanceTool = function(){
+
+        this.apiArray = [];
+
+        this.start = 0;
+        this.end = 0;
+
+        this.checkKeyExist = function(apiKey){
+            return this.apiArray.some(function(item){
+                return item.key == apiKey;
+            })
+        }
+
+        this.setStart = function(){
+            this.start = new Date().getTime();
+        }
+
+        this.compare = function(apiKey){
+            if(this.checkKeyExist(apiKey)){
+                return;
+            }
+            this.end = new Date().getTime();
+            if(this.start == 0){
+                console.log("["+apiKey+"] must set Start function.");
+            }else{
+                var result = this.end - this.start;
+                this.apiArray.push({key:apiKey,val:result});
+                this.start = 0;
+                console.log("[" + apiKey + "] request time is:" + result + " ms");
+            }
+        }
+    }
+
+    var performanceTool = new PerformanceTool();
 
 </script>
 <script src="/build/bundle.js"></script>
