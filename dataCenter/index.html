@@ -19,7 +19,7 @@
     <input type="button" value="测试Object自定义事件" id="btn1" />
     <input type="button" value="测试DOM自定义事件" id="btn2" />
 
-    <div style="border: 1px solid red;width:400px;height: 400px;" id="div1"></div>
+    <div style="position: absolute;border: 1px solid red;width:100px;height: 100px;" id="div2"></div>
 </body>
 </html>
 <script>
@@ -37,139 +37,10 @@
         return tmp + next.name;
     })
 
-    function sum(a,b){
-        return a + b;
-    }
-//    alert(sum(1,2));
-    var s1 = sum;
-//    alert(s1(2,2));
+    var dragDrop = function(){
 
-    sum = null;
-
-    function out(){
-        inner();
-    }
-    function inner(){
-        alert(arguments.callee.caller);
-    }
-//    out();
-
-    var Person = function(){
-        this.name = "";
-        this.arr = [1,2,3];
-    }
-    Person.prototype.sayName = function(){
-        return this.name;
     }
 
-    var Man = function(){
-        Person.apply(this,arguments);
-        this.age = "12";
-    }
-    Man.prototype = Person.prototype;
-    Man.prototype.constructor = Man;
 
-    var m1 = new Man();
-    var m2 = new Man();
-
-    m1.arr.push(4);
-    console.log("xxxxx",m2.arr);
-    console.log("qqqqq",m1.arr);
-
-    function aaa(){
-        var result = [];
-        for(var i=0;i<10;i++){
-           (function(index){
-               result[index] =  function(){
-                   console.log(this);
-                   return index;
-               }
-           })(i)
-        }
-        return result;
-    }
-
-    aaa()[0].apply();
-
-    function abc(){
-        return 1;
-    }
-    abc.apply();
-
-    arr1 = [1,2,3];
-    arr2 = [4,5,6];
-    Array.prototype.push.apply(arr1,arr2);
-    //result ==> arr1 = [1,2,3,4,5,6]
-
-
-    var a={t:1};
-    var b={t:100};
-    (function(){
-        this.t++;
-    }).apply(b);
-    console.log(a);
-    console.log(b);
-
-    console.log(Object.prototype.constructor.prototype);
-    console.log(m1.__proto__.__proto__.__proto__);
-
-    var myEvents = new CustomEvent();
-
-    var fn1 = function(p1,p2){
-        alert(1111);
-    }
-    var fn2 = function(p1,p2){
-        alert(222);
-    }
-    myEvents.on("clickA",fn1).on("clickA",fn2);
-
-    document.querySelector("#btn1").addEventListener("click",function(){
-        myEvents.fire("clickA").remove("clickA").fire("clickA");
-    },false);
-
-
-    //扩展DOM的自定义事件，没什么意义
-//    HTMLElement.prototype.addEvent = function(type,fn,capture){
-//        var el = this;
-//        el.addEventListener(type,function(e){
-//            fn.call(el,e);
-//        },capture);
-//    }
-//
-//    document.querySelector("#btn2").addEvent("click",function(p1,p2){
-//        debugger
-//    },false);
-    var count = 0;
-    (function(){
-        if(count == 100){
-            return;
-        }
-
-        count++;
-        var arg = arguments;
-
-        var that = this;
-
-        setTimeout(function(){
-            arg.callee.apply(that,arg);
-        },100);
-    })();
-
-    var data = [{name:1},{name:2},{name:3},{name:4},{name:5},{name:6},{name:7}];
-
-    function print(item){
-        console.log(item.name);
-    }
-    taskTool.taskQueue(data,print,2000);
-
-    function resizeDiv(){
-        console.log("do");
-        var div = document.querySelector("#div1");
-        div.style.height = div.offsetWidth + "px";
-    }
-
-    window.onresize = function(){
-        throttle.fire(resizeDiv,10);
-    }
 </script>
 <script src="/build/bundle.js"></script>
