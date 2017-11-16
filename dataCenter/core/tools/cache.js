@@ -2,6 +2,11 @@
  * Created by wupeng5 on 2017/8/31.
  */
 
+/**
+ * 缓存
+ * set为设置
+ * get为获取
+ * **/
 var CacheControl = function(){
 
     this.dict = {};

@@ -1,4 +1,7 @@
 
+/**
+ * 工具类,ES6,需要打包转换
+ * **/
 export default class Util{
     //constructor(a) {
     //    super(a);

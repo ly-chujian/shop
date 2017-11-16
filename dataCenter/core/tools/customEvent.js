@@ -2,6 +2,14 @@
  * Created by wupeng5 on 2017/11/15.
  */
 
+/**
+ * 自定义事件
+ * on为注册，可以在统一句柄上面注册多个事件
+ * fire为执行
+ * remove为移除
+ * 3个方法都支持链式操作，他们都返回this
+ * **/
+
 var CustomEvent = function(){
     this._listener = {};
 }

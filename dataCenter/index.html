@@ -7,10 +7,11 @@
     <link href="/resource/css/bootstrap.css" type="text/css" rel="stylesheet" />
     <script src="/core/tools/keyMap.js"></script>
     <script src="/core/tools/event.js"></script>
-    <script src="/core/tools/performance.js"></script>
+    <script src="/core/tools/processPerformance.js"></script>
     <script src="/core/tools/cache.js"></script>
     <script src="/core/tools/baseToolV1.js"></script>
     <script src="/core/tools/customEvent.js"></script>
+    <script src="/core/tools/taskQueue.js"></script>
 </head>
 <body>
     <div id="example"></div>
@@ -147,8 +148,28 @@
 //    document.querySelector("#btn2").addEvent("click",function(p1,p2){
 //        debugger
 //    },false);
+    var count = 0;
+    (function(){
+        if(count == 100){
+            return;
+        }
 
+        count++;
+        var arg = arguments;
 
+        var that = this;
+
+        setTimeout(function(){
+            arg.callee.apply(that,arg);
+        },100);
+    })();
+
+    var data = [{name:1},{name:2},{name:3},{name:4},{name:5},{name:6},{name:7}];
+
+    function print(item){
+        console.log(item.name);
+    }
+    taskTool.taskQueue(data,print,2000);
 
 </script>
 <script src="/build/bundle.js"></script>

@@ -1,3 +1,9 @@
+
+/**
+ * 单页面通信，订阅 + 发布
+ * on为注册
+ * broadcast为执行，一旦broadcast执行，会主动推送消息到on注册的地方
+ * **/
 var EventPublisher = function(){
 
     this.eventCallbackDictionary = {};
