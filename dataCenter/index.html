@@ -12,26 +12,17 @@
     <script src="/core/tools/baseToolV1.js"></script>
     <script src="/core/tools/customEvent.js"></script>
     <script src="/core/tools/taskQueue.js"></script>
+    <script src="/core/tools/throttle.js"></script>
 </head>
 <body>
     <div id="example"></div>
     <input type="button" value="测试Object自定义事件" id="btn1" />
     <input type="button" value="测试DOM自定义事件" id="btn2" />
+
+    <div style="border: 1px solid red;width:400px;height: 400px;" id="div1"></div>
 </body>
 </html>
 <script>
-//    var arr = ["a","b","c","d"];
-//
-//    var count = 0;
-//    (function(arr){
-//        if(count == arr.length){
-//            return;
-//        }
-//        count++;
-//        var arg = arguments;
-//        window.setTimeout(function(){ arg.callee(arr) },2000);
-//    })(arr);
-
     var a = [{name:1},{name:2},{name:3},{name:4},{name:5},{name:6}];
 
     var b = a.filter(function(item,index,array){
@@ -171,5 +162,14 @@
     }
     taskTool.taskQueue(data,print,2000);
 
+    function resizeDiv(){
+        console.log("do");
+        var div = document.querySelector("#div1");
+        div.style.height = div.offsetWidth + "px";
+    }
+
+    window.onresize = function(){
+        throttle.fire(resizeDiv,10);
+    }
 </script>
 <script src="/build/bundle.js"></script>

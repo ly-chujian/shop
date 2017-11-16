@@ -10,6 +10,20 @@
  * 3个方法都支持链式操作，他们都返回this
  * **/
 
+    /*********************demo***************************/
+    //var myEvents = new CustomEvent();
+    //var fn1 = function(p1,p2){
+    //    alert(1111);
+    //}
+    //var fn2 = function(p1,p2){
+    //    alert(222);
+    //}
+    //myEvents.on("clickA",fn1).on("clickA",fn2);
+    //
+    //document.querySelector("#btn1").addEventListener("click",function(){
+    //    myEvents.fire("clickA").remove("clickA").fire("clickA");
+    //},false);
+
 var CustomEvent = function(){
     this._listener = {};
 }
