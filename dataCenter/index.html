@@ -19,7 +19,9 @@
     <input type="button" value="测试Object自定义事件" id="btn1" />
     <input type="button" value="测试DOM自定义事件" id="btn2" />
 
-    <div style="position: absolute;border: 1px solid red;width:100px;height: 100px;" id="div2"></div>
+    <input type="text" id="t1" />
+    <input type="text" id="t2" />
+    <input type="text" id="t3" />
 </body>
 </html>
 <script>
@@ -37,10 +39,53 @@
         return tmp + next.name;
     })
 
-    var dragDrop = function(){
+    function Subject(id) {
+        this._observerArr = [];
+        this.registerObserver=function(observer){
+            this._observerArr.push(observer);
+            observer._attach(this);
+        }
+        this.removeObserver=function(observer) {}
 
+        this.getValue = function(){
+            return document.querySelector("#"+id).value;
+        }
+
+        this.notify = function(){
+            for(var index = 0; index<this._observerArr.length; index++){
+                this._observerArr[index].update(this);
+            }
+        }
     }
 
+    function Observer(id) {
+        this._subjects=[];
+        this._attach = function(subject) {
+            this._subjects.push(subject);
+        }
+        this.update = function() {
+            var value = 0;
+            for(var index = 0;index<this._subjects.length;index++){
+                var tmp = this._subjects[index].getValue();
+                value += parseInt(tmp?tmp:0);
+            }
+            document.querySelector("#"+id).value = value;
+        }
+    }
+
+    var subjectT1 = new Subject('t1');
+    var subjectT2 = new Subject('t2');
+
+    var observer = new Observer('t3');
+    subjectT1.registerObserver(observer);
+    subjectT2.registerObserver(observer);
+
+    document.getElementById("t1").addEventListener("blur",function(){
+        subjectT1.notify();
+    },false);
+    document.getElementById("t2").addEventListener("blur",function(){
+        subjectT2.notify();
+    },false);
 
 </script>
 <script src="/build/bundle.js"></script>
