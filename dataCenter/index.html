@@ -87,5 +87,22 @@
         subjectT2.notify();
     },false);
 
+    function rank(arr){
+        var r = arr.map(function(item){
+            return {
+                data:item,
+                ran:Math.random()
+            }
+        })
+        return r.sort(function(a,b){
+            return a.ran - b.ran;
+        }).map(function(item){
+            return item.data;
+        })
+    }
+
+    var arr =  [6, 12, 19, 4];
+    console.log(rank(arr));
+
 </script>
 <script src="/build/bundle.js"></script>
