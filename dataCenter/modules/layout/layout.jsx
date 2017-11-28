@@ -5,34 +5,23 @@ import LayoutCss from '../layout/layout.css';
 import { renderRoutes } from 'react-router-config';
 import Util from "../../core/tools/util.jsx";
 
-//import Goods from "../goods/goods.jsx";
-//import Order from "../order/order.jsx";
-//import User from "../user/user.jsx";
-//import AutoTest from "../autoTest/autotest.jsx";
-//import GetInput from "../getInput/getInput.jsx";
+import {Auth} from "../auth/auth.jsx";
 
-export default class Layout extends React.Component{
+import { observer, inject } from 'mobx-react';
+@inject('loginUserStore')
+@observer
+class Layout extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            userName:""
-        }
-    }
 
-    componentWillMount(){
-        Util.fetchAjax("/api/login/check").then(d=>{
-            if(d.rc){
-                this.setState({userName:d.data.name});
-                cacheCtl.set(CacheKeys.USERNAME, d.data.name);
-            }else{
-                this.props.history.push({pathname:"/login"});
-            }
-        })
+        this.observer = this.props.loginUserStore;
     }
 
     logOut(){
         cacheCtl.set(CacheKeys.USERNAME,"");
         Util.fetchAjax("/api/login/logOut","post",null).then(e=>{
+            //防止用户点击返回按钮，依然记录当前userName,所以需要清空
+            this.observer.setUser("");
             this.props.history.push({pathname:"/login"});
         });
     }
@@ -51,7 +40,7 @@ export default class Layout extends React.Component{
                 </div>
                 <div className={LayoutCss.rightBox}>
                     <div className={LayoutCss.top}>
-                        <span>{this.state.userName}</span>
+                        <span>{this.observer.getUserName()}</span>
                         <span className={LayoutCss.logout} onClick={e=>this.logOut()}>退出</span>
                     </div>
                     {renderRoutes(this.props.route.routes)}
@@ -65,8 +54,8 @@ export default class Layout extends React.Component{
                         </Switch>
                     </div>*/}
                 </div>
-
             </div>
         )
     }
 }
+export default Auth(Layout);

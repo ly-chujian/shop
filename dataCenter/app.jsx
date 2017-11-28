@@ -9,11 +9,13 @@ import RouterConfig from "./route/router.jsx";
 import { Provider } from 'mobx-react';
 
 import { AutoTestStore } from "./store/autoTest/store";
+import { LoginUserStore } from "./store/loginUser/store";
 
 ReactDom.render(
 
     <Provider
-        autoTestStore={AutoTestStore} >
+        loginUserStore = {LoginUserStore}
+        autoTestStore = {AutoTestStore} >
         <RouterConfig />
     </Provider>, document.getElementById('example')
 );

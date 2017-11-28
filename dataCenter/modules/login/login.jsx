@@ -6,27 +6,13 @@ import { renderRoutes } from 'react-router-config';
 import Util from "../../core/tools/util.jsx";
 import Layout from "../layout/layout.jsx";
 
-//export default class Login extends React.Component{
-//    constructor(props){
-//        super(props);
-//    }
-//
-//    render(){
-//        return (
-//            <HashRouter>
-//                <div>
-//                    <Route exact path="/" component={LoginTmp} />
-//                    <Route exact path="/login" component={LoginTmp} />
-//                    <Route path="/layout" component={Layout} />
-//                </div>
-//            </HashRouter>
-//        );
-//    }
-//}
-
+import { observer, inject } from 'mobx-react';
+@inject('loginUserStore')
+@observer
 export default class LoginTmp extends React.Component{
     constructor(props){
         super(props);
+        this.observer = this.props.loginUserStore;
     }
 
     login(){
@@ -39,6 +25,7 @@ export default class LoginTmp extends React.Component{
                 if(d.rc){
                     performanceTool.compare("LOGIN");
                     cacheCtl.set(CacheKeys.USERNAME,name);
+                    this.observer.setUser(name);
                     this.props.history.push({pathname:"/"});
                 }else{
                     alert(d.data);

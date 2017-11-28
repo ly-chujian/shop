@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link,NavLink,BrowserRouter,Switch,Route,HashRouter} from 'react-router-dom';
+import {BrowserRouter,HashRouter} from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
 import RouterCtl from "./map.js";
