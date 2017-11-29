@@ -3,20 +3,21 @@ import React from 'react';
 import Util from "../../core/tools/util.jsx";
 import TK from "../../core/tableKill/table.jsx";
 import AutoTestDialog from "./dialog.jsx";
-import { observer, inject } from 'mobx-react';
 
-@inject('autoTestStore')
+import AutoTestStore from "../../store/autoTest/store.js";
+
+import { observer } from 'mobx-react';
+
+const store = new AutoTestStore();
+
+//@inject('autoTestStore')
 @observer
 export default class AutoTest extends React.Component{
     constructor(props){
         super(props);
 
-        //this.state = {
-        //    name:"",
-        //    showDialog:false
-        //};
-
-        this.observer = this.props.autoTestStore;
+        //this.observer = this.props.autoTestStore;
+        this.observer = store;
 
         this.edit = this.edit.bind(this);
         this.run = this.run.bind(this);
@@ -31,7 +32,7 @@ export default class AutoTest extends React.Component{
                 {key:"run",val:"Run",action:this.run}
             ],
             showCk:true,
-            scb:(item)=>{
+            scb:(items)=>{
                 this.selectedItems = items;
             },
             map:[

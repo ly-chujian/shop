@@ -8,14 +8,15 @@ import ReactDom from 'react-dom';
 import RouterConfig from "./route/router.jsx";
 import { Provider } from 'mobx-react';
 
-import { AutoTestStore } from "./store/autoTest/store";
+//import { AutoTestStore } from "./store/autoTest/store";
 import { LoginUserStore } from "./store/loginUser/store";
 
 ReactDom.render(
 
     <Provider
         loginUserStore = {LoginUserStore}
-        autoTestStore = {AutoTestStore} >
+        //autoTestStore = {AutoTestStore}
+    >
         <RouterConfig />
     </Provider>, document.getElementById('example')
 );

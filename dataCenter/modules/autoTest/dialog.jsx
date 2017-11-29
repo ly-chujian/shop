@@ -1,9 +1,12 @@
 import React from 'react';
 import Util from "../../core/tools/util.jsx";
 import Css from "./autotest.css";
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 
-@inject('autoTestStore')
+import AutoTestStore from "../../store/autoTest/store.js";
+
+const store = new AutoTestStore();
+
 @observer
 export default class AutoTestDialog extends React.Component{
     constructor(props) {
@@ -15,7 +18,8 @@ export default class AutoTestDialog extends React.Component{
         this.beforeTypeEl = null;
         this.beforeDataEl = null;
 
-        this.observer = this.props.autoTestStore;
+        //this.observer = this.props.autoTestStore;
+        this.observer = store;
         this.initData =this.observer.dialogData.data;
         this.observer.setDialogAllStates(this.initData,{show:this.props.show,id:this.props.id});
 

@@ -2,9 +2,9 @@
  * Created by wupeng5 on 2017/11/1.
  */
 
-import { observable, computed, autorun } from "mobx";
+import { observable, action } from "mobx";
 
-class ObservableStore {
+export default class AutoTestStore {
 
     //autotest.jsx
     @observable name = "";
@@ -35,14 +35,14 @@ class ObservableStore {
 
     constructor() {}
 
-    getPropsShowFlag(flag){
+    @action getPropsShowFlag(flag){
         this.dialogData.params.show = flag;
     }
-    getDefaultId(id){
+    @action getDefaultId(id){
         this.dialogData.params.id = flag;
     }
     //设置dialog所有状态更新
-    setDialogAllStates(data,params){
+    @action setDialogAllStates(data,params){
         this.dialogData = {
             data:data,
             params:params
@@ -50,15 +50,15 @@ class ObservableStore {
     }
 
     //设置dialog除去参数部分的更新
-    setCaseItems(data){
+    @action setCaseItems(data){
         //复杂数据类型，必须改变根元素指针
         this.dialogData.data.items = data;
         this.dialogData = {...this.dialogData};
     }
 
-    setAutoTestShow(flag){
+    @action setAutoTestShow(flag){
         this.showDialog = flag;
     }
 }
 
-export const AutoTestStore = new ObservableStore();
+//export const AutoTestStore = new ObservableStore();
