@@ -1,6 +1,6 @@
 
 //import './searchSelected.css';
-import Util from "../util.jsx";
+import Util from "../tools/util.jsx";
 
 export default class SearchSelected extends React.Component{
     constructor(props){

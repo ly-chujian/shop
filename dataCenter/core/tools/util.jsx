@@ -72,7 +72,7 @@ export default class Util{
     //获取数组某属性的集合
     static getArrayByField(field,arr){
         var res = [];
-        arr.map(function(item){
+        arr.map(item=>{
             if(item[field]){
                 res.push(item[field]);
             }
@@ -89,5 +89,34 @@ export default class Util{
             item.__tmpId = Math.ceil(Math.random()*10000000000000000);
         });
         return data;
+    }
+
+    //set cookie
+    static setCookie(name,value,expires){
+        var cookieText = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+        if(expires instanceof Date){
+            cookieText += "; expires=" + expires.toGMTString();
+        }
+        document.cookie = cookieText;
+    }
+
+    //get cookie
+    static getCookie(name){
+        var cookie = document.cookie;
+        var cookieName = encodeURIComponent(name) + "=",
+            cookieStart = cookie.indexOf(cookieName),
+            cookieValue = null;
+        if(cookieStart > -1){
+            var cookieEnd = cookie.indexOf(';',cookieStart);
+            if(cookieEnd == -1){
+                cookieEnd = cookie.length;
+            }
+            cookieValue = decodeURIComponent(cookie.substring(cookieStart + cookieName.length,cookieEnd));
+        }
+        return cookieValue;
+    }
+
+    static removeCookie(name){
+        this.setCookie(name,"",new Date(0));
     }
 }

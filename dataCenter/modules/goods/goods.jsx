@@ -1,5 +1,5 @@
 import React from 'react';
-import Textt from "./text.jsx";
+import Iframe from "../../core/iframe/iframe.jsx";
 
 export default class Goods extends React.Component{
     constructor(props){
@@ -7,9 +7,10 @@ export default class Goods extends React.Component{
     }
 
     render(){
+        let iframe = '<iframe src="https://www.lenovo.com.cn" width="540" height="450"></iframe>';
         return (
             <div>
-                <Textt l="2" h="4" data = "abcxxxabcxxxabcxxx"></Textt>
+                <Iframe iframe={iframe} />
             </div>
         );
     }

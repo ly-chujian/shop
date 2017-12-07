@@ -10,7 +10,6 @@ export default class personEnum {
                 data.data[0].code.map(item=>{
                     tmp.push(item);
                 })
-                cacheCtl.set(CacheKeys.PERSONAGE,tmp);
                 cb(tmp);
             }else if(data.rc && data.data.length ==0 ){
                 alert("当前AGE无数据");

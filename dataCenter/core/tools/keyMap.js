@@ -10,10 +10,13 @@ var EventKeys = {
     TODO_TABLE_GETITEM :"table2todo"
 };
 
-var CacheKeys = {
-    PERSONAGE:"person_age"
-};
+var ModuleRequestUrl = {
+    "LOGIN":{
+        login:"/api/login/login",
+        logout:"/api/login/logOut"
+    }
+}
 
-var DataCenterAjaxUrl = {
-    "LOGIN":"/api/login/login"
+var CookieKeys = {
+    "SHOPUSERNAME":"shopUserName"
 }

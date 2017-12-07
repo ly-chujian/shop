@@ -14,13 +14,15 @@ export const Auth = (ComposedComponent) => class extends React.Component{
     componentWillMount(){
         Util.fetchAjax("/api/login/check").then(d=>{
             if(d.rc){
-                this.observer.setUser(d.data.name);
+                var _tmpName = d.data.name
+                Util.setCookie(CookieKeys.SHOPUSERNAME, _tmpName);
+                this.observer.setUser(_tmpName);
             }
         })
     }
 
     render(){
-        var name = this.observer.getUserName();
+        var name = Util.getCookie(CookieKeys.SHOPUSERNAME);
         if(name){
             return <ComposedComponent {...this.props} auth={name} />
         }else{

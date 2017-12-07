@@ -16,14 +16,6 @@
 </head>
 <body>
     <div id="example"></div>
-    <input type="button" value="测试Object自定义事件" id="btn1" />
-    <input type="button" value="测试DOM自定义事件" id="btn2" />
-
-    <input type="text" id="t1" />
-    <input type="text" id="t2" />
-    <input type="text" id="t3" readonly/>
-    <input type="text" id="t4" />
-    <input type="text" id="t5" readonly/>
 </body>
 </html>
 <script src="/build/bundle.js"></script>
@@ -42,88 +34,6 @@
         }
         return tmp + next.name;
     })
-
-    function Subject(id) {
-        this._id = id;
-        this._observerArr = [];
-        this.registerObserver=function(observer){
-            this._observerArr.push(observer);
-            observer._attach(this);
-        }
-        this.removeObserver=function(observer) {}
-
-        this.getValue = function(){
-            return document.querySelector("#"+id).value;
-        }
-
-        this.getSubjectById = function(id){
-            var res = null;
-            this.allSubject.map(function(item){
-                if(id == item._id){
-                    res = item;
-                }
-            })
-            return res;
-        }
-
-        this.notify = function(){
-            for(var index = 0; index<this._observerArr.length; index++){
-                this._observerArr[index].update(this);
-            }
-        }
-
-        this.allSubject.push(this);
-    }
-    Subject.prototype.allSubject = [];
-
-    function Observer(id,fn) {
-        this._subjects=[];
-        this._id = id;
-        this._attach = function(subject) {
-            this._subjects.push(subject);
-        }
-        this.update = function() {
-            fn.call(this,this._subjects);
-            if(this._subjects.length != 0){
-                var res = this._subjects[0].getSubjectById(this._id);
-                if(res){
-                    res.notify();
-                }
-            }
-        }
-    }
-
-    function update1(a){
-        //简单的set
-        document.querySelector("#t3").value = parseInt(a[0].getValue()) + parseInt(a[1].getValue());
-    }
-    function update2(a){
-        document.querySelector("#t5").value = parseInt(a[0].getValue()) + parseInt(a[1].getValue());
-    }
-
-    var subjectT1 = new Subject('t1');
-    var subjectT2 = new Subject('t2');
-    var subjectT3 = new Subject('t3');
-    var subjectT4 = new Subject('t4');
-
-    var observer3 = new Observer('t3',update1);
-    subjectT1.registerObserver(observer3);
-    subjectT2.registerObserver(observer3);
-
-    var observer5 = new Observer('t5',update2);
-    subjectT3.registerObserver(observer5);
-    subjectT4.registerObserver(observer5);
-
-    function notify(id,subject){
-        $("#"+id).bind("input propertychange",function(){
-            subject.notify();
-        })
-    }
-
-    notify("t1",subjectT1);
-    notify("t2",subjectT2);
-    notify("t3",subjectT3);
-    notify("t4",subjectT4);
 
     function rank(arr){
         var r = arr.map(function(item){

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="text" id="t1" />
+    <input type="text" id="t2" />
+    <input type="text" id="t3" readonly/>
+    <input type="text" id="t4" />
+    <input type="text" id="t5" readonly/>
+</body>
+</html>
+<script src="https://m2.lefile.cn/??global/js/jquery-1.8.3.min.js"></script>
+<script>
+    function Subject(id) {
+        this._id = id;
+        this._observerArr = [];
+        this.registerObserver=function(observer){
+            this._observerArr.push(observer);
+            observer._attach(this);
+        }
+        this.removeObserver=function(observer) {}
+
+        this.getValue = function(){
+            return document.querySelector("#"+id).value;
+        }
+
+        this.getSubjectById = function(id){
+            var res = null;
+            this.allSubject.map(function(item){
+                if(id == item._id){
+                    res = item;
+                }
+            })
+            return res;
+        }
+
+        this.notify = function(){
+            for(var index = 0; index<this._observerArr.length; index++){
+                this._observerArr[index].update(this);
+            }
+        }
+
+        this.allSubject.push(this);
+    }
+    Subject.prototype.allSubject = [];
+
+    function Observer(id,fn) {
+        this._subjects=[];
+        this._id = id;
+        this._attach = function(subject) {
+            this._subjects.push(subject);
+        }
+        this.update = function() {
+            fn.call(this,this._subjects);
+            if(this._subjects.length != 0){
+                var res = this._subjects[0].getSubjectById(this._id);
+                if(res){
+                    res.notify();
+                }
+            }
+        }
+    }
+
+    function update1(a){
+        //简单的set
+        var v1 = parseInt(a[0].getValue())?parseInt(a[0].getValue()):0;
+        var v2 = parseInt(a[1].getValue())?parseInt(a[1].getValue()):0;
+        document.querySelector("#t3").value = v1 + v2;
+    }
+    function update2(a){
+        var v1 = parseInt(a[0].getValue())?parseInt(a[0].getValue()):0;
+        var v2 = parseInt(a[1].getValue())?parseInt(a[1].getValue()):0;
+        document.querySelector("#t5").value = v1 + v2;
+    }
+
+    var subjectT1 = new Subject('t1');
+    var subjectT2 = new Subject('t2');
+    var subjectT3 = new Subject('t3');
+    var subjectT4 = new Subject('t4');
+
+    var observer3 = new Observer('t3',update1);
+    subjectT1.registerObserver(observer3);
+    subjectT2.registerObserver(observer3);
+
+    var observer5 = new Observer('t5',update2);
+    subjectT3.registerObserver(observer5);
+    subjectT4.registerObserver(observer5);
+
+    function notify(id,subject){
+        $("#"+id).bind("input propertychange",function(){
+            subject.notify();
+        })
+    }
+
+    notify("t1",subjectT1);
+    notify("t2",subjectT2);
+    notify("t3",subjectT3);
+    notify("t4",subjectT4);
+
+    var CarModel = function(){
+        this.color = "white";
+        this.width = 30;
+        this.height = 30;
+        this.pos = {x:0,y:50};
+        this.speed = 1;
+
+        this.setSpeed = function(val){
+            this.speed = val;
+            return this;
+        }
+
+        this.setPos = function(x,y){
+            this.pos.x = x;
+            this.pos.y = y;
+            return this;
+        }
+    }
+
+    var CarView = function(){
+        this.el = $("<div></div>");
+
+        this.append = function(model){
+            this.el.css("width",model.width).css("height",model.height).css("position","absolute")
+                    .css("top",model.pos.y).css("left",model.pos.x).css("border","1px solid red");
+            $("body").append(this.el);
+        }
+
+        this.update = function(x,y){
+            this.el.css("top",y).css("left",x);
+        }
+    }
+
+    var CarPresenter = function(model,view){
+        this.model = model;
+        this.view = view;
+
+        this.init = function(){
+            this.view.append(this.model);
+            return this;
+        }
+
+        this.runCar = function(){
+            if(this.model.pos.x >= 1400){
+                this.model.pos.x = 1;
+            }
+            this.model.speed+=2;
+            console.log(this.model.speed);
+            this.model.setPos(this.model.speed*1,this.model.pos.y);
+            this.view.update(this.model.pos.x,this.model.pos.y);
+            var arg = arguments;
+            var that = this;
+            window.setTimeout(function(){
+                arg.callee.call(that);
+            },100);
+        }
+    }
+
+    for(var i = 0;i<5;i++){
+        var car = new CarModel();
+        car.setPos(10,(i+1)*50).setSpeed(Math.ceil(Math.random()*40));
+        var view = new CarView();
+        var cp = new CarPresenter(car,view);
+        cp.init().runCar();
+    }
+</script>

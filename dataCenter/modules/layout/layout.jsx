@@ -13,16 +13,15 @@ import { observer, inject } from 'mobx-react';
 class Layout extends React.Component{
     constructor(props){
         super(props);
-
         this.observer = this.props.loginUserStore;
     }
 
     logOut(){
-        cacheCtl.set(CacheKeys.USERNAME,"");
-        Util.fetchAjax("/api/login/logOut","post",null).then(e=>{
+        Util.fetchAjax(ModuleRequestUrl.LOGIN.logout,"post",null).then(e=>{
             //防止用户点击返回按钮，依然记录当前userName,所以需要清空
             this.observer.setUser("");
             this.props.history.push({pathname:"/login"});
+            Util.removeCookie(CookieKeys.SHOPUSERNAME);
         });
     }
 
