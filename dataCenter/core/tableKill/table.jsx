@@ -5,6 +5,8 @@ import Body from "./body.jsx";
 import Paging from "./paging.jsx";
 import Css from "./__tk.css";
 
+import Perf from 'react-addons-perf';
+
 export default class TK extends React.Component {
 	constructor(props) {
 		super(props);
@@ -19,9 +21,12 @@ export default class TK extends React.Component {
 
 		this.option = this.props.option;
 		this.option.showCk = this.option.showCk ==undefined? false:true;
+
+        this._Perf = Perf;
 	}
 
 	shouldComponentUpdate(nextProps,nextState){
+        console.log("TK是否重新渲染,",nextProps.option.isReRender);
 		if(nextProps.option.isReRender == undefined){
 			return true;
 		}
@@ -30,11 +35,20 @@ export default class TK extends React.Component {
 
 	componentWillMount(){
 		console.log("table componentWillMount readySendAjax");
-		this.getData();
 	}
+
+    componentDidUpdate(){
+        this._Perf.stop();
+        var measurements = this._Perf.getLastMeasurements();
+        this._Perf.printInclusive(measurements);        //打印总时间
+        //Perf.printExclusive(measurements);        //打印独占时间（不包括组件挂载时间）
+        this._Perf.printWasted(measurements);             //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
+        //Perf.printOperations(measurements);       //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
+    }
 
 	componentDidMount(){
 		console.log("table componentDidMount");
+        this.getData();
 	}
 
 	getData(){
@@ -66,6 +80,7 @@ export default class TK extends React.Component {
 	}
 
 	search(current){
+        this._Perf.start();
 		if(!current){
 			this.state.options.index = 1;
 		}

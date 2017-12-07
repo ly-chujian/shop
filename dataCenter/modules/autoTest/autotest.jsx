@@ -8,6 +8,8 @@ import AutoTestStore from "../../store/autoTest/store.js";
 
 import { observer } from 'mobx-react';
 
+import Perf from 'react-addons-perf';
+
 const store = new AutoTestStore();
 
 //@inject('autoTestStore')
@@ -24,6 +26,7 @@ export default class AutoTest extends React.Component{
 
         this.selectSingleItemId = "";
         this.selectedItems = [];
+        this.search = this.search.bind(this);
 
         var that = this;
         this.tableOptions = {
@@ -49,22 +52,32 @@ export default class AutoTest extends React.Component{
                 return "/api/at/list?describe="+name;
             },
             pageOption:{sizeKey:"size",indexKey:"index"},
-            analysis:function(data){
-                var tmp = {
+            analysis:(data)=>{
+                return {
                     data:data.data.data,
                     count:data.data.count,
                     total:data.data.total
                 };
-                return tmp;
             },
             //是否重新渲染table
             isReRender:true
         }
 
         this.searchNameEl = null;
+
+        this._Perf = Perf;
+
+        this.oldVal = "";
     }
 
     componentDidMount(){
+
+    }
+    componentWillMount(){
+
+    }
+
+    componentWillUnmount(){
 
     }
 
@@ -104,8 +117,13 @@ export default class AutoTest extends React.Component{
     }
 
     search(){
-        this.tableOptions.isReRender=true;
-        this.refs['tableKill'].search();
+        if(this.oldVal ==  this.searchNameEl.value){
+            this.tableOptions.isReRender=false;
+        }else{
+            this.tableOptions.isReRender=true;
+            this.refs['tableKill'].search();
+        }
+        this.oldVal = this.searchNameEl.value;
     }
 
     addItem(){
@@ -129,7 +147,7 @@ export default class AutoTest extends React.Component{
                 <input type="button" value="Add" onClick = {e=>this.addItem()} />
                 <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
                 name:<input type="text" defaultValue={this.observer.name} ref={el=>this.searchNameEl = el} />
-                <input type="button" value="Search" onClick={e=>{this.search();}} />
+                <input type="button" value="Search" onClick={e=>this.search()} />
                 <TK ref="tableKill" option ={this.tableOptions}></TK>
 
                 <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} />

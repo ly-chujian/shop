@@ -119,4 +119,45 @@ export default class Util{
     static removeCookie(name){
         this.setCookie(name,"",new Date(0));
     }
+
+    static equalsObject(source,target){
+        var p;
+        for (p in source) {
+            if (typeof (target[p]) == 'undefined') {
+                return false;
+            }
+        }
+
+        for (p in source) {
+            if (source[p]) {
+                switch (typeof (source[p])) {
+                    case 'object':
+                        if (!equals(source[p], target[p])) {
+                            return false;
+                        }
+                        break;
+                    case 'function':
+                        if (typeof (target[p]) == 'undefined' ||
+                            (p != 'equals' && source[p].toString() != target[p].toString()))
+                            return false;
+                        break;
+                    default:
+                        if (source[p] != target[p]) {
+                            return false;
+                        }
+                }
+            } else {
+                if (target[p])
+                    return false;
+            }
+        }
+
+        for (p in target) {
+            if (typeof (source[p]) == 'undefined') {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

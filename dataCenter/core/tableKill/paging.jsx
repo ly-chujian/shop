@@ -1,6 +1,7 @@
 
 import React from "react";
 import TKCls from "./__tk.css";
+import Util from "../tools/util.jsx";
 
 export default class Paging extends React.Component {
     constructor(props) {
@@ -11,6 +12,11 @@ export default class Paging extends React.Component {
 
     componentWillMount(){
         console.log("paging componentWillMount");
+    }
+
+    shouldComponentUpdate(nextProps,nextState){
+        var res = Util.equalsObject(this.props.options,nextProps.options);
+        return !res;
     }
 
     componentWillReceiveProps(nextProps){
