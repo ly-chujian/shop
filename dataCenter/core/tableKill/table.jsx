@@ -38,12 +38,14 @@ export default class TK extends React.Component {
 	}
 
     componentDidUpdate(){
+		/** Pref Performance**/
         this._Perf.stop();
         var measurements = this._Perf.getLastMeasurements();
         this._Perf.printInclusive(measurements);        //打印总时间
         //Perf.printExclusive(measurements);        //打印独占时间（不包括组件挂载时间）
         this._Perf.printWasted(measurements);             //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
         //Perf.printOperations(measurements);       //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
+		/** Pref Performance**/
     }
 
 	componentDidMount(){

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #tools{
+            border:1px solid red;
+            width:100%;
+            height: 30px;
+        }
+        #bottom{
+            margin-top: 20px;
+            height: 700px;
+        }
+        #container{
+            width:80%;
+            height: 100%;
+            border:1px solid red;
+            float: left;
+        }
+        #info{
+            float: left;
+            border:1px solid red;
+            width: 18%;
+            height: 100%;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="tools">
+        <input type="button" value="NEW" id="newBall" />
+        Name:<input type="text" id="name" value="a" />
+        Speed:<input type="text" id="speed" value="2" />
+        Radius:<input type="text" id="radius" value="10" />
+        Angle:<input type="text" id="angle" value="30" />
+        Color:<input type="text" id="color" value="red" />
+    </div>
+
+    <div id="bottom">
+        <div id="container">
+
+        </div>
+        <div id="info">
+
+        </div>
+    </div>
+
+</body>
+</html>
+<script src="https://m2.lefile.cn/??global/js/jquery-1.8.3.min.js"></script>
+<script>
+    var Ball = function(){
+        this.color = "";
+        this.speed = 0;
+        this.radius = 0;
+        this.name = "";
+        this.position = {x:0,y:0};
+
+        //默认角度为0
+        this.angle = 0;
+        //默认弧度为0
+        this.radian = 0;
+        //分解速度为水平和垂直速度
+        this.speedX = 0;
+        this.speedY = 0;
+
+        //如果不设置角度，默认为30°
+        this.create = function(options){
+            this.color = options.color;
+            this.speed = options.speed;
+            this.radius = options.radius;
+            this.name = options.name;
+            this.angle = options.angle?options.angle:30;
+            this.radian = 2 * Math.PI / 360 * this.angle;
+            this.speedX = Math.cos(this.radian) * (this.speed);
+            this.speedY = Math.sin(this.radian) * (this.speed);
+            return this;
+        }
+
+        this.update = function(pos){
+            this.position = {x:pos.x,y:pos.y};
+        }
+
+        this.destroy = function(){
+
+        }
+    }
+
+    var Engine = function(graphics){
+        this.ballList = [];
+        this.status = true;
+        this.graphics = graphics;
+
+        this.addBall = function(ball){
+            this.ballList.push(ball);
+            if(this.graphics.elementList.length <this.ballList.length){
+                this.graphics.draw(ball);
+            }
+        }
+
+        var time = 1.1;
+        this.start = function(){
+            var that = this;
+            var arg = arguments;
+            if(!this.status){
+                return;
+            }
+            window.setTimeout(function(){
+                var bls = that.ballList;
+                var elementList = that.graphics.elementList;
+                for(var i =0;i<bls.length;i++){
+                    var x = bls[i].position.x + bls[i].speedX * time;
+                    var y =  bls[i].position.y + bls[i].speedY * time;
+                    bls[i].update({x:x,y:y});
+                }
+                for(var k = 0;k<elementList.length;k++){
+                    that.graphics.update(elementList[k],bls[k]);
+                }
+                arg.callee.call(that);
+            },100);
+        }
+
+        this.pause = function(){
+
+        }
+
+        this.stop = function(){
+            this.status = false;
+        }
+    }
+
+    //抽象接口，用来实现不同方式的渲染
+    var IGraphics = function(){
+        this.draw = function(ball){
+
+        }
+    }
+
+    //DOM方式渲染：继承IGraphics
+    var DOMGraphics = function(){
+        IGraphics.call(this,null);
+
+        this.elementList = [];
+
+        this.update = function(dom,ball){
+            $(dom).css({left:ball.position.x + "px",top:ball.position.y + "px"});
+        }
+
+        this.draw = function(ball){
+            var div = $("<div></div>");
+            div.css({position:"absolute",backgroundColor:ball.color,
+                borderRadius:"100px",width:ball.radius*2 + "px",height:ball.radius*2 + "px",
+                left:ball.position.x + "px",top:ball.position.y + "px",
+                textAlign: "center",display: "flex",alignItems:"center",justifyContent: "center"
+            }).html(ball.name);
+
+            this.elementList.push($(div));
+            $("body").append($(div));
+        }
+    }
+    //Canvas方式渲染：继承IGraphics
+    var CanvasGraphics = function(){
+        IGraphics.call(this,null);
+        this.canvasList = [];
+
+        this.draw = function(){
+
+        }
+    }
+
+    var graphics = new DOMGraphics();
+    var engine = new Engine(graphics);
+
+    $("#newBall").click(function(){
+        var ball = new Ball();
+        ball.create({
+            name:$("#name").val(),
+            speed:parseFloat($("#speed").val()),
+            radius:parseFloat($("#radius").val()),
+            color:$("#color").val(),
+            angle:parseFloat($("#angle").val())
+        }).update({x:70,y:70});
+        engine.addBall(ball);
+    })
+
+    engine.start();
+</script>
