@@ -25,7 +25,5 @@ export default class Person extends Base{
         let base = Base.prototype.render.call(this);
 
         return <h1>{base}</h1>;
-
-        super.render();
     }
 }
