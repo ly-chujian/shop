@@ -26,16 +26,20 @@
             height: 100%;
             margin-left: 20px;
         }
+        .tb{
+            border-top: 1px solid red;
+        }
     </style>
 </head>
 <body>
     <div id="tools">
-        <input type="button" value="NEW" id="newBall" />
+        <input type="button" value="new" id="newBall" />
         Name:<input type="text" id="name" value="a" />
-        Speed:<input type="text" id="speed" value="2" />
+        Speed:<input type="text" id="speed" value="1" />
         Radius:<input type="text" id="radius" value="10" />
         Angle:<input type="text" id="angle" value="30" />
         Color:<input type="text" id="color" value="red" />
+        <input type="button" value="stop" id="stop" />
     </div>
 
     <div id="bottom">
@@ -43,6 +47,7 @@
 
         </div>
         <div id="info">
+            <h4 style='text-align: center'>Count:<a id="count"></a></h4>
 
         </div>
     </div>
@@ -88,46 +93,129 @@
         }
     }
 
+    var Tools ={
+        crash:function(ballSource,ballTarget){
+            var pointA = ballSource.position;
+            var pointB = ballTarget.position;
+            if(pointA.x == pointB.x && pointA.y == pointB.y){
+                return;
+            }
+            var x = pointB.x - pointA.x;
+            var y = pointB.y - pointA.y;
+            var z = Math.sqrt(x*x + y*y);
+            if(z <= ballSource.radius + ballTarget.radius){
+                console.log(pointA.x,"----",pointB.x);
+                this.swap(ballSource,ballTarget);
+            }
+        },
+        swap:function(ballSource,ballTarget){
+            var temp1 = ballSource.speedX;
+            var temp2 = ballTarget.speedX;
+
+            ballSource.speedX = temp2;
+            ballTarget.speedX = temp1;
+
+            var temp3 = ballSource.speedY;
+            var temp4 = ballTarget.speedY;
+
+            ballSource.speedY = temp4;
+            ballTarget.speedY = temp3;
+        }
+    }
+
     var Engine = function(graphics){
         this.ballList = [];
         this.status = true;
         this.graphics = graphics;
+
+        this.width = 1255;
+        this.height = 700;
 
         this.addBall = function(ball){
             this.ballList.push(ball);
             if(this.graphics.elementList.length <this.ballList.length){
                 this.graphics.draw(ball);
             }
+            return this;
         }
 
-        var time = 1.1;
+        this.crash = function(){
+            var tmp = this.ballList;
+            for(var i =0;i<tmp.length;i++){
+                for(var k =0;k<tmp.length;k++){
+                    Tools.crash(tmp[i],tmp[k]);
+                }
+            }
+        }
+
+        var time = 1;
         this.start = function(){
             var that = this;
             var arg = arguments;
             if(!this.status){
                 return;
+            }else{
+                window.setTimeout(function(){
+                    var bls = that.ballList;
+                    var elementList = that.graphics.elementList;
+
+                    for(var i =0;i<bls.length;i++){
+                        if (bls[i].position.x > that.width || bls[i].position.x < bls[i].radius) {
+                            bls[i].speedX = bls[i].speedX * -1;
+                        }
+                        if (bls[i].position.y < bls[i].radius || bls[i].position.y > that.height) {
+                            bls[i].speedY = bls[i].speedY * -1;
+                        }
+                        var x = bls[i].position.x + bls[i].speedX * time;
+                        var y =  bls[i].position.y + bls[i].speedY * time;
+                        bls[i].update({x:x,y:y});
+                    }
+
+                    that.crash();
+
+                    for(var k = 0;k<elementList.length;k++){
+                        that.graphics.update(elementList[k],bls[k]);
+                    }
+                    that.infoTool.update(bls);
+                    arg.callee.call(that);
+                },100);
             }
-            window.setTimeout(function(){
-                var bls = that.ballList;
-                var elementList = that.graphics.elementList;
-                for(var i =0;i<bls.length;i++){
-                    var x = bls[i].position.x + bls[i].speedX * time;
-                    var y =  bls[i].position.y + bls[i].speedY * time;
-                    bls[i].update({x:x,y:y});
-                }
-                for(var k = 0;k<elementList.length;k++){
-                    that.graphics.update(elementList[k],bls[k]);
-                }
-                arg.callee.call(that);
-            },100);
         }
 
         this.pause = function(){
-
+            this.status = false;
         }
 
         this.stop = function(){
             this.status = false;
+        }
+    }
+
+    var InfoTool = function(engine){
+
+        engine.infoTool = this;
+
+        this.addInfoItem = function(){
+            var html = "<div class='tb'>";
+            html += "<div>Name:<a tag='name'></a></div>"
+            html += "<div>Speed:<a tag='speed'></a></div>";
+            html += "<div>Angle:<a tag='angle'></a></div>";
+            html += "<div>X:<a tag='x'></a></div>";
+            html += "<div>Y:<a tag='y'></a></div>";
+            html += "</div>";
+            $("#info").append($(html));
+        }
+
+        this.update = function(balls){
+            $("#info div.tb").each(function(index){
+                var ball = balls[index];
+                $(this).find("a[tag=name]").text(ball.name);
+                $(this).find("a[tag=speed]").text(ball.speed);
+                $(this).find("a[tag=angle]").text(ball.angle);
+                $(this).find("a[tag=x]").text(parseInt(ball.position.x));
+                $(this).find("a[tag=y]").text(parseInt(ball.position.y));
+            })
+            $("#count").text(balls.length);
         }
     }
 
@@ -173,6 +261,8 @@
     var graphics = new DOMGraphics();
     var engine = new Engine(graphics);
 
+    var infoTool = new InfoTool(engine);
+
     $("#newBall").click(function(){
         var ball = new Ball();
         ball.create({
@@ -182,7 +272,10 @@
             color:$("#color").val(),
             angle:parseFloat($("#angle").val())
         }).update({x:70,y:70});
-        engine.addBall(ball);
+        engine.addBall(ball).infoTool.addInfoItem();
+    })
+    $("#stop").click(function(){
+        engine.stop();
     })
 
     engine.start();
