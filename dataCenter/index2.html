@@ -104,9 +104,10 @@
             var y = pointB.y - pointA.y;
             var z = Math.sqrt(x*x + y*y);
             if(z <= ballSource.radius + ballTarget.radius){
-                console.log(pointA.x,"----",pointB.x);
                 this.swap(ballSource,ballTarget);
+                return true;
             }
+            return false
         },
         swap:function(ballSource,ballTarget){
             var temp1 = ballSource.speedX;
@@ -141,9 +142,17 @@
 
         this.crash = function(){
             var tmp = this.ballList;
+            var crashObject = {source:null,target:null};
             for(var i =0;i<tmp.length;i++){
+                crashObject.source = tmp[i];
+                if(crashObject.target == crashObject.source ){
+                    continue;
+                }
                 for(var k =0;k<tmp.length;k++){
-                    Tools.crash(tmp[i],tmp[k]);
+                    if(Tools.crash(tmp[i],tmp[k])){
+                        crashObject.target = tmp[k];
+                        break;
+                    }
                 }
             }
         }
