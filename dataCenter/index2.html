@@ -98,7 +98,7 @@
             var pointA = ballSource.position;
             var pointB = ballTarget.position;
             if(pointA.x == pointB.x && pointA.y == pointB.y){
-                return;
+                return false;
             }
             var x = pointB.x - pointA.x;
             var y = pointB.y - pointA.y;
@@ -166,7 +166,7 @@
             }else{
                 window.setTimeout(function(){
                     var bls = that.ballList;
-                    var elementList = that.graphics.elementList;
+                    var graphics = that.graphics;
 
                     for(var i =0;i<bls.length;i++){
                         if (bls[i].position.x > that.width || bls[i].position.x < bls[i].radius) {
@@ -182,9 +182,7 @@
 
                     that.crash();
 
-                    for(var k = 0;k<elementList.length;k++){
-                        that.graphics.update(elementList[k],bls[k]);
-                    }
+                    that.graphics.update(bls);
                     that.infoTool.update(bls);
                     arg.callee.call(that);
                 },100);
@@ -241,8 +239,11 @@
 
         this.elementList = [];
 
-        this.update = function(dom,ball){
-            $(dom).css({left:ball.position.x + "px",top:ball.position.y + "px"});
+        this.update = function(balls){
+            var tmp = this.elementList;
+            for(var i=0;i<tmp.length;i++){
+                $(tmp[i]).css({left:balls[i].position.x + "px",top:balls[i].position.y + "px"});
+            }
         }
 
         this.draw = function(ball){

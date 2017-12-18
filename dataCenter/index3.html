@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        img{
+            width:500px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="d">
+        <img id="1" _src="https://p3.lefile.cn/product/adminweb/2017/12/18/524863a2-2754-4238-8d0a-4e5a611f3804.gif"/>
+        <img id="2" _src="https://p1.lefile.cn/product/adminweb/2017/12/15/23f68e55-45e0-428b-9f35-57dcb584fb49.jpg" />
+        <img id="3" _src="https://p3.lefile.cn/product/adminweb/2017/12/15/763a3bc1-d25b-46eb-abec-5404f2c28569.jpg" />
+        <img id="4" _src="https://p3.lefile.cn/product/adminweb/2017/12/18/9bea2da1-bf7c-4992-903b-99cb007dfc8f.jpg" />
+        <img id="5" _src="https://p3.lefile.cn/product/adminweb/2017/12/13/4a5b7712-08cd-4b8a-90fc-e662bc30ec96.jpg" />
+        <img id="6" _src="https://p2.lefile.cn/product/adminweb/2017/12/15/1bd11e1e-1d1e-4e5c-9741-ecfcfa3dee26.jpg" />
+        <img id="7" _src="https://p3.lefile.cn/product/adminweb/2017/12/13/2c6c8d08-c481-4999-8a9a-f10c58047abf.jpg" />
+    </div>
+</body>
+</html>
+<script src="https://m2.lefile.cn/??global/js/jquery-1.8.3.min.js"></script>
+<script>
+    var MyImg = function(el){
+        var that = this;
+        var handle = function(){
+            console.log(this.id + " img already load completed");
+        }
+        this.el = el;
+        that.el.addEventListener("load",handle,false);
+        this.setSrc = function(data){
+            data.el.src = data.src;
+        }
+        this.destroy = function(){
+            that.el.removeListener("load",handle);
+        }
+    }
+
+    var Tools = function(){
+        this.loading = {};
+        this.loading.loadImg = "https://p3.lefile.cn/product/adminweb/2017/12/18/524863a2-2754-4238-8d0a-4e5a611f3804.gif";
+        this.loading.setLoadImg = function(newSrc){
+            this.loading.loadImg = newSrc;
+        }
+        this.loading.setElLoading = function(el){
+            el.src = this.loading.loadImg;
+        }
+
+        this.batchTask = {};
+        this.batchTask.do = function(array,process,completedCb,context){
+            var item = array.shift();
+            process.call(context,item);
+            if(array.length == 0){
+                completedCb.call(context);
+            }
+            if(array.length >0){
+                var that = this;
+                var arg = arguments;
+                setTimeout(function(){
+                    arg.callee.apply(that,arg);
+                },10);
+            }
+        }
+    }
+
+    var ProxyImage = function(){
+        var that = this;
+        this.srcList = [];
+        this.myImgList = [];
+        this.loadImgCompleted = false;
+        this.srcImgCompleted = false;
+
+        this.setSrc = function(){
+            var data = [];
+            for(var i=0;i<this.myImgList.length;i++){
+                data.push({el:this.myImgList[i].el,src:this.srcList[i]});
+            }
+            this.tools.batchTask.do(data,this.myImgList[0].setSrc,function(){
+                this.srcImgCompleted = true;
+                console.log("SRC ready get link, ready to render!");
+            },this);
+        }
+
+        this.destroy = function(){
+            for(var i=0;i<this.myImgList.length;i++){
+                this.myImgList[i].destroy();
+            }
+            this.srcList = [];
+            this.myImgList = [];
+        }
+
+        this.init = function(imgEls,links,tools){
+            for(var i=0;i<imgEls.length;i++){
+                this.myImgList.push(new MyImg(imgEls[i]));
+            }
+            this.srcList = links;
+            this.tools  = tools;
+            this.tools.batchTask.do(imgEls,this.tools.loading.setElLoading,function(){
+                that.loadImgCompleted = true;
+                console.log("LOADING ready get link, ready to render!!");
+                that.setSrc();
+            },tools);
+            return this;
+        }
+    }
+
+    var tools = new Tools();
+    var proxyImage = new ProxyImage();
+
+    var imgArray = [];
+    var linkArray = [];
+    $("#d img").each(function(){
+        imgArray.push(this);
+        linkArray.push($(this).attr("_src"));
+    })
+
+    proxyImage.init(imgArray,linkArray,tools);
+</script>
