@@ -78,10 +78,12 @@
             for(var i=0;i<this.myImgList.length;i++){
                 data.push({el:this.myImgList[i].el,src:this.srcList[i]});
             }
-            this.tools.batchTask.do(data,this.myImgList[0].setSrc,function(){
-                this.srcImgCompleted = true;
-                console.log("SRC ready get link, ready to render!");
-            },this);
+            if(data.length!=0){
+                this.tools.batchTask.do(data,this.myImgList[0].setSrc,function(){
+                    this.srcImgCompleted = true;
+                    console.log("SRC ready get link, ready to render!");
+                },this);
+            }
         }
 
         this.destroy = function(){
@@ -118,4 +120,17 @@
     })
 
     proxyImage.init(imgArray,linkArray,tools);
+
+    var A = function(){
+
+    }
+
+    var C = function(){
+        A.apply(this,[]);
+    }
+
+    C.prototype = A.prototype;
+    C.prototype.constructor = C;
+
+    var c1 = new C();
 </script>
