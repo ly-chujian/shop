@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
     <title>Title</title>
     <style>
         img{
@@ -11,35 +11,40 @@
     </style>
 </head>
 <body>
-    name:<input type="text" id="t1"/>
-    email:<input type="text" id="t2"/>
-    phone:<input type="text" id="t3"/>
+    name:<input type='text' id='t1'/>
+    email:<input type='text' id='t2'/>
+    phone:<input type='text' id='t3'/>
 
-    <input type="button" id="btn1" value="Validator"  />
+    <input type='button' id='btn1' value='Validator'  />
 </body>
 </html>
-<script src="core/tools/validator.js"></script>
-<script src="https://m2.lefile.cn/??global/js/jquery-1.8.3.min.js"></script>
+<script src='core/tools/validator.js'></script>
+<script src='https://m2.lefile.cn/??global/js/jquery-1.8.3.min.js'></script>
 <script>
-    var t1 = $("#t1").val();
-    var t2 = $("#t1").val();
-    var t3 = $("#t1").val();
+    var t1 = $('#t1').val();
+    var t2 = $('#t1').val();
+    var t3 = $('#t1').val();
+
+
+    var str = 'Url="https://www.youtube.com/watch?v=dEN5Ev4RY6Q" abc asdlka>';
+
+    var url = /Url="(.*?)"/gi.exec(str)[1];
 
     var validatorFun = function(){
         var _validator = new Validator();
-        _validator.add($("#t1").get(0),[
+        _validator.add($('#t1').get(0),[
             {strategy: 'isNotEmpty',errorMsg:'Name不能为空'},
             {strategy: 'minLength:6',errorMsg:'Name长度不能小于6位'}
-        ]).add($("#t2").get(0),[
+        ]).add($('#t2').get(0),[
             {strategy: 'emailFormat',errorMsg:'email必须为有效格式'}
-        ]).add($("#t3").get(0),[
+        ]).add($('#t3').get(0),[
             {strategy: 'mobileFormat',errorMsg:'phone必须为有效格式'}
         ])
 
         return _validator.start();
     }
 
-    $("#btn1").click(function(){
+    $('#btn1').click(function(){
         var msg = validatorFun();
         debugger
     })
