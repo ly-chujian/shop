@@ -32,12 +32,12 @@
 
     var validatorFun = function(){
         var _validator = new Validator();
-        _validator.add($('#t1').get(0),[
+        _validator.add($('#t1').val(),[
             {strategy: 'isNotEmpty',errorMsg:'Name不能为空'},
             {strategy: 'minLength:6',errorMsg:'Name长度不能小于6位'}
-        ]).add($('#t2').get(0),[
+        ]).add($('#t2').val(),[
             {strategy: 'emailFormat',errorMsg:'email必须为有效格式'}
-        ]).add($('#t3').get(0),[
+        ]).add($('#t3').val(),[
             {strategy: 'mobileFormat',errorMsg:'phone必须为有效格式'}
         ])
 

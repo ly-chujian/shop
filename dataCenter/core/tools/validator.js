@@ -20,7 +20,7 @@ var Validator = function(){
      *
      * 返回删除的第一个
      *  */
-    this.add = function(dom,rules){
+    this.add = function(value,rules){
         var that = this;
         rules.map(function(rule){
             (function(rule){
@@ -30,9 +30,9 @@ var Validator = function(){
                 var fun = function(){
                     //获取获取strategy key具体值
                     var strategy = strategyAry.shift();
-                    strategyAry.unshift(dom.value);
+                    strategyAry.unshift(value);
                     strategyAry.push(errorMsg);
-                    return that.strategys[strategy].apply(dom,strategyAry);
+                    return that.strategys[strategy].apply(value,strategyAry);
                 }
                 that.rules.push(fun);
             })(rule);
