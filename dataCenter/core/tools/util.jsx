@@ -97,7 +97,7 @@ export default class Util{
         if(expires instanceof Date){
             cookieText += "; expires=" + expires.toGMTString();
         }
-        document.cookie = cookieText;
+        document.cookie = cookieText+";path=/;domain="+document.domain;
     }
 
     //get cookie
