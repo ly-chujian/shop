@@ -5,7 +5,7 @@ import LayoutCss from '../layout/layout.css';
 import { renderRoutes } from 'react-router-config';
 import Util from "../../core/tools/util.jsx";
 
-import {Auth} from "../auth/auth.jsx";
+import Auth from "../auth/auth.jsx";
 
 import { observer, inject } from 'mobx-react';
 @inject('loginUserStore')
@@ -57,4 +57,11 @@ class Layout extends React.Component{
         )
     }
 }
-export default Auth(Layout);
+// export default Auth(Layout);
+export default class extends React.Component{
+    render(){
+        return (
+            <Auth comp={(code)=><Layout { ...this.props} user={code} />}></Auth>
+        );
+    }
+}

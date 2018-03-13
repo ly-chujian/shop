@@ -1,11 +1,14 @@
 import React from 'react';
 import Util from "../../core/tools/util.jsx";
+// import {extendObservable} from 'mobx';
 import { observer, inject } from 'mobx-react';
 import { Redirect } from "react-router-dom";
 
+// import { LoginUserStore } from "../../store/loginUser/store";
+
 @inject('loginUserStore')
 @observer
-export const Auth = (ComposedComponent) => class extends React.Component{
+export default class Auth extends React.Component{
     constructor(props){
         super(props);
         this.observer = this.props.loginUserStore;
@@ -14,7 +17,7 @@ export const Auth = (ComposedComponent) => class extends React.Component{
     componentWillMount(){
         Util.fetchAjax("/api/login/check").then(d=>{
             if(d.rc){
-                var _tmpName = d.data.name
+                var _tmpName = d.data.name;
                 Util.setCookie(CookieKeys.SHOPUSERNAME, _tmpName);
                 this.observer.setUser(_tmpName);
             }
@@ -24,9 +27,27 @@ export const Auth = (ComposedComponent) => class extends React.Component{
     render(){
         var name = Util.getCookie(CookieKeys.SHOPUSERNAME);
         if(name){
-            return <ComposedComponent {...this.props} auth={name} />
+            // return <ComposedComponent {...this.props} auth={name} />
+            return this.props.comp({name:name});
         }else{
             return <Redirect to='/login' />
         }
     }
 }
+
+// export const Auth = (Comp)=> {
+//     return class extends React.Component{
+//         constructor(props) {
+//             super(props);
+//             extendObservable(this, LoginUserStore);
+//         }
+//
+//         render(){
+//             console.log(this);
+//             return (
+//                 <Comp {...this.props} />
+//             )
+//         }
+//
+//     }
+// }
