@@ -2,7 +2,9 @@ import React from 'react';
 import {BrowserRouter,HashRouter} from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 
-import RouterCtl from "./map.js";
+import Loadable from 'react-loadable';
+
+import RouterCtl from "./map1.js";
 
 export default class RouterConfig extends React.Component{
     constructor(props){

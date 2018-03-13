@@ -55,7 +55,7 @@ app.all("*",function(req,res,next){
         //如果请求里面包含api, 那么肯定是由nginx转发过来的, 输出index
         if(req.url.indexOf('/api') != -1){
             console.log("not api action, out index.html page!");
-            res.sendFile(path.resolve(__dirname, '../dataCenter/index.html'));
+            res.sendFile(path.resolve(__dirname, '../dataCenter/dist/index.html'));
         }else{
             //正常调用api，验证用户权限
             next();

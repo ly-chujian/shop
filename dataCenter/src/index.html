@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台管理系统</title>
+    <link href="./static/css/bootstrap.css" type="text/css" rel="stylesheet" />
+    <script src="./static/js/keyMap.js"></script>
+    <script src="./static/js/event.js"></script>
+    <script src="./static/js/processPerformance.js"></script>
+    <script src="./static/js/cache.js"></script>
+    <script src="./static/js/baseToolV1.js"></script>
+    <script src="./static/js/customEvent.js"></script>
+    <script src="./static/js/taskQueue.js"></script>
+    <script src="./static/js/throttle.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+</body>
+</html>
+<script src="./static/js/jquery.min.js"></script>
+<script>
+    var a = [{name:1},{name:2},{name:3},{name:4},{name:5},{name:6}];
+
+    var b = a.filter(function(item,index,array){
+        return item.name > 3;
+    })
+
+    var c = a.reduce(function(prev,next,index,array){
+        var tmp = prev;
+        if(prev instanceof Object){
+            tmp = prev.name;
+        }
+        return tmp + next.name;
+    })
+
+    function rank(arr){
+        var r = arr.map(function(item){
+            return {
+                data:item,
+                ran:Math.random()
+            }
+        })
+        return r.sort(function(a,b){
+            return a.ran - b.ran;
+        }).map(function(item){
+            return item.data;
+        })
+    }
+
+    var arr =  [6, 12, 19, 4];
+    console.log(rank(arr));
+
+</script>
+
