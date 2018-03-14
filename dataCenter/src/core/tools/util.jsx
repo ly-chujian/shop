@@ -1,6 +1,6 @@
 
 /**
- * 工具类,ES6,需要打包转换
+ * 工具类
  * **/
 export default class Util{
     //constructor(a) {
@@ -9,19 +9,19 @@ export default class Util{
 
     //获取对象的属性, 参数为数组，必须保证数组里面对象的属性完整
     static getProperties(arr){
-        var res = [];
+        let res = [];
         if(!arr || arr.length == 0){
             return res;
         }
-        for(var i in arr[0]){
+        for(let i in arr[0]){
             res.push(i);
         }
         return res;
     }
 
     //send ajax
-    static fetchAjax(url,method,data){
-        var _url = url;
+    static doFetch(url,method,data){
+        let _url = url;
         if(typeof url == "function"){
             _url = url();
         }
@@ -30,11 +30,11 @@ export default class Util{
         }else{
             _url = url+ "&ran="+Math.random();
         }
-        var headers = {
+        let headers = {
             'Content-Type': 'application/json'
         };
         method == undefined?method = "get":method = method;
-        var options = {
+        let options = {
             method:method.toUpperCase(),
             credentials:'include',
             headers:headers
@@ -57,8 +57,8 @@ export default class Util{
 
     //根据主键获取当前对象(数组),主键key为__tmpId
     static getArrayByTmpIds(ids,data){
-        var res = [];
-        var tmp = data;
+        let res = [];
+        let tmp = data;
         ids.map(id=>{
             tmp.map(k=>{
                 if(k.__tmpId == id){
@@ -71,7 +71,7 @@ export default class Util{
 
     //获取数组某属性的集合
     static getArrayByField(field,arr){
-        var res = [];
+        let res = [];
         arr.map(item=>{
             if(item[field]){
                 res.push(item[field]);
@@ -93,7 +93,7 @@ export default class Util{
 
     //set cookie
     static setCookie(name,value,expires){
-        var cookieText = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+        let cookieText = encodeURIComponent(name) + "=" + encodeURIComponent(value);
         if(expires instanceof Date){
             cookieText += "; expires=" + expires.toGMTString();
         }
@@ -102,12 +102,12 @@ export default class Util{
 
     //get cookie
     static getCookie(name){
-        var cookie = document.cookie;
-        var cookieName = encodeURIComponent(name) + "=",
+        let cookie = document.cookie;
+        let cookieName = encodeURIComponent(name) + "=",
             cookieStart = cookie.indexOf(cookieName),
             cookieValue = null;
         if(cookieStart > -1){
-            var cookieEnd = cookie.indexOf(';',cookieStart);
+            let cookieEnd = cookie.indexOf(';',cookieStart);
             if(cookieEnd == -1){
                 cookieEnd = cookie.length;
             }
@@ -121,7 +121,7 @@ export default class Util{
     }
 
     static equalsObject(source,target){
-        var p;
+        let p;
         for (p in source) {
             if (typeof (target[p]) == 'undefined') {
                 return false;

@@ -36,7 +36,7 @@ export default class PersonSave extends React.Component{
 
     bindData(){
         var that = this;
-        Util.fetchAjax("/api/person/getPersonById/"+this.props.match.params.id,"get").then(d=>{
+        Util.doFetch("/api/person/getPersonById/"+this.props.match.params.id,"get").then(d=>{
             if(d.rc){
                 that.setState({name: d.data.name,age: d.data.age,address: d.data.address});
             }
@@ -57,7 +57,7 @@ export default class PersonSave extends React.Component{
             params.id = this.props.match.params.id;
             url = "/api/person/edit";
         }
-        Util.fetchAjax(url,"post",params).then(d=>{
+        Util.doFetch(url,"post",params).then(d=>{
             if(d.rc){
                 alert("保存成功!");
                 that.goList();

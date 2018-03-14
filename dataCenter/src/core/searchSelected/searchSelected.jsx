@@ -43,7 +43,7 @@ export default class SearchSelected extends React.Component{
     getData(){
         var that = this;
         var url = this.props.url;
-        Util.fetchAjax(url,"get",null).then(data=>{
+        Util.doFetch(url,"get",null).then(data=>{
             var res = that.props.analysis(data.data);
             res = Util.dealData(res);
             if(res && res.length != 0){

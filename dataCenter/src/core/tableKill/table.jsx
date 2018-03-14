@@ -67,7 +67,7 @@ export default class TK extends React.Component {
 		}
 		var tmpUrl = url + pOptions.indexKey+"="+that.state.options.index+"&"+pOptions.sizeKey+"="+that.state.options.size;
 
-		Util.fetchAjax(tmpUrl,"get",null).then(data=>{
+		Util.doFetch(tmpUrl,"get",null).then(data=>{
 			var res = this.option.analysis(data);
 			if(res.data && res.data instanceof Array && res.length != 0){
 				console.log("ajax 重新render");

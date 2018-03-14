@@ -15,7 +15,7 @@ export default class Auth extends React.Component{
     }
 
     componentWillMount(){
-        Util.fetchAjax("/api/login/check").then(d=>{
+        Util.doFetch("/api/login/check").then(d=>{
             if(d.rc){
                 var _tmpName = d.data.name;
                 Util.setCookie(CookieKeys.SHOPUSERNAME, _tmpName);

@@ -37,7 +37,7 @@ export default class AutoTestDialog extends React.Component{
 
     componentWillReceiveProps(nextProps,nextState){
         if(nextProps.id && nextProps.show){
-            Util.fetchAjax("/api/at/getItems/"+nextProps.id).then(d=>{
+            Util.doFetch("/api/at/getItems/"+nextProps.id).then(d=>{
                 if(d.data.length == 1){
                     this.caseItems = [...d.data[0].data.items];
                     this.observer.setDialogAllStates(d.data[0].data,{show:nextProps.show,id:nextProps.id});
@@ -57,7 +57,7 @@ export default class AutoTestDialog extends React.Component{
         }
         if(this.observer.dialogData.params.show && this.observer.dialogData.params.id){
             performanceTool.setStart();
-            Util.fetchAjax("/api/at/edit/"+this.observer.dialogData.params.id,"post",data).then(d=>{
+            Util.doFetch("/api/at/edit/"+this.observer.dialogData.params.id,"post",data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }
@@ -66,7 +66,7 @@ export default class AutoTestDialog extends React.Component{
             })
         }else{
             performanceTool.setStart();
-            Util.fetchAjax("/api/at/add","post",data).then(d=>{
+            Util.doFetch("/api/at/add","post",data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }

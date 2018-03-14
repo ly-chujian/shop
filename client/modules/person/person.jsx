@@ -83,7 +83,7 @@ export default class Person extends React.Component{
         if(!window.confirm("delete?")){
             return;
         }
-        Util.fetchAjax("/api/person/deletePerson?id="+item._id).then(d=>{
+        Util.doFetch("/api/person/deletePerson?id="+item._id).then(d=>{
             if(d.rc){
                 this.search();
             }

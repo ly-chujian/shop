@@ -97,7 +97,7 @@ export default class AutoTest extends React.Component{
     }
 
     run(item){
-        Util.fetchAjax("/api/at/run?id="+item._id).then(d=>{
+        Util.doFetch("/api/at/run?id="+item._id).then(d=>{
             if(d.rc){
                 alert("成功运行的case:"+ d.data.y.join(','));
             }else{
@@ -107,7 +107,7 @@ export default class AutoTest extends React.Component{
     }
 
     runMultiple(){
-        Util.fetchAjax("/api/at/run?id="+Util.getArrayByField("_id",this.selectedItems).join(',')).then(d=>{
+        Util.doFetch("/api/at/run?id="+Util.getArrayByField("_id",this.selectedItems).join(',')).then(d=>{
             if(d.rc){
                 alert("成功运行的case:"+ d.data.y.join(','));
             }else{

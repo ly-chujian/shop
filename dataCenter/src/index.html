@@ -19,10 +19,10 @@
 </html>
 <script src="./static/js/jquery.min.js"></script>
 <script>
-    var a = [{name:1},{name:2},{name:3},{name:4},{name:5},{name:6}];
+    var a = [{name:1,ck:true},{name:2,ck:true},{name:3},{name:4},{name:5},{name:6}];
 
     var b = a.filter(function(item,index,array){
-        return item.name > 3;
+        return item.ck;
     })
 
     var c = a.reduce(function(prev,next,index,array){

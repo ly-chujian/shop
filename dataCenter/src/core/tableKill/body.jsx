@@ -43,12 +43,12 @@ export default class Body extends React.Component{
             showActions = true;
         }
         if(showck){
-            col.push(<td className="text-center" key={Math.random()} style={{position: 'relative'}}><input data-load="false" checked={row.ck} type="checkbox" onChange={e=>this.checkOne(e,row)} /></td>);
+            col.push(<td className="text-center" key={Math.random()} style={{position: 'relative'}}><input checked={row.ck} type="checkbox" onChange={e=>this.checkOne(e,row)} /></td>);
         }
         if(showActions){
             var tmp = [];
             this.props.actions.map(item=>{
-                tmp.push(<a data-load="false" className="btn btn-default btn-xs" key={Math.random()} onClick={e=>this.getActionsById(item,row)}>{item.val}</a>);
+                tmp.push(<a className="btn btn-default btn-xs" key={Math.random()} onClick={e=>this.getActionsById(item,row)}>{item.val}</a>);
             })
             col.push(<td key={Math.random()}  className="text-center">{tmp}</td>);
         }
@@ -58,13 +58,13 @@ export default class Body extends React.Component{
             //处理boolean类型 ， react不渲染 boolean类型,这里需要转换成字符串
             typeof row[key] == "boolean"?res=row[key].toString():res=row[key];
             if(field.convert && field.action ){
-                col.push(<td className="text-center" key={Math.random()}><a data-load="false" onClick={e=>this.aAction(field,row)}>{field.convert(row[key])}</a></td>);
+                col.push(<td className="text-center" key={Math.random()}><a onClick={e=>this.aAction(field,row)}>{field.convert(row[key])}</a></td>);
             }
             else if(field.convert && !field.action){
                 col.push(<td className="text-center" key={Math.random()}>{field.convert(row)}</td>);
             }
             else if(!field.convert && field.action){
-                col.push(<td className="text-center" key={Math.random()}><a data-load="false" onClick={e=>this.aAction(field,row)}>{res}</a></td>);
+                col.push(<td className="text-center" key={Math.random()}><a onClick={e=>this.aAction(field,row)}>{res}</a></td>);
             }
             else{
                 col.push(<td className="text-center" key={Math.random()}>{res}</td>);

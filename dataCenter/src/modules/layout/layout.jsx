@@ -17,7 +17,7 @@ class Layout extends React.Component{
     }
 
     logOut(){
-        Util.fetchAjax(ModuleRequestUrl.LOGIN.logout,"post",null).then(e=>{
+        Util.doFetch(ModuleRequestUrl.LOGIN.logout,"post",null).then(e=>{
             //防止用户点击返回按钮，依然记录当前userName,所以需要清空
             this.observer.setUser("");
             this.props.history.push({pathname:"/login"});

@@ -8,7 +8,7 @@ export default class Goods extends React.Component{
     }
 
     componentWillMount(){
-        Util.fetchAjax("/api/person/list").then(d=>{
+        Util.doFetch("/api/person/list").then(d=>{
             debugger
         })
     }
