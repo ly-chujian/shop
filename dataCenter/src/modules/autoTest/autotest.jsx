@@ -8,8 +8,6 @@ import AutoTestStore from "../../store/autoTest/store.js";
 
 import { observer } from 'mobx-react';
 
-import Perf from 'react-addons-perf';
-
 const store = new AutoTestStore();
 
 //@inject('autoTestStore')
@@ -64,8 +62,6 @@ export default class AutoTest extends React.Component{
         }
 
         this.searchNameEl = null;
-
-        this._Perf = Perf;
 
         this.oldVal = "";
     }

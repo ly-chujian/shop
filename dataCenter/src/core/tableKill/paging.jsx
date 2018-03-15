@@ -10,11 +10,8 @@ export default class Paging extends React.Component {
         this.next = this.next.bind(this);
     }
 
-    componentWillMount(){
-        console.log("paging componentWillMount");
-    }
-
     shouldComponentUpdate(nextProps,nextState){
+        debugger
         var res = Util.equalsObject(this.props.options,nextProps.options);
         return !res;
         //return true;

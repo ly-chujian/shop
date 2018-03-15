@@ -6,8 +6,6 @@ import { renderRoutes } from 'react-router-config';
 import Util from "../../core/tools/util.jsx";
 import Layout from "../layout/layout.jsx";
 
-import "antd-mobile/dist/antd-mobile.css";
-
 import { observer, inject } from 'mobx-react';
 @inject('loginUserStore')
 @observer

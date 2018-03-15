@@ -5,7 +5,7 @@ import Body from "./body.jsx";
 import Paging from "./paging.jsx";
 import Css from "./__tk.css";
 
-import Perf from 'react-addons-perf';
+// import Perf from 'react-addons-perf';
 
 export default class TK extends React.Component {
 	constructor(props) {
@@ -22,7 +22,7 @@ export default class TK extends React.Component {
 		this.option = this.props.option;
 		this.option.showCk = this.option.showCk ==undefined? false:true;
 
-        this._Perf = Perf;
+        // this._Perf = Perf;
 	}
 
 	shouldComponentUpdate(nextProps,nextState){
@@ -39,11 +39,11 @@ export default class TK extends React.Component {
 
     componentDidUpdate(){
 		/** Pref Performance**/
-        this._Perf.stop();
-        var measurements = this._Perf.getLastMeasurements();
-        this._Perf.printInclusive(measurements);        //打印总时间
+        // this._Perf.stop();
+        // var measurements = this._Perf.getLastMeasurements();
+        // this._Perf.printInclusive(measurements);        //打印总时间
         //Perf.printExclusive(measurements);        //打印独占时间（不包括组件挂载时间）
-        this._Perf.printWasted(measurements);             //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
+        // this._Perf.printWasted(measurements);             //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
         //Perf.printOperations(measurements);       //打印浪费的时间（最有用的函数，例如render 了但是DOM没有变化）
 		/** Pref Performance**/
     }
@@ -82,7 +82,7 @@ export default class TK extends React.Component {
 	}
 
 	search(current){
-        this._Perf.start();
+        // this._Perf.start();
 		if(!current){
 			this.state.options.index = 1;
 		}

@@ -15,12 +15,7 @@ export default class Header extends React.Component{
         this.setState({ck:flag});
     }
 
-    componentWillMount(){
-        console.log("header componentWillMount");
-    }
-
     componentDidMount(){
-        console.log("header componentDidMount");
         var that = this;
         eventCtl.on("__HeaderCkAllOn",flag=>this.setState({ck:flag}));
     }
