@@ -22,13 +22,17 @@ export default class TK extends React.Component {
         //是否需要渲染标识
 		this.needRender = true;
 		//table接收的参数
-		this.pageOption = this.props.options.pageOption;
-		this.analysis = this.props.options.analysis;
-        this.map = this.props.options.map;
-        this.showCk = this.props.options.showCk?true:false;
-        this.scb = this.props.options.scb;
-        this.actions = this.props.options.actions;
-        this.getUrl = this.props.options.getUrl;
+		let option = this.props.options;
+		this.pageOption = option.pageOption;
+		this.analysis = option.analysis;
+        this.showCk = option.showCk?true:false;
+        this.scb = option.scb;
+        this.actions = option.actions;
+        this.getUrl = option.getUrl;
+        this.cols = option.map;
+
+        this.bodyKey = "__body__" + this.tableKey;
+        this.headerKey = "__header__" + this.tableKey;
 	}
 
 	shouldComponentUpdate(nextProps,nextState){
@@ -81,7 +85,39 @@ export default class TK extends React.Component {
         this.needRender = true;
 	}
 
-	render() {
+	getBodyComp(){
+		if(this.state.data.length == 0){
+			return <div>body null</div>
+		}else{
+			return <Body ref={this.bodyKey} actions={this.actions} data={this.state.data} cols={this.cols} ckcb={this.bodyCallback} showCk={this.option.showCk} />;
+		}
+	}
+	getPagingComp(){
+        if(this.state.data.length == 0){
+        	return <div>paging null</div>
+		}else{
+        	return <Paging goNext={this.next} goPrev={this.prev} goIndex={this.goIndex.bind(this)} options={this.pageOption} />
+		}
+	}
+	getHeaderComp(){
+        if(!this.state.cols || this.state.cols instanceof Array == false || this.state.cols.length == 0){
+			return <div>Columns parameter must be Array</div>
+		}else{
+			return <Header ref={this.headerKey} actions={this.actions} cols={this.cols} ckcb={this.headCallback} showCk={this.option.showCk} />;
+		}
+	}
 
+	render() {
+		return (
+            <div className={Css.panel_table + " text-center"}>
+                <div className={Css.overflow_table}>
+                    <table>
+						{this.getHeaderComp()}
+                        {this.getBodyComp()}
+                    </table>
+                </div>
+				{this.getPagingComp()}
+            </div>
+		);
 	}
 }
