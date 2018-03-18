@@ -15,17 +15,17 @@ export default class Auth extends React.Component{
     }
 
     componentWillMount(){
-        Util.doFetch("/api/login/check").then(d=>{
+        Util.ajaxServer.doFetch("/api/login/check").then(d=>{
             if(d.rc){
                 var _tmpName = d.data.name;
-                Util.setCookie(CookieKeys.SHOPUSERNAME, _tmpName);
+                Util.cookie.setCookie(CookieKeys.SHOPUSERNAME, _tmpName);
                 this.observer.setUser(_tmpName);
             }
         })
     }
 
     render(){
-        var name = Util.getCookie(CookieKeys.SHOPUSERNAME);
+        var name = Util.cookie.getCookie(CookieKeys.SHOPUSERNAME);
         if(name){
             // return <ComposedComponent {...this.props} auth={name} />
             return this.props.comp({name:name});

@@ -8,38 +8,37 @@ export default class Header extends React.Component{
 
         this.showCk = this.props.showCk;
         this.actions = this.props.actions;
-        this.hk = this.props.hk;
-        this.bk = this.props.bk;
 
         this.setAll = this.setAll.bind(this);
         this.reSetCols = this.reSetCols.bind(this);
 
-        this.state = {ck:false,cols:this.props.cols};
+        this.ck = this.props.ck;
+
+        this.allKey = Math.random();
+        
+        this.state = {cols:this.props.cols,ck:this.props.ck}
+
+        this.originCols = this.props.originCols
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        let blCk = this.state.ck == nextState.ck;
-        let blCol = Util.equalsObject(this.state.cols,nextProps.cols);
-        return !(blCk&&blCol);
+        let ckCok = this.state.ck == nextProps.ck;
+        let blCol = Util.object.equalsObject(this.state.cols,nextProps.cols);
+        return !(blCol&&ckCok);
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState({cols:nextProps.cols});
+        this.setState({cols:nextProps.cols,ck:nextProps.ck});
     }
 
-    componentDidMount(){
-        
-    }
-
-    reSetCols(){
-        let cols = Util.cloneObj(this.state.cols);
-        cols.length=2
-        this.props.resetColsCb(cols);
+    reSetCols(index){
+        let cols = Util.object.cloneObj(this.originCols);
+        cols.length=index;
+        this.props.noticeChangeCols(cols);
     }
 
     setAll(){
-        this.setState({ck:!this.state.ck});
-        eventCtl.broadcast(this.bk, this.state.ck);
+        this.props.accpetHBNotice({ck:!this.state.ck},null);
     }
 
     getHeaderHTML(){
@@ -47,8 +46,8 @@ export default class Header extends React.Component{
         if(this.showCk){
             html.push(<th className="text-center" key={Math.random()}><input checked={this.state.ck} type="checkbox" onChange={this.setAll} /></th>);
         }
-        if(this.actions){
-            html.push(<th className="text-center" key={Math.random()}>操作<input type="button" value="2列" onClick={this.reSetCols} /></th>);
+        if(this.actions && this.actions.length != 0){
+            html.push(<th className="text-center" key={Math.random()}>操作<input type="button" value="4列" onClick={e=>this.reSetCols(4)} /><input type="button" value="2列" onClick={e=>this.reSetCols(2)} /></th>);
         }
         this.state.cols.map(item=>{
             html.push(<th key={Math.random()}>{item.val}</th>);
@@ -57,7 +56,6 @@ export default class Header extends React.Component{
     }
 
     render() {
-        console.log(this.state.cols,111);
         return (
             <thead>
                 <tr>

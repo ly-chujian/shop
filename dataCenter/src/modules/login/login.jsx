@@ -21,10 +21,10 @@ export default class LoginTmp extends React.Component{
 
         if(name != "" && pwd != ""){
             performanceTool.setStart();
-            Util.doFetch(ModuleRequestUrl.LOGIN.login,"post",{name:name,pwd:pwd}).then(d=>{
+            Util.ajaxServer.doFetch(ModuleRequestUrl.LOGIN.login,"post",{name:name,pwd:pwd}).then(d=>{
                 if(d.rc){
                     performanceTool.compare("LOGIN");
-                    Util.setCookie(CookieKeys.SHOPUSERNAME,name);
+                    Util.cookie.setCookie(CookieKeys.SHOPUSERNAME,name);
                     this.observer.setUser(name);
                     this.props.history.push({pathname:"/"});
                 }else{

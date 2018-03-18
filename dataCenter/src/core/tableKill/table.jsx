@@ -71,7 +71,7 @@ export default class TK extends React.Component {
 			var res = this.option.analysis(data);
 			if(res.data && res.data instanceof Array && res.length != 0){
 				console.log("ajax 重新render");
-				var arr = Util.addPrimaryAndCk(res.data);
+				var arr = Util.arrayServer.addPrimaryAndCk(res.data);
 				if(arr && arr.length != 0){
 					this.setState({arr:Util.cloneObj(arr),options:{index:this.state.options.index,size:this.state.options.size,total:res.total,count:res.count}});
 				}

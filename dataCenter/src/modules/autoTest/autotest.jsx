@@ -144,9 +144,9 @@ export default class AutoTest extends React.Component{
                 <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
                 name:<input type="text" defaultValue={this.observer.name} ref={el=>this.searchNameEl = el} />
                 <input type="button" value="Search" onClick={e=>this.search()} />
-                <TK ref="tableKill" option ={this.tableOptions}></TK>
+                {/* <TK ref="tableKill" option ={this.tableOptions}></TK>
 
-                <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} />
+                <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} /> */}
             </div>
         );
     }
