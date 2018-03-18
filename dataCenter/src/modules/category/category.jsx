@@ -9,7 +9,7 @@ export default class Goods extends React.Component{
 
     componentWillMount(){
         Util.doFetch("/api/person/list").then(d=>{
-            debugger
+            
         })
     }
 

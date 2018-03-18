@@ -9,7 +9,6 @@ export default class Others extends React.Component{
     }
 
     info(){
-        debugger
         var s = 1;
         this.props.history.push({pathname:"/others/"+s,params:{id:1}});
     }

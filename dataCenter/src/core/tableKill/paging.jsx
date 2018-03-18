@@ -11,7 +11,6 @@ export default class Paging extends React.Component {
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        debugger
         var res = Util.equalsObject(this.props.options,nextProps.options);
         return !res;
         //return true;
