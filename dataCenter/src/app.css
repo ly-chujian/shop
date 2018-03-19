@@ -1,9 +1,1 @@
-
-body{
-    padding:0;
-    margin: 0;
-}
-
-div{
-    border: 1px solid red;
-}
+.modal-body{max-height: 300px;}

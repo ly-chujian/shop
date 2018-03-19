@@ -57,7 +57,7 @@ export default class AutoTestDialog extends React.Component{
         }
         if(this.observer.dialogData.params.show && this.observer.dialogData.params.id){
             performanceTool.setStart();
-            Util.doFetch("/api/at/edit/"+this.observer.dialogData.params.id,"post",data).then(d=>{
+            Util.ajaxServer.doFetch("/api/at/edit/"+this.observer.dialogData.params.id,"post",data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }
@@ -66,7 +66,7 @@ export default class AutoTestDialog extends React.Component{
             })
         }else{
             performanceTool.setStart();
-            Util.doFetch("/api/at/add","post",data).then(d=>{
+            Util.ajaxServer.doFetch("/api/at/add","post",data).then(d=>{
                 if(!d.rc){
                     alert(d.data);
                 }

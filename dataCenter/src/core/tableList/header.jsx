@@ -16,7 +16,7 @@ export default class Header extends React.Component{
 
         this.allKey = Math.random();
         
-        this.state = {cols:this.props.cols,ck:this.props.ck}
+        this.state = {cols:this.props.cols,ck:this.props.ck,radioVal:''}
 
         this.originCols = this.props.originCols
     }
@@ -41,13 +41,45 @@ export default class Header extends React.Component{
         this.props.accpetHBNotice({ck:!this.state.ck},null);
     }
 
+   
+
+    colsLen(){
+        let html = [];
+        let cols = Util.object.cloneObj(this.originCols);
+        
+        cols.map((item,index)=>{
+            html.push(<p key={Math.random()}><input type="radio" name='radio' value={index+1} onChange={e=>this.changeRadio(e)}/><span>{index+1}列</span></p>)
+        })
+        return html;
+    }
+
+    changeRadio(e){
+        this.setState({
+            radioVal: e.target.value
+        });
+    }
+
+    colsSave(){
+        this.reSetCols(this.state.radioVal)
+    }
+
     getHeaderHTML(){
         let html = [];
+    
         if(this.showCk){
             html.push(<th className="text-center" key={Math.random()}><input checked={this.state.ck} type="checkbox" onChange={this.setAll} /></th>);
         }
         if(this.actions && this.actions.length != 0){
-            html.push(<th className="text-center" key={Math.random()}>操作<input type="button" value="4列" onClick={e=>this.reSetCols(4)} /><input type="button" value="2列" onClick={e=>this.reSetCols(2)} /></th>);
+            html.push(<th className="text-center" key={Math.random()} className='thCols'>操作
+            <div className='colsModal'>
+                {this.colsLen()}
+                <div className="bot">
+                    <button className='btn'>取消</button>
+                    <button className='btn' onClick={e=>this.colsSave()}>确定</button>
+                </div>
+            </div>
+            <input type="button" value="4列" onClick={e=>this.reSetCols(4)} /><input type="button" value="2列" onClick={e=>this.reSetCols(2)} />
+            </th>);
         }
         this.state.cols.map(item=>{
             html.push(<th key={Math.random()}>{item.val}</th>);

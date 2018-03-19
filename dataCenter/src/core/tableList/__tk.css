@@ -32,3 +32,10 @@
 .panel_table tbody td a{white-space:nowrap; margin: 0 3px; display: inline-block;}
 .panel_table tbody td a:hover{color: #0d96ba;}
 .overflow_table{overflow-x:auto;}
+
+
+.colsModal{border:1px solid #ddd;padding:10px;border-radius: 3px;position: absolute;left:30px;top:0;background: #fff;}
+.colsModal p {text-align: left;}
+.colsModal p input{float: left;margin-left: 15px;margin-right: 15px;}
+.thCols {position: relative;}
+.colsModal .bot button{width: 50px;line-height: 15px;margin: 0;}
