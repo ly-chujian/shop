@@ -18,8 +18,8 @@ export default class TableList extends React.Component {
 			cols:this.props.options.map,
 			ck:false,
 			pageOption:{
-				index:this.props.options.pageOption.index,
-				size:this.props.options.pageOption.size,
+				index:this.props.options.pageOption.index?this.props.options.pageOption.index:1,
+				size:this.props.options.pageOption.size?this.props.options.pageOption.size:10,
 				count:0,
 				total:0
 			}
@@ -53,19 +53,20 @@ export default class TableList extends React.Component {
 	    if( url === ""){
 	        return;
         }
-        let suffix = url.indexOf('?') === -1?"?":"&";
-	    url += suffix + this.option.pageOption.indexKey + "=" + index + "&"+ this.option.pageOption.sizeKey + "=" + this.state.pageOption.size;
+		let suffix = url.indexOf('?') === -1?"?":"&";
+		let size = this.state.pageOption.size;
+	    url += suffix + this.option.pageOption.indexKey + "=" + index + "&"+ this.option.pageOption.sizeKey + "=" + size;
 	    Util.ajaxServer.doFetch(url,"get",null).then(data=>{
             let res = this.analysis(data);
             if(res.data && res.data instanceof Array && res.data.length != 0){
 				let arr = Util.arrayServer.addPrimaryAndCk(res.data);
 				let total = -1;
-				if(parseInt(res.count)%this.state.pageOption.size == 0){
-					total = parseInt(res.count)/this.state.pageOption.size;
+				if(parseInt(res.count)%size == 0){
+					total = parseInt(res.count)/size;
 				}else{
-					total = parseInt(parseInt(res.count)/this.state.pageOption.size) + 1;
+					total = parseInt(parseInt(res.count)/size) + 1;
 				}
-                this.setState({data:arr,pageOption:{index:index,count:arr.length,total:total,size:this.state.pageOption.size}});
+                this.setState({data:arr,pageOption:{index:index,count:arr.length,total:total,size:size}});
             }else{
                 console.log("检查analysis, getUrl, pageOption参数!");
             }
@@ -105,20 +106,21 @@ export default class TableList extends React.Component {
 		if(this.state.pageOption.index >= this.state.pageOption.count){
 			return;
 		}
-		this.state.pageOption.index++;
-		this.getData(this.state.pageOption.index);
+		let index = this.state.pageOption.index;
+		index++;
+		this.getData(index);
 	}
 	prev(){
 		if(this.state.pageOption.index <=1){
 			return;
 		}
-		this.state.pageOption.index--;
-		this.getData(this.state.pageOption.index);
+		let index = this.state.pageOption.index;
+		index--;
+		this.getData(index);
 	}
 	goToIndex(index){
 		this.getData(index);
 	}
-
 
 	//加入判断,获取body组件
 	getBodyComp(){

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Util from "../../core/tools/util.jsx";
-import TK from "../../core/tableKill/table.jsx";
+import TK from "../../core/tableList/table.jsx";
 import AutoTestDialog from "./dialog.jsx";
 
 import AutoTestStore from "../../store/autoTest/store.js";
@@ -33,13 +33,10 @@ export default class AutoTest extends React.Component{
                 {key:"run",val:"Run",action:this.run}
             ],
             showCk:true,
-            scb:(items)=>{
-                this.selectedItems = items;
-            },
             map:[
                 {key:"describe",val:"测试用例描述"},
                 {key:"operator",val:"操作人"},
-                {key:"runTime",val:"操作时间",convert:this.cTime},
+                {key:"runTime",val:"操作时间",type:"date"},
                 {key:"before",val:"用例个数",convert:this.cCount}
             ],
             getUrl:()=>{
@@ -53,8 +50,7 @@ export default class AutoTest extends React.Component{
             analysis:(data)=>{
                 return {
                     data:data.data.data,
-                    count:data.data.count,
-                    total:data.data.total
+                    count:data.data.count
                 };
             },
             //是否重新渲染table
@@ -66,24 +62,8 @@ export default class AutoTest extends React.Component{
         this.oldVal = "";
     }
 
-    componentDidMount(){
-
-    }
-    componentWillMount(){
-
-    }
-
-    componentWillUnmount(){
-
-    }
-
     cCount(item){
         return item.items.length;
-    }
-
-    cTime(item){
-        var time = new Date(item.runTime);
-        return time.toLocaleDateString() + " " + time.toLocaleTimeString();
     }
 
     edit(item){
@@ -144,9 +124,9 @@ export default class AutoTest extends React.Component{
                 <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
                 name:<input type="text" defaultValue={this.observer.name} ref={el=>this.searchNameEl = el} />
                 <input type="button" value="Search" onClick={e=>this.search()} />
-                {/* <TK ref="tableKill" option ={this.tableOptions}></TK>
+                <TK ref="tableKill" options ={this.tableOptions}></TK>
 
-                <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} /> */}
+                <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} />
             </div>
         );
     }

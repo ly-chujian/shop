@@ -7,15 +7,6 @@ export default class Paging extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            options:{
-                index:this.props.options.index,
-                total:this.props.options.total,
-                count:this.props.options.count,
-                size:this.props.options.size
-            }
-        }
-
         this.goIndex = this.goIndex.bind(this);
         this.pprev = this.pprev.bind(this);
         this.pnext = this.pnext.bind(this);
@@ -23,9 +14,8 @@ export default class Paging extends React.Component {
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        // debugger
-        // let res = Util.object.equalsObject(this.state.options,nextProps.options);
-        // return !res;
+        let res = Util.object.equalsObject(this.props.options,nextProps.options);
+        return !res;
         return true;
     }
 
@@ -45,10 +35,10 @@ export default class Paging extends React.Component {
     }
 
     render() {
-        console.log("paging render");
-        let index = this.state.options.index;
-        let count = this.state.options.count;
-        let total = this.state.options.total;
+		console.log("%c render paging","color:green");
+        let index = this.props.options.index;
+        let count = this.props.options.count;
+        let total = this.props.options.total;
         return (
             <div className={TKCls.paging + " text-right"}>
                 <span>共<em>{count}</em>条</span>

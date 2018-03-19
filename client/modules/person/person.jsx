@@ -1,6 +1,6 @@
 
 import Util from "../../core/tools/util.jsx";
-import TK from "../../core/tableKill/table.jsx";
+import TK from "../../core/tableList/table.jsx";
 import React from "react";
 
 export default class Person extends React.Component{
@@ -41,8 +41,7 @@ export default class Person extends React.Component{
                     total:data.data.total
                 };
                 return tmp;
-            },
-            isReRender:true
+            }
         }
     }
 

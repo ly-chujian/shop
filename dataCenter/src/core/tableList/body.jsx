@@ -104,6 +104,7 @@ export default class Body extends React.Component{
     }
 
     render() {
+        console.log("render body");
         return (
             <tbody>
                 {this.getBodyHTML()}
