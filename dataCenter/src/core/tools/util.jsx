@@ -119,7 +119,7 @@ let Util = {
         addPrimaryAndCk(data,ck){
             data.map(item=>{
                 if(ck){
-                    item.ck = false;
+                    item.ck = ck;
                 }
                 item.__tmpId = Math.ceil(Math.random()*10000000000000000);
             });

@@ -16,9 +16,12 @@ export default class Header extends React.Component{
 
         this.allKey = Math.random();
         
-        this.state = {cols:this.props.cols,ck:this.props.ck,radioVal:''}
+        this.checkedItems = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
 
-        this.originCols = this.props.originCols
+        this.state = {cols:this.props.cols,ck:this.props.ck};
+
+        this.originCols = this.props.originCols;
+        this.itemCheckChange = this.itemCheckChange.bind(this);
     }
 
     shouldComponentUpdate(nextProps,nextState){
@@ -31,36 +34,26 @@ export default class Header extends React.Component{
         this.setState({cols:nextProps.cols,ck:nextProps.ck});
     }
 
-    reSetCols(index){
-        let cols = Util.object.cloneObj(this.originCols);
-        cols.length=index;
-        this.props.noticeChangeCols(cols);
-    }
-
     setAll(){
         this.props.accpetHBNotice({ck:!this.state.ck},null);
     }
 
-   
-
     colsLen(){
         let html = [];
-        let cols = Util.object.cloneObj(this.originCols);
-        
-        cols.map((item,index)=>{
-            html.push(<p key={Math.random()}><input type="radio" name='radio' value={index+1} onChange={e=>this.changeRadio(e)}/><span>{index+1}列</span></p>)
+        this.checkedItems.map((item,index)=>{
+            html.push(<p key={Math.random()}><input type="checkbox" defaultChecked={item.ck} onClick={e=>{this.itemCheckChange(item,e)}}/><span>{item.val}</span></p>)
         })
         return html;
     }
 
-    changeRadio(e){
-        this.setState({
-            radioVal: e.target.value
-        });
+    itemCheckChange(item,e){
+        item.ck = !item.ck;
+        e.target.checked = item.ck;
     }
 
-    colsSave(){
-        this.reSetCols(this.state.radioVal)
+    reSetCols(){
+        let cols = Util.arrayServer.getCheckedItems(this.checkedItems).items;
+        this.props.noticeChangeCols(cols);
     }
 
     getHeaderHTML(){
@@ -75,10 +68,9 @@ export default class Header extends React.Component{
                 {this.colsLen()}
                 <div className="bot">
                     <button className='btn'>取消</button>
-                    <button className='btn' onClick={e=>this.colsSave()}>确定</button>
+                    <button className='btn' onClick={this.reSetCols}>确定</button>
                 </div>
             </div>
-            <input type="button" value="4列" onClick={e=>this.reSetCols(4)} /><input type="button" value="2列" onClick={e=>this.reSetCols(2)} />
             </th>);
         }
         this.state.cols.map(item=>{
