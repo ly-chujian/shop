@@ -104,7 +104,7 @@ export default class Body extends React.Component{
     }
 
     render() {
-        console.log("render body");
+        console.log("%crender body","color:blue");
         return (
             <tbody>
                 {this.getBodyHTML()}

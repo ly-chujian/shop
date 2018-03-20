@@ -65,7 +65,7 @@ export default class Order extends React.Component{
     }
     change(){
         let s = this.refs['tk'].getCheckedItems();
-        conole.log("selected items is " + s);
+        console.log("selected items is " + s);
     }
 
     render(){

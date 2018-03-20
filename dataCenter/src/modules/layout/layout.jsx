@@ -17,11 +17,11 @@ class Layout extends React.Component{
     }
 
     logOut(){
-        Util.doFetch(ModuleRequestUrl.LOGIN.logout,"post",null).then(e=>{
+        Util.ajaxServer.doFetch(ModuleRequestUrl.LOGIN.logout,"post",null).then(e=>{
             //防止用户点击返回按钮，依然记录当前userName,所以需要清空
             this.observer.setUser("");
             this.props.history.push({pathname:"/login"});
-            Util.removeCookie(CookieKeys.SHOPUSERNAME);
+            Util.cookie.removeCookie(CookieKeys.SHOPUSERNAME);
         });
     }
 
