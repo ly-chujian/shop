@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Util from "../../core/tools/util.jsx";
 
 export default class Goods extends React.Component{
@@ -15,7 +14,7 @@ export default class Goods extends React.Component{
 
     render(){
         return (
-            <div>goods</div>
+            <div>aaa</div>
         );
     }
 }
