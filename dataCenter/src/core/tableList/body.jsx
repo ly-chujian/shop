@@ -12,19 +12,23 @@ export default class Body extends React.Component{
 
         this.selectRow = this.selectRow.bind(this);
 
-        this.state = {data:this.props.data,cols:this.props.cols};
+        // this.state = {data:this.props.data,cols:this.props.cols};
+        this.data = this.props.data;
+        this.cols = this.props.cols;
+        //记录上次data的ck状态，因为item.ck为引用类型,一旦发送变动，应该和上一次的data进行比较而决定是否进行渲染
+        this.oldData = Util.object.cloneObj(this.props.data);
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        // debugger
-        // let blData = Util.object.equalsObject(this.state.data,nextProps.data);
-        // let blCols = Util.object.equalsObject(this.state.cols,nextProps.cols);
-        // return !(blData&&blCols);
-        return true;
+        let blData = Util.object.equalsObject(this.oldData,nextProps.data);
+        let blCols = Util.object.equalsObject(this.cols,nextProps.cols);
+        return !(blData&&blCols);
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState({data:nextProps.data,cols:nextProps.cols});
+        // this.data = nextProps.data;
+        // this.cols = nextProps.cols;
+        // this.setState({data:nextProps.data,cols:nextProps.cols});
     }
 
     getCeilHTML(row){
@@ -33,14 +37,14 @@ export default class Body extends React.Component{
             col.push(<td key={Math.random()} className="text-center"><input defaultChecked={row.ck} type="checkbox" /></td>);
         }
         if(this.actions && this.actions.length != 0){
-            var tmp = [];
+            let tmp = [];
             this.actions.map(item=>{
                 tmp.push(<a className="btn btn-default btn-xs" key={Math.random()} onClick={e=>item.action(row)}>{item.val}</a>);
             })
             col.push(<td key={Math.random()} className="text-center">{tmp}</td>);
         }
 
-        this.state.cols.map(item=>{
+        this.cols.map(item=>{
             let key = item.key;
             let val = "";
             if(typeof row[key] == "boolean"){
@@ -92,18 +96,21 @@ export default class Body extends React.Component{
 
     selectRow(e,row){
         row.ck = !row.ck;
-        this.props.accpetHBNotice(null,{data:this.state.data});
+        this.props.accpetHBNotice(null,{data:this.data});
     }
 
     getBodyHTML(){
         let html = [];
-        this.state.data.map(row=>{
+        this.data.map(row=>{
             html.push(<tr key={Math.random()} onClick={e=>this.selectRow(e,row)}>{this.getCeilHTML(row)}</tr>);
         })
         return html;
     }
 
     render() {
+        this.data = this.props.data;
+        this.cols = this.props.cols;
+        this.oldData = Util.object.cloneObj(this.props.data);
         console.log("%crender body","color:blue");
         return (
             <tbody>

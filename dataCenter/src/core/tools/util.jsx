@@ -118,8 +118,14 @@ let Util = {
     arrayServer:{
         addPrimaryAndCk(data,ck){
             data.map(item=>{
-                if(ck){
-                    item.ck = ck;
+                if(ck!=undefined){
+                    if(!ck){
+                        item.ck = false;
+                    }else{
+                        item.ck = true;
+                    }
+                }else{
+                    item.ck = false;
                 }
                 item.__tmpId = Math.ceil(Math.random()*10000000000000000);
             });

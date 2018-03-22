@@ -82,6 +82,10 @@ export default class TableList extends React.Component {
 		return [];
 	}
 
+	getParams(){
+		return {index:this.state.pageOption.index,data:this.state.data};
+	}
+
 	//重新set head map, 数据不重新请求
 	noticeChangeCols(map){
 		this.setState({cols:map});

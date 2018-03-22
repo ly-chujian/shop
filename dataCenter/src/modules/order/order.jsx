@@ -12,6 +12,7 @@ export default class Order extends React.Component{
         this.edit = this.edit.bind(this);
         this.run = this.run.bind(this);
         this.change = this.change.bind(this);
+        this.search = this.search.bind(this);
 
         this.tableOptions = {
             actions :[
@@ -67,11 +68,16 @@ export default class Order extends React.Component{
         let s = this.refs['tk'].getCheckedItems();
         console.log("selected items is " + s);
     }
+    search(){
+        let tk = this.refs['tk'];
+        tk.getData(tk.getParams().index);
+    }
 
     render(){
         return (
             <div>
                 <input type="button" onClick={this.change} value="get" />
+                <input type="button" onClick={this.search} value="search" />
                 <TableList ref='tk' options={this.tableOptions} />
             </div>
         );

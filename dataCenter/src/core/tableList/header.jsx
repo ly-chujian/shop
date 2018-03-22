@@ -18,24 +18,28 @@ export default class Header extends React.Component{
         
         this.checkedItems = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
 
-        this.state = {cols:this.props.cols,ck:this.props.ck};
+        // this.state = {cols:this.props.cols,ck:this.props.ck};
 
         this.originCols = this.props.originCols;
         this.itemCheckChange = this.itemCheckChange.bind(this);
+
+        this.cols = this.props.cols;
+        this.ck = this.props.ck;
     }
 
     shouldComponentUpdate(nextProps,nextState){
-        let ckCok = this.state.ck == nextProps.ck;
-        let blCol = Util.object.equalsObject(this.state.cols,nextProps.cols);
+        let ckCok = this.ck == nextProps.ck;
+        let blCol = Util.object.equalsObject(this.cols,nextProps.cols);
         return !(blCol&&ckCok);
     }
 
     componentWillReceiveProps(nextProps){
-        this.setState({cols:nextProps.cols,ck:nextProps.ck});
+        // debugger
+        // this.setState({cols:nextProps.cols,ck:nextProps.ck});
     }
 
     setAll(){
-        this.props.accpetHBNotice({ck:!this.state.ck},null);
+        this.props.accpetHBNotice({ck:!this.ck},null);
     }
 
     colsLen(){
@@ -60,7 +64,7 @@ export default class Header extends React.Component{
         let html = [];
     
         if(this.showCk){
-            html.push(<th className="text-center" key={Math.random()}><input checked={this.state.ck} type="checkbox" onChange={this.setAll} /></th>);
+            html.push(<th className="text-center" key={Math.random()}><input checked={this.ck} type="checkbox" onChange={this.setAll} /></th>);
         }
         if(this.actions && this.actions.length != 0){
             html.push(<th className="text-center" key={Math.random()} className='thCols'>操作
@@ -73,13 +77,16 @@ export default class Header extends React.Component{
             </div>
             </th>);
         }
-        this.state.cols.map(item=>{
+        this.cols.map(item=>{
             html.push(<th key={Math.random()}>{item.val}</th>);
         })
         return html;
     }
 
     render() {
+        //重新获取最新的cols，而是去componentWillReceiveProps生命周期内部获取最新的
+        this.cols = this.props.cols;
+        this.ck = this.props.ck;
         console.log("%crender header","color:red");
         return (
             <thead>
