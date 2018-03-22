@@ -4,7 +4,7 @@ import Util from "../../core/tools/util.jsx";
 import TK from "../../core/tableList/table.jsx";
 import AutoTestDialog from "./dialog.jsx";
 
-import AutoTestStore from "../../store/autoTest/store.js";
+import AutoTestStore from "../../store/autoTest/store.jsx";
 
 import { observer } from 'mobx-react';
 

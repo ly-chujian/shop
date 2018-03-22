@@ -1,17 +1,21 @@
 {
-  "name": "react",
+  "name": "react001",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "dev": "webpack-dev-server --open",
     "build": "webpack --progress --env.Generative=true"
   },
   "license": "ISC",
   "dependencies": {
+    "@types/react": "^16.0.40",
+    "ajv": "^6.3.0",
     "antd": "^2.1.6",
     "element-react": "^1.4.10",
     "element-theme-default": "^1.4.13",
+    "file-loader": "^1.1.11",
+    "jquery": "^3.3.1",
     "mobx": "^3.5.1",
     "mobx-react": "^4.4.2",
     "react": "^16.2.0",
@@ -20,6 +24,7 @@
     "react-router-config": "^1.0.0-beta.4",
     "react-router-dom": "^4.2.2",
     "rxjs": "^5.5.6",
+    "ts-loader": "^4.1.0",
     "typings": "^2.1.1"
   },
   "devDependencies": {

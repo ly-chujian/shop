@@ -60,5 +60,3 @@ export default class AutoTestStore {
         this.showDialog = flag;
     }
 }
-
-//export const AutoTestStore = new ObservableStore();

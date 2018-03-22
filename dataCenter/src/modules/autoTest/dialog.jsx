@@ -3,7 +3,7 @@ import Util from "../../core/tools/util.jsx";
 import Css from "./autotest.css";
 import { observer } from 'mobx-react';
 
-import AutoTestStore from "../../store/autoTest/store.js";
+import AutoTestStore from "../../store/autoTest/store.jsx";
 
 const store = new AutoTestStore();
 

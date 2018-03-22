@@ -96,14 +96,16 @@ module.exports = (evn = {}) => {
         // 开发环境 生成 map 文件  
         devtool: evn.Generative ? 'nosources-source-map' : 'source-map',
         resolve: {
-            extensions: [".jsx", ".js", ".json"]
+            extensions: [".jsx",".ts", ".js", ".json"]
         },
         module: {
-            rules: [{
+            rules: [
+                {
                     test: /\.jsx?$/,
                     include: path.resolve(__dirname, "src"),
                     loader: 'awesome-typescript-loader',
-                }, {
+                },
+                {
                     test: /\.css$/,
                     include: path.resolve(__dirname, "src"),
                     use: styleCss.extract({

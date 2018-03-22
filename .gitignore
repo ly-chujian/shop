@@ -8,3 +8,4 @@ tmp
 .idea/*
 .project
 dist/*
+package-lock.json
