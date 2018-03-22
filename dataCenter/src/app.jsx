@@ -10,7 +10,7 @@ import { Provider } from 'mobx-react';
 import './app.css';
 
 //import { AutoTestStore } from "./store/autoTest/store";
-import { LoginUserStore } from "./store/loginUser/store";
+import { LoginUserStore } from "./store/loginUser/store.jsx";
 
 ReactDom.render(
 

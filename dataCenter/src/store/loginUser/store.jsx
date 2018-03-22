@@ -2,7 +2,7 @@
  * Created by wupeng5 on 2017/11/1.
  */
 
-import { observable, action } from "mobx";
+import {observable, action} from "mobx";
 
 class ObservableStore {
     @observable name = "";
@@ -14,6 +14,7 @@ class ObservableStore {
     }
 
     @action getUserName(){
+        debugger
         return this.name;
     }
 }
