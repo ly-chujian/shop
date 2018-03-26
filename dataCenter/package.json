@@ -12,6 +12,7 @@
     "@types/react": "^16.0.40",
     "ajv": "^6.3.0",
     "antd": "^2.1.6",
+    "bootstrap": "^4.0.0",
     "element-react": "^1.4.10",
     "element-theme-default": "^1.4.13",
     "file-loader": "^1.1.11",

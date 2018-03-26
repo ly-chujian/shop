@@ -8,6 +8,7 @@ import ReactDom from 'react-dom';
 import RouterConfig from "./route/router.jsx";
 import { Provider } from 'mobx-react';
 import './app.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 //import { AutoTestStore } from "./store/autoTest/store";
 import { LoginUserStore } from "./store/loginUser/store.jsx";

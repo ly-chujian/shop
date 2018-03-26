@@ -65,11 +65,11 @@ export default class Header extends React.Component{
         }
         if(this.actions && this.actions.length != 0){
             html.push(<th className="text-center" key={Math.random()} className='thCols'>操作
-            <div className='colsModal'>
+            <div className='colsModal' style={{display:'none'}}>
                 {this.colsLen()}
                 <div className="bot">
-                    <button ref={this.colsBtnCalcelKey} className='btn'>取消</button>
-                    <button ref={this.colsBtnSaveKey} className='btn' onClick={e=>this.reSetCols()}>确定</button>
+                    <button ref={this.colsBtnCalcelKey} className='btn btn-sm btn-default'>取消</button>
+                    <button ref={this.colsBtnSaveKey} className='btn btn-sm btn-info' onClick={e=>this.reSetCols()}>确定</button>
                 </div>
             </div>
             </th>);
@@ -86,7 +86,7 @@ export default class Header extends React.Component{
         this.ck = this.props.ck;
         console.log("%crender header","color:red");
         return (
-            <thead>
+            <thead  className="thead-dark">
                 <tr>
                     {this.getHeaderHTML()}
                 </tr>

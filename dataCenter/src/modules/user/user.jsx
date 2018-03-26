@@ -69,23 +69,20 @@ export class User extends React.Component{
             maxHeight={200}
             data={this.state.data}
           />
-          <table className='el-table__header'>
-              <thead>
-                  <tr>
-                      <th className='el-table_1_column_1 is-leaf'>11</th>
-                      <th className='el-table_1_column_1 is-leaf'>11</th>
-                  </tr>
-                  
-              </thead>
-              <tbody className='el-table__body'>
-                  <tr  className='el-table__row'>
-                      <td className='table_1_column_1'>111</td>
-                      <td className='table_1_column_1'> 22</td>
-                      <td className='table_1_column_1'>333</td>
-                  </tr>
-              </tbody>
-          </table>
 
+           <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>内容</th>
+                        <th>时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
           </div>
         );
     }
