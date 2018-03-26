@@ -70,7 +70,7 @@ export default class Order extends React.Component{
     }
     search(){
         let tk = this.refs['tk'];
-        tk.getData(tk.getParams().index);
+        tk.search();
     }
 
     render(){

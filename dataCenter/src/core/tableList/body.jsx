@@ -15,7 +15,7 @@ export default class Body extends React.Component{
         // this.state = {data:this.props.data,cols:this.props.cols};
         this.data = this.props.data;
         this.cols = this.props.cols;
-        //记录上次data的ck状态，因为item.ck为引用类型,一旦发送变动，应该和上一次的data进行比较而决定是否进行渲染
+        //记录上次data的ck状态，因为item为引用类型,一旦发生变动，应该和上一次的data进行比较而决定是否进行渲染
         this.oldData = Util.object.cloneObj(this.props.data);
     }
 

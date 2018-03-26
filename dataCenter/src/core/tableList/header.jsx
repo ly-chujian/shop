@@ -10,13 +10,10 @@ export default class Header extends React.Component{
         this.actions = this.props.actions;
 
         this.setAll = this.setAll.bind(this);
-        this.reSetCols = this.reSetCols.bind(this);
 
         this.ck = this.props.ck;
-
-        this.allKey = Math.random();
         
-        this.checkedItems = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
+        this.defaultCols = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
 
         // this.state = {cols:this.props.cols,ck:this.props.ck};
 
@@ -44,7 +41,7 @@ export default class Header extends React.Component{
 
     colsLen(){
         let html = [];
-        this.checkedItems.map((item,index)=>{
+        this.defaultCols.map((item,index)=>{
             html.push(<p key={Math.random()}><input type="checkbox" defaultChecked={item.ck} onClick={e=>{this.itemCheckChange(item,e)}}/><span>{item.val}</span></p>)
         })
         return html;
@@ -56,7 +53,7 @@ export default class Header extends React.Component{
     }
 
     reSetCols(){
-        let cols = Util.arrayServer.getCheckedItems(this.checkedItems).items;
+        let cols = Util.arrayServer.getCheckedItems(this.defaultCols).items;
         this.props.noticeChangeCols(cols);
     }
 
@@ -71,8 +68,8 @@ export default class Header extends React.Component{
             <div className='colsModal'>
                 {this.colsLen()}
                 <div className="bot">
-                    <button className='btn'>取消</button>
-                    <button className='btn' onClick={this.reSetCols}>确定</button>
+                    <button ref={this.colsBtnCalcelKey} className='btn'>取消</button>
+                    <button ref={this.colsBtnSaveKey} className='btn' onClick={e=>this.reSetCols()}>确定</button>
                 </div>
             </div>
             </th>);
@@ -84,7 +81,7 @@ export default class Header extends React.Component{
     }
 
     render() {
-        //重新获取最新的cols，而是去componentWillReceiveProps生命周期内部获取最新的
+        //重新获取最新的cols，而不是去componentWillReceiveProps生命周期内部获取最新的
         this.cols = this.props.cols;
         this.ck = this.props.ck;
         console.log("%crender header","color:red");
@@ -95,5 +92,10 @@ export default class Header extends React.Component{
                 </tr>
             </thead>
         );
+    }
+
+    //销毁不在react管控内的事件以及其他
+    componetWillUnmount(){
+
     }
 }

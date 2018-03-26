@@ -86,6 +86,15 @@ export default class TableList extends React.Component {
 		return {index:this.state.pageOption.index,data:this.state.data};
 	}
 
+	//flag不存在，默认从第一页开始搜索，flag存在，从index开始搜索
+	search(flag){
+		if(!flag){
+			this.getData();
+		}else{
+			this.getData(this.state.pageOption.index);
+		}
+	}
+
 	//重新set head map, 数据不重新请求
 	noticeChangeCols(map){
 		this.setState({cols:map});

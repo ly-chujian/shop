@@ -50,4 +50,8 @@ export default class Paging extends React.Component {
             </div>
         );
     }
+
+    componetWillUnmount(){
+        this.goIndexKey = null;
+    }
 }
