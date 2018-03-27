@@ -9,8 +9,7 @@ export default class Header extends React.Component{
         this.setAll = this.setAll.bind(this);
         this.showChangeColsDialog = this.showChangeColsDialog.bind(this);
 
-        
-        this.defaultCols = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
+        this.defaultCols = Util.arrayServer.addPrimaryAndCk(this.props.originCols,true);
         this.itemCheckChange = this.itemCheckChange.bind(this);
 
         this.showCk = this.props.showCk;
@@ -52,14 +51,17 @@ export default class Header extends React.Component{
 
     reSetCols(){
         let cols = Util.arrayServer.getCheckedItems(this.defaultCols).items;
+        if(cols.length == 0){
+            return;
+        }
         this.props.noticeChangeCols(cols);
     }
-    theadData(){
+    getDialogHTML(){
         let html = [
             <div key={Math.random()} className='colsModal' ref={this.chooseColsKey}>
                 {this.colsLen()}
                 <div className="bot">
-                    <button ref={this.colsBtnCalcelKey} className='btn btn-sm btn-light'>取消</button>
+                    <button ref={this.colsBtnCalcelKey} className='btn btn-sm btn-light'  onClick={this.showChangeColsDialog}>取消</button>
                     <button ref={this.colsBtnSaveKey} className='btn btn-sm btn-info' onClick={e=>this.reSetCols()}>确定</button>
                 </div>
             </div>
@@ -88,7 +90,7 @@ export default class Header extends React.Component{
             if(index == 0){
                 html.push(<th key={Math.random()} className='oneTh'>
                             <i className='icon icon-tuichu' onClick={this.showChangeColsDialog}></i>{item.val}
-                            {this.theadData()}
+                            {this.getDialogHTML()}
                     </th>);
             }else{
                 html.push(<th key={Math.random()}>{item.val}</th>);

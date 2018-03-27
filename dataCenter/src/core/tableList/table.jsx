@@ -38,7 +38,8 @@ export default class TableList extends React.Component {
 		this.next = this.next.bind(this);
 		this.getCheckedItems = this.getCheckedItems.bind(this);
 		
-		this.originCols = Util.object.cloneObj(this.props.options.map);
+		this.originCols = Util.object.deepArrayClone(this.props.options.map);
+		
 	}
 
 	componentDidMount(){

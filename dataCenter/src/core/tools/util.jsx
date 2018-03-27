@@ -44,6 +44,9 @@ let Util = {
     
             return true;
         },
+        deepArrayClone:function(data){
+            return [...data];
+        },
         cloneObj(source){
             if(source){
                 return JSON.parse(JSON.stringify(source));

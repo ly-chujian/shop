@@ -41,5 +41,6 @@
 
 .pageNumCls{float: right;margin-right: 30px;}
 .table td, .table th{vertical-align: middle;}
+.table thead th{padding:8px 0;}
 .oneTh{position: relative;}
 .oneTh i{position: absolute;left:6px;top:0;}
