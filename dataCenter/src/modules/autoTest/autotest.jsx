@@ -36,8 +36,9 @@ export default class AutoTest extends React.Component{
             map:[
                 {key:"describe",val:"测试用例描述"},
                 {key:"operator",val:"操作人"},
-                {key:"runTime",val:"操作时间",type:"date"},
-                {key:"before",val:"用例个数",convert:this.cCount}
+                {key:"runTime",val:"操作时间",type:"time"},
+                {key:"before",val:"用例个数",convert:this.cCount},
+                {key:"items.length",val:"个数"}
             ],
             getUrl:()=>{
                 var name = that.observer.name;
@@ -52,9 +53,7 @@ export default class AutoTest extends React.Component{
                     data:data.data.data,
                     count:data.data.count
                 };
-            },
-            //是否重新渲染table
-            isReRender:true
+            }
         }
 
         this.searchNameEl = null;
@@ -93,12 +92,7 @@ export default class AutoTest extends React.Component{
     }
 
     search(){
-        if(this.oldVal ==  this.searchNameEl.value){
-            this.tableOptions.isReRender=false;
-        }else{
-            this.tableOptions.isReRender=true;
-            this.refs['tableKill'].search();
-        }
+        this.refs['tableKill'].search();
         this.oldVal = this.searchNameEl.value;
     }
 

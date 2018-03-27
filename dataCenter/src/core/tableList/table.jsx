@@ -73,7 +73,7 @@ export default class TableList extends React.Component {
 				}else{
 					total = parseInt(parseInt(res.count)/size) + 1;
 				}
-                this.setState({data:arr,pageOption:{index:index,count:arr.length,total:total,size:size}});
+                this.setState({ck:false,data:arr,pageOption:{index:index,count:arr.length,total:total,size:size}});
             }else{
                 console.log("检查analysis, getUrl, pageOption参数!");
             }
@@ -93,9 +93,9 @@ export default class TableList extends React.Component {
 		return {index:this.state.pageOption.index,data:this.state.data};
 	}
 
-	//flag不存在，默认从第一页开始搜索，flag存在，从index开始搜索
-	search(flag){
-		if(!flag){
+	//index不存在，默认从第一页开始搜索，index存在，从index开始搜索
+	search(index){
+		if(!index){
 			this.getData();
 		}else{
 			this.getData(this.state.pageOption.index);
