@@ -6,25 +6,27 @@ export default class Header extends React.Component{
     constructor(props) {
         super(props);
 
-        this.showCk = this.props.showCk;
-        this.actions = this.props.actions;
-
         this.setAll = this.setAll.bind(this);
+<<<<<<< HEAD
         this.showChangeColsDialog = this.showChangeColsDialog.bind(this);
 
         this.ck = this.props.ck;
         
+=======
+>>>>>>> 6ff8c1915997c1423368db32927a77dad0c940cf
         this.defaultCols = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
-
-        // this.state = {cols:this.props.cols,ck:this.props.ck};
-
-        this.originCols = this.props.originCols;
         this.itemCheckChange = this.itemCheckChange.bind(this);
 
-        this.cols = this.props.cols;
+        this.showCk = this.props.showCk;
+        this.actions = this.props.actions;
         this.ck = this.props.ck;
+<<<<<<< HEAD
         
         this.chooseColsKey = Math.ceil(Math.random()*1000000000);
+=======
+        this.originCols = this.props.originCols;
+        this.cols = this.props.cols;
+>>>>>>> 6ff8c1915997c1423368db32927a77dad0c940cf
     }
 
     shouldComponentUpdate(nextProps,nextState){
@@ -108,7 +110,7 @@ export default class Header extends React.Component{
         this.ck = this.props.ck;
         console.log("%crender header","color:red");
         return (
-            <thead  className="thead-dark">
+            <thead className="thead-dark">
                 <tr>
                     {this.getHeaderHTML()}
                 </tr>
