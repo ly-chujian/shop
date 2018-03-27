@@ -7,26 +7,19 @@ export default class Header extends React.Component{
         super(props);
 
         this.setAll = this.setAll.bind(this);
-<<<<<<< HEAD
         this.showChangeColsDialog = this.showChangeColsDialog.bind(this);
 
-        this.ck = this.props.ck;
         
-=======
->>>>>>> 6ff8c1915997c1423368db32927a77dad0c940cf
         this.defaultCols = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
         this.itemCheckChange = this.itemCheckChange.bind(this);
 
         this.showCk = this.props.showCk;
         this.actions = this.props.actions;
         this.ck = this.props.ck;
-<<<<<<< HEAD
-        
-        this.chooseColsKey = Math.ceil(Math.random()*1000000000);
-=======
         this.originCols = this.props.originCols;
         this.cols = this.props.cols;
->>>>>>> 6ff8c1915997c1423368db32927a77dad0c940cf
+        
+        this.chooseColsKey = Math.ceil(Math.random()*1000000000);
     }
 
     shouldComponentUpdate(nextProps,nextState){
