@@ -51,13 +51,13 @@ export default class Paging extends React.Component {
                     <ul className="pagination">
                         <li className="page-item" onClick={this.pprev}><a className="page-link" href="#">Previous</a></li>
                         <li className="page-item"><a className="page-link" href="#">共{count}条</a></li>
-                        <li className="page-item"><a className="page-link" href="#">当前弟</a></li>
-                        <li className="page-item"><a className="page-link" href="#">1/2</a></li>
+                        <li className="page-item"><a className="page-link" href="#">当前第</a></li>
+                        <li className="page-item"><a className="page-link" href="#">{index}/{total}</a></li>
                         <li className="page-item"><a className="page-link" href="#">页</a></li>
                         <li className="page-item" onClick={this.pnext}><a className="page-link" href="#">Next</a></li>
                         <li className="page-item"><a className="page-link" href="#">到</a></li>                        
                         <li className="page-item"><input type="text" ref={this.goIndexKey} className='form-control input-sm' style={{width:'60px'}} placeholder='第几页'/></li>
-                        <li className="page-item" onClick={this.goIndex.bind(this)} ><a className="page-link" href="#">确定</a></li>               
+                        <li className="page-item" onClick={e=>this.goIndex()} ><a className="page-link" href="#">确定</a></li>               
                     </ul>
                   
                 </nav>
