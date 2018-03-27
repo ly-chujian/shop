@@ -130,76 +130,114 @@ export default class AutoTestDialog extends React.Component{
             return (
                 <div style={{display:this.observer.dialogData.params.show==true?"block":"none"}}>
                     <div className={Css.black}></div>
-                    <div class="modal" style={{display:"block"}}>
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button class="close" onClick={e=>{this.cancel();}}><span>&times;</span><span class="sr-only"></span></button>
-                                    <h4 class="modal-title">维护数据</h4>
+                    <div className="modal" style={{display:"block"}}>
+                        <div className='black'></div>
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLabel">维护数据</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={e=>{this.cancel();}}> 
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
 
-                                <div className={Css.overflowY + " modal-body"}>
-                                    <form class="form-horizontal tableForm" role="form" >
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label titleLang" >测试用例描述:</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" ref={el=>{this.describeEl = el;}} class="form-control input-sm" defaultValue={this.observer.dialogData.data.describe} />
+                                <div className={Css.overflowY + " modal-body"} style={{overflowY:'auto'}}>
+                                    <form className="form-horizontal tableForm" role="form" >
+                                        <div className="form-group row">
+                                            <label className="col-sm-3 col-form-label col-form-label-sm text-right" >测试用例描述:</label>
+                                            <div className="col-sm-8">
+                                                <input type="text" ref={el=>{this.describeEl = el;}} className="form-control input-sm" defaultValue={this.observer.dialogData.data.describe} />
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label titleLang" >是否需要注入数据:</label>
-                                            <div class="col-sm-8" ref={el=>{this.isBeforeEl = el;}}>
-                                                <input type="radio" class="input-sm" value="true" name="isBefore" defaultChecked={this.observer.dialogData.data.before.isBefore == "true"} />是
-                                                <input type="radio" class="input-sm" value="false" name="isBefore" defaultChecked={this.observer.dialogData.data.before.isBefore == "false"}/>否
+                                        <div className="form-group row">
+                                            <label className="col-sm-3 col-form-label col-form-label-sm text-right " >是否需要注入数据:</label>
+                                            <div className="col-sm-8" ref={el=>{this.isBeforeEl = el;}}>
+                                                <div className="form-check form-check-inline">
+                                                     <input className="form-check-input" type="radio" id="inlineRadio1" value="true"  name="isBefore" defaultChecked={this.observer.dialogData.data.before.isBefore == "true"}/>
+                                                    <label className="form-check-label" htmlFor="inlineRadio1">是</label>
+                                                </div>
+                                                <div className="form-check form-check-inline">
+                                                    <input className="form-check-input" type="radio"  id="inlineRadio2" value="false" name="isBefore" defaultChecked={this.observer.dialogData.data.before.isBefore == "false"}/>
+                                                    <label className="form-check-label" htmlFor="inlineRadio2">否</label>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="col-sm-3 control-label titleLang" >请求URL:</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" ref={el=>{this.beforeUrlEl = el;}} class="form-control input-sm" defaultValue={this.observer.dialogData.data.before.beforeUrl} />
-                                            </div>
-                                            <label class="col-sm-3 control-label titleLang" >请求方式:</label>
-                                            <div class="col-sm-8" ref={el=>{this.beforeTypeEl = el;}}>
-                                                <input type="radio" class="input-sm" name="beforeType" value="get" defaultChecked={this.observer.dialogData.data.before.beforeType == "get"} />get
-                                                <input type="radio" class="input-sm" name="beforeType" value="post" defaultChecked={this.observer.dialogData.data.before.beforeType == "post"} />post
-                                            </div>
-                                            <label class="col-sm-3 control-label titleLang" >参数data:</label>
-                                            <div class="col-sm-8">
-                                                <textarea ref={el=>{this.beforeDataEl = el;}} defaultValue={this.observer.dialogData.data.before.beforeData}></textarea>
+                                        <div className="form-group row">
+                                            <label className="col-sm-3 col-form-label col-form-label-sm text-right" >请求URL:</label>
+                                            <div className="col-sm-8">
+                                                <input type="text" ref={el=>{this.beforeUrlEl = el;}} className="form-control input-sm" defaultValue={this.observer.dialogData.data.before.beforeUrl} />
                                             </div>
                                         </div>
-                                        <h3 className={Css.inline}>单元测试数据</h3> <input class="btn btn-default btn-sm" type="button" value=" + " onClick={e=>{this.addItems();}} />
+                                        <div className="form-group row">
+                                            <label className="col-sm-3 col-form-label col-form-label-sm text-right" >请求方式:</label>
+                                            <div className="col-sm-8" ref={el=>{this.beforeTypeEl = el;}}>
+                                                <div className="form-check form-check-inline">
+                                                     <input className="form-check-input" type="radio" id="inlineRadio3" value="get"  name="beforeType" defaultChecked={this.observer.dialogData.data.before.beforeType == "get"}/>
+                                                    <label className="form-check-label" htmlFor="inlineRadio3">get</label>
+                                                </div>
+                                                <div className="form-check form-check-inline">
+                                                    <input className="form-check-input" type="radio"  id="inlineRadio4" value="post" name="beforeType" defaultChecked={this.observer.dialogData.data.before.beforeType == "post"} />
+                                                    <label className="form-check-label" htmlFor="inlineRadio4">post</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                                <label className="col-sm-3 col-form-label col-form-label-sm text-right" >参数data:</label>
+                                                <div className="col-sm-8">
+                                                    <textarea className="form-control input-sm" ref={el=>{this.beforeDataEl = el;}} defaultValue={this.observer.dialogData.data.before.beforeData}></textarea>
+                                                </div>
+                                        </div>
+                                        <div className="form-group row">
+                                             <h5 className={Css.inline + ' col-sm-3 text-right'}>单元测试数据</h5>
+                                             <i className='icon icon-jiahao col-sm-8 text-right font26' onClick={e=>{this.addItems();}}></i>
+                                        </div>
 
                                         {this.caseItems.map((item,index) =>{
                                             var ckName = Math.ceil(Math.random()*1000000);
                                             return (
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label titleLang" >描述:</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" ref={el=>item.itemDescEl = el} class="form-control input-sm" defaultValue={item.itemDesc} />
+                                                <div>
+                                                <div className="form-group row">
+                                                    <label className="col-sm-3 col-form-label col-form-label-sm text-right" >描述:</label>
+                                                    <div className="col-sm-8">
+                                                        <input type="text" ref={el=>item.itemDescEl = el} className="form-control input-sm" defaultValue={item.itemDesc} />
                                                     </div>
-                                                    <label class="col-sm-3 control-label titleLang" >请求URL:</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" ref={el=>item.urlEl = el} class="form-control input-sm" defaultValue={item.url} />
+                                                </div>
+                                                <div className="form-group row">
+                                                    <label className="col-sm-3 col-form-label col-form-label-sm text-right" >请求URL:</label>
+                                                    <div className="col-sm-8">
+                                                        <input type="text" ref={el=>item.urlEl = el} className="form-control input-sm" defaultValue={item.url} />
                                                     </div>
-                                                    <label class="col-sm-3 control-label titleLang" >请求方式:</label>
-                                                    <div class="col-sm-8" ref={el=>item.sendTypeEl = el}>
-                                                        <input type="radio" class="input-sm" value="get" name={ckName} defaultChecked={item.sendType == "get"} />get
-                                                        <input type="radio" class="input-sm" value="post" name={ckName} defaultChecked={item.sendType == "post"} />post
+                                                </div>
+                                                <div className="form-group row">
+                                                    <label className="col-sm-3 col-form-label col-form-label-sm text-right" >请求方式:</label>
+                                                    <div className="col-sm-8" ref={el=>item.sendTypeEl = el}>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio"  value="get"  name={ckName} defaultChecked={item.sendType == "get"}/>
+                                                            <label className="form-check-label" >get</label>
+                                                        </div>
+                                                        <div className="form-check form-check-inline">
+                                                            <input className="form-check-input" type="radio"   value="post" name={ckName} defaultChecked={item.sendType == "post"} />
+                                                            <label className="form-check-label" >post</label>
+                                                        </div>
                                                     </div>
-                                                    <label class="col-sm-3 control-label titleLang" >参数data:</label>
-                                                    <input type="button" value=" - " class="btn btn-default btn-sm" onClick={e=>{this.reduce(item,index);}} />
-                                                    <div class="col-sm-8">
-                                                        <textarea defaultValue={item.sendData} ref={el=>item.sendDataEl = el}></textarea>
+                                                </div>
+                                                 <div className="form-group row">
+                                                    <label className="col-sm-3 col-form-label col-form-label-sm text-right" >参数data:</label>
+                                                    <div className="col-sm-8">
+                                                        <textarea  className="form-control input-sm" defaultValue={item.sendData} ref={el=>item.sendDataEl = el}></textarea>
                                                     </div>
+                                                    <div className="col-sm-1" style={{marginLeft:'-10px'}}>
+                                                         <i className='icon icon-jian  font26'  onClick={e=>{this.reduce(item,index);}}></i>
+                                                    </div>
+                                                </div>
                                                 </div>
                                             );
                                         })}
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <input type="button" class="btn btn-default" value="取消" onClick={e=>{this.cancel();}} />
-                                    <input type="button" class="btn btn-primary" value="确定" onClick={e=>{this.save();}}/>
+                                <div className="modal-footer">
+                                    <input type="button" className="btn btn-light" value="取消" onClick={e=>{this.cancel();}} />
+                                    <input type="button" className="btn btn-primary" value="确定" onClick={e=>{this.save();}}/>
                                 </div>
                             </div>
                         </div>

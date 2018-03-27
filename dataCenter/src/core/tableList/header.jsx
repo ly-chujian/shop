@@ -10,6 +10,7 @@ export default class Header extends React.Component{
         this.actions = this.props.actions;
 
         this.setAll = this.setAll.bind(this);
+        this.showChangeColsDialog = this.showChangeColsDialog.bind(this);
 
         this.ck = this.props.ck;
         
@@ -22,6 +23,8 @@ export default class Header extends React.Component{
 
         this.cols = this.props.cols;
         this.ck = this.props.ck;
+        
+        this.chooseColsKey = Math.ceil(Math.random()*1000000000);
     }
 
     shouldComponentUpdate(nextProps,nextState){
@@ -56,6 +59,26 @@ export default class Header extends React.Component{
         let cols = Util.arrayServer.getCheckedItems(this.defaultCols).items;
         this.props.noticeChangeCols(cols);
     }
+    theadData(){
+        let html = [
+            <div key={Math.random()} className='colsModal' ref={this.chooseColsKey}>
+                {this.colsLen()}
+                <div className="bot">
+                    <button ref={this.colsBtnCalcelKey} className='btn btn-sm btn-light'>取消</button>
+                    <button ref={this.colsBtnSaveKey} className='btn btn-sm btn-info' onClick={e=>this.reSetCols()}>确定</button>
+                </div>
+            </div>
+        ];
+        return html;
+    }
+    showChangeColsDialog(){
+        let _dom = this.refs[this.chooseColsKey];
+        if(_dom.style.display == "block"){
+            this.refs[this.chooseColsKey].style.display = "none";
+        }else{
+            this.refs[this.chooseColsKey].style.display = "block";
+        }
+    }
 
     getHeaderHTML(){
         let html = [];
@@ -64,18 +87,17 @@ export default class Header extends React.Component{
             html.push(<th className="text-center" key={Math.random()}><input checked={this.ck} type="checkbox" onChange={this.setAll} /></th>);
         }
         if(this.actions && this.actions.length != 0){
-            html.push(<th className="text-center" key={Math.random()} className='thCols'>操作
-            <div className='colsModal' style={{display:'none'}}>
-                {this.colsLen()}
-                <div className="bot">
-                    <button ref={this.colsBtnCalcelKey} className='btn btn-sm btn-default'>取消</button>
-                    <button ref={this.colsBtnSaveKey} className='btn btn-sm btn-info' onClick={e=>this.reSetCols()}>确定</button>
-                </div>
-            </div>
-            </th>);
+            html.push(<th className="text-center" key={Math.random()} className='thCols'>操作</th>);
         }
-        this.cols.map(item=>{
-            html.push(<th key={Math.random()}>{item.val}</th>);
+        this.cols.map((item,index)=>{
+            if(index == 0){
+                html.push(<th key={Math.random()} className='oneTh'>
+                            <i className='icon icon-tuichu' onClick={this.showChangeColsDialog}></i>{item.val}
+                            {this.theadData()}
+                    </th>);
+            }else{
+                html.push(<th key={Math.random()}>{item.val}</th>);
+            }
         })
         return html;
     }

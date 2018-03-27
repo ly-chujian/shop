@@ -120,10 +120,15 @@ export default class AutoTest extends React.Component{
         console.log("render auto test");
         return (
             <div>
-                <input type="button" value="Add" onClick = {e=>this.addItem()} />
-                <input type="button" value="Run" onClick = {e=>this.runMultiple()} />
-                name:<input type="text" defaultValue={this.observer.name} ref={el=>this.searchNameEl = el} />
-                <input type="button" value="Search" onClick={e=>this.search()} />
+                <div className="form-group topInput row">
+                    <label className="col-sm-1 col-form-label col-form-label-sm text-right">name:</label>
+                    <div className='col-sm-2'>
+                        <input type="text" defaultValue={this.observer.name} ref={el=>this.searchNameEl = el} className="form-control form-control-sm"/>
+                    </div>
+                    <input type="button" value="Add" onClick = {e=>this.addItem()} className='btn btn-sm btn-info'/>
+                    <input type="button" value="Run" onClick = {e=>this.runMultiple()} className='btn btn-sm btn-success'/>
+                    <input type="button" value="Search" onClick={e=>this.search()}  className='btn btn-sm btn-primary '/>
+                </div>
                 <TK ref="tableKill" options ={this.tableOptions}></TK>
 
                 <AutoTestDialog id={this.selectSingleItemId} show={this.observer.showDialog} cb={flag=>{this.cb(flag);}} />

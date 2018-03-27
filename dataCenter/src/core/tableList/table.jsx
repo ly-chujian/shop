@@ -165,7 +165,7 @@ export default class TableList extends React.Component {
 		return (
             <div className={Css.panel_table + " text-center"}>
                 <div className={Css.overflow_table}>
-                    <table className='table table-bordered'>
+                    <table className='table table-bordered table-sm'>
 						{this.getHeaderComp()}
 						{this.getBodyComp()}
                     </table>

@@ -40,7 +40,7 @@ export default class Paging extends React.Component {
         let count = this.props.options.count;
         let total = this.props.options.total;
         return (
-            <div className={TKCls.paging + " text-right" + ' input-group'}>
+            <div className={TKCls.paging + ' pageNumCls'} >
                 {/* <span>共<span>{count}</span>条</span>
                 <input type="button" title="上一页" onClick={this.pprev} value="上一页" className='btn btn-sm btn-info'/>
                 <input type="button" title="下一页" onClick={this.pnext} value="下一页"  className='btn btn-sm btn-info'/>
@@ -48,16 +48,16 @@ export default class Paging extends React.Component {
                 <span>到 <input type="text" ref={this.goIndexKey} className='form-control input-sm' style={{width:'100px'}}/> 页</span>
                 <input type="button" value="确定" onClick={this.goIndex.bind(this)} className='btn btn-sm btn-success'/> */}
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item" onClick={this.pprev}><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">共{count}条</a></li>
-                        <li class="page-item"><a class="page-link" href="#">当前弟</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1/2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">页</a></li>
-                        <li class="page-item" onClick={this.pnext}><a class="page-link" href="#">Next</a></li>
-                        <li class="page-item"><a class="page-link" href="#">到</a></li>                        
-                        <li class="page-item"><input type="text" ref={this.goIndexKey} className='form-control input-sm' style={{width:'50px'}}/></li>
-                        <li class="page-item" onClick={this.goIndex.bind(this)} ><a class="page-link" href="#">确定</a></li>               
+                    <ul className="pagination">
+                        <li className="page-item" onClick={this.pprev}><a className="page-link" href="#">Previous</a></li>
+                        <li className="page-item"><a className="page-link" href="#">共{count}条</a></li>
+                        <li className="page-item"><a className="page-link" href="#">当前弟</a></li>
+                        <li className="page-item"><a className="page-link" href="#">1/2</a></li>
+                        <li className="page-item"><a className="page-link" href="#">页</a></li>
+                        <li className="page-item" onClick={this.pnext}><a className="page-link" href="#">Next</a></li>
+                        <li className="page-item"><a className="page-link" href="#">到</a></li>                        
+                        <li className="page-item"><input type="text" ref={this.goIndexKey} className='form-control input-sm' style={{width:'60px'}} placeholder='第几页'/></li>
+                        <li className="page-item" onClick={this.goIndex.bind(this)} ><a className="page-link" href="#">确定</a></li>               
                     </ul>
                   
                 </nav>
