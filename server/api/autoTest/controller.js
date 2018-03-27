@@ -174,7 +174,7 @@ var autoTestCtl = {
                     total: 1,
                     data:d
                 }
-                res.status(200).json({rc:true,data:data});
+                res.status(200).json({status:200,data:data,msg:"",params:{}});
             }
         })
     },

@@ -6,22 +6,15 @@ export default class Header extends React.Component{
     constructor(props) {
         super(props);
 
-        this.showCk = this.props.showCk;
-        this.actions = this.props.actions;
-
         this.setAll = this.setAll.bind(this);
-
-        this.ck = this.props.ck;
-        
         this.defaultCols = Util.arrayServer.addPrimaryAndCk(Util.object.cloneObj(this.props.originCols),true);
-
-        // this.state = {cols:this.props.cols,ck:this.props.ck};
-
-        this.originCols = this.props.originCols;
         this.itemCheckChange = this.itemCheckChange.bind(this);
 
-        this.cols = this.props.cols;
+        this.showCk = this.props.showCk;
+        this.actions = this.props.actions;
         this.ck = this.props.ck;
+        this.originCols = this.props.originCols;
+        this.cols = this.props.cols;
     }
 
     shouldComponentUpdate(nextProps,nextState){
@@ -68,8 +61,8 @@ export default class Header extends React.Component{
             <div className='colsModal' style={{display:'none'}}>
                 {this.colsLen()}
                 <div className="bot">
-                    <button ref={this.colsBtnCalcelKey} className='btn btn-sm btn-default'>取消</button>
-                    <button ref={this.colsBtnSaveKey} className='btn btn-sm btn-info' onClick={e=>this.reSetCols()}>确定</button>
+                    <button className='btn btn-sm btn-default'>取消</button>
+                    <button className='btn btn-sm btn-info' onClick={e=>this.reSetCols()}>确定</button>
                 </div>
             </div>
             </th>);
@@ -86,7 +79,7 @@ export default class Header extends React.Component{
         this.ck = this.props.ck;
         console.log("%crender header","color:red");
         return (
-            <thead  className="thead-dark">
+            <thead className="thead-dark">
                 <tr>
                     {this.getHeaderHTML()}
                 </tr>

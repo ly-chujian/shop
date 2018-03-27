@@ -57,6 +57,12 @@ export default class TableList extends React.Component {
 		let size = this.state.pageOption.size;
 	    url += suffix + this.option.pageOption.indexKey + "=" + index + "&"+ this.option.pageOption.sizeKey + "=" + size;
 	    Util.ajaxServer.doFetch(url,"get",null).then(data=>{
+			let res = {};
+			if(this.analysis){
+				res = this.analysis(data);
+			}else{
+				res = data;
+			}
             let res = this.analysis(data);
             if(res.data && res.data instanceof Array && res.data.length != 0){
 				let arr = Util.arrayServer.addPrimaryAndCk(res.data);
