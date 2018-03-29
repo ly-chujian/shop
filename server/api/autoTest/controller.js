@@ -170,8 +170,8 @@ var autoTestCtl = {
                 res.status(200).json({rc:false,data:error});
             }else{
                 var data = {
-                    count:d.length,
-                    total: 1,
+                    count:105,
+                    total: 10,
                     data:d
                 }
                 res.status(200).json({status:200,data:data,msg:"",params:{}});
