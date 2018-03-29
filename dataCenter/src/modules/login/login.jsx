@@ -22,16 +22,16 @@ export default class LoginTmp extends React.Component{
         if(name != "" && pwd != ""){
             performanceTool.setStart();
             Util.ajaxServer.doFetch(ModuleRequestUrl.LOGIN.login,"post",{name:name,pwd:pwd}).then(d=>{
-                if(d.rc){
-                    performanceTool.compare("LOGIN");
-                    Util.cookie.setCookie(CookieKeys.SHOPUSERNAME,name);
-                    this.observer.setUser(name);
-                    this.props.history.push({pathname:"/"});
-                }else{
-                    alert(d.data);
-                }
+                performanceTool.compare("LOGIN");
+                Util.cookie.setCookie(CookieKeys.SHOPUSERNAME,name);
+                this.observer.setUser(name);
+                this.props.history.push({pathname:"/"});
             })
         }
+    }
+
+    register(){
+        Util.ajaxServer.doFetch(ModuleRequestUrl.LOGIN.register,"post",{name:"a",pwd:"a"})
     }
 
     render(){
@@ -62,7 +62,10 @@ export default class LoginTmp extends React.Component{
                     </div>
                     <div className='form-group row'>
                         <div className="col-sm-12 my-1">
-                            <button type="submit" class="btn btn-primary btn-lg col-sm-12" onClick={e=>this.login()}>登 录</button>
+                            <button type="submit" className="btn btn-primary btn-lg col-sm-12" onClick={e=>this.login()}>登 录</button>
+                         </div>
+                         <div className="col-sm-12 my-1">
+                            <button type="submit" className="btn btn-primary btn-lg col-sm-12" onClick={e=>this.register()}>注 册</button>
                          </div>
                     </div>
                 </div>

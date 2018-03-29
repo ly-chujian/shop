@@ -28,22 +28,21 @@ class Layout extends React.Component{
     render(){
         return(
             <div className={LayoutCss.container}>
-            <div class="row">
-                <div  class="col-4">
-                    <ul  class="list-group" id="list-tab" role="tablist">
-                        <li class="list-group-item list-group-item-action active" ><Link to="/goods">Goods</Link></li>
-                        <li class="list-group-item list-group-item-action"><Link to="/order">Order</Link></li>
-                        <li class="list-group-item list-group-item-action"><Link to="/user">User</Link></li>
-                        <li class="list-group-item list-group-item-action"><Link to="/auto">Auto Test</Link></li>
-                        <li class="list-group-item list-group-item-action"><Link to="/getInput">getInput</Link></li>
+            <div className="row">
+                <div  className="col-4">
+                    <ul  className="list-group" id="list-tab" role="tablist">
+                        <li className="list-group-item list-group-item-action active" ><Link to="/goods">Goods</Link></li>
+                        <li className="list-group-item list-group-item-action"><Link to="/order">Order</Link></li>
+                        <li className="list-group-item list-group-item-action"><Link to="/user">User</Link></li>
+                        <li className="list-group-item list-group-item-action"><Link to="/auto">Auto Test</Link></li>
                     </ul>
                 </div>
-                <div class="col-8">
-                    <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-                    <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
-                    <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-                    <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+                <div className="col-8">
+                    <div className="tab-content" id="nav-tabContent">
+                    <div className="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+                    <div className="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+                    <div className="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+                    <div className="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
                     </div>
                 </div>
             </div>
@@ -53,7 +52,6 @@ class Layout extends React.Component{
                         <li><Link to="/order">Order</Link></li>
                         <li><Link to="/user">User</Link></li>
                         <li><Link to="/auto">Auto Test</Link></li>
-                        <li><Link to="/getInput">getInput</Link></li>
                     </ul>
                 </div>
                 <div className={LayoutCss.rightBox}>

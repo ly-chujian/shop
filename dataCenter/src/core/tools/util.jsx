@@ -65,20 +65,14 @@ let Util = {
         },
     },
     ajaxServer:{
-        doFetch(url,method,data){
-            let _url = url;
-            if(typeof url == "function"){
-                _url = url();
-            }
-            if(_url.indexOf('?') == -1){
-                _url = url + "?ran="+Math.random();
-            }else{
-                _url = url+ "&ran="+Math.random();
-            }
+        doFetch : function(url,method,data){
+            let symbol = url.indexOf('?') == -1?"?":"&";
+            url = url + symbol + "ran="+Math.ceil(Math.random()*10000000);
+            let defer = Q.defer();
+    
             let headers = {
                 'Content-Type': 'application/json'
             };
-            method == undefined?method = "get":method = method;
             let options = {
                 method:method.toUpperCase(),
                 credentials:'include',
@@ -89,8 +83,24 @@ let Util = {
                     options.body = JSON.stringify(data);
                 }
             }
-            return fetch(_url, options).then(d =>d.json());
-        },
+            let that = this;
+            fetch(url,options).then(d =>d.json()).then(function (data) {
+                let code = data.status;
+                if(code == "701"){
+                    that.$router.push({path:"todo"});
+                }else{
+                    if(code == "200"){
+                        defer.resolve({data:data.data,params:data.params});
+                    }else{
+                        defer.reject({data: data.msg});
+                    }
+                }
+            }).catch(function(err) {
+                defer.reject({data: "Server Error!"});
+                throw new Error(url + " request server error!");
+            });
+            return defer.promise;
+        }
     },
     cookie:{
         removeCookie(name){

@@ -9,10 +9,10 @@ var loginCtl = {
         var login = new Login({name:req.body.name,pwd:req.body.pwd});
         login.save(function(error,doc){
             if(error){
-                return res.status(200).json({rc:false,data:error});
+                return res.status(200).json({status:"500",msg:"注册失败!",data:error});
             }else{
                 console.log("register success!");
-                return res.status(200).json({rc:true,data:doc});
+                return res.status(200).json({status:"200",msg:"!",data:doc});
             }
         });
     },
@@ -24,12 +24,12 @@ var loginCtl = {
         }
         Login.find({name:req.body.name,pwd:req.body.pwd},function(err,docs){
             if(err){
-                return res.status(200).json({rc:false,data:err});
+                return res.status(200).json({status:"500",msg:"登录异常!",data:err});
             }else{
                 if(docs.length >= 1){
                     req.session.user = docs[0];
                     console.log(req.session.user);
-                    return res.status(200).json({status:"200",msg:"登录成功!",data:{is:"ok"}});
+                    return res.status(200).json({status:"200",msg:"登录成功!",data:docs});
                 }else{
                     return res.status(200).json({status:"500",msg:"账号密码异常!",data:null});
                 }
@@ -38,13 +38,13 @@ var loginCtl = {
     },
     logOut:function(req,res){
         req.session.user = null;
-        return res.status(200).json({rc:true,data:"退出成功!"});
+        return res.status(200).json({status:"200",msg:"!",data:null});
     },
     check:function(req,res){
         if(req.session.user){
-            return res.status(200).json({rc:true,data:req.session.user});
+            return res.status(200).json({status:"200",msg:"",data:req.session.user});
         }else{
-            return res.status(200).json({rc:false,data:"not ok!"});
+            return res.status(200).json({status:"500",msg:"未登录",data:null});
         }
     }
 }
