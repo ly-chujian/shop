@@ -129,7 +129,6 @@ export default class AutoTestDialog extends React.Component{
         if(this.observer.dialogData.params.show){
             return (
                 <div style={{display:this.observer.dialogData.params.show==true?"block":"none"}}>
-                    <div className={Css.black}></div>
                     <div className="modal" style={{display:"block"}}>
                         <div className='black'></div>
                         <div className="modal-dialog">
