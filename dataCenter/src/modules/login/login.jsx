@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link,NavLink,BrowserRouter,Switch,Route,HashRouter} from 'react-router-dom';
-import LoginCss from './login.css';
+import  './login.css';
 import { renderRoutes } from 'react-router-config';
 
 import Util from "../../core/tools/util.jsx";
@@ -36,18 +36,35 @@ export default class LoginTmp extends React.Component{
 
     render(){
         return(
-            <div className={LoginCss.bg}>
-                <div className={LoginCss.container}>
-                    <div className={LoginCss.item}>
-                        <label>登录名：</label>
-                        <input type="text" ref="__loginName" />
+            <div>
+                <div className='black'></div>
+                <div className='loginModal'>
+                     <h4 className='text-center loginTitle'>请登录</h4>
+                    <div className='form-group row'>
+                        <div className="col-sm-12 my-1">
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                <div className="input-group-text"><i className='icon icon-yonghu'></i></div>
+                                </div>
+                                <input type="text" className="form-control form-control-lg"  placeholder="Username"  ref="__loginName"/>
+                            </div>
+                        </div>
                     </div>
-
-                    <div className={LoginCss.item}>
-                        <label>密码：</label>
-                        <input className={LoginCss.ml14} type="password" ref="__loginPwd" />
+                    <div className='form-group row'>
+                        <div className="col-sm-12 my-1">
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                <div className="input-group-text"><i className='icon icon-mima'></i></div>
+                                </div>
+                                <input type="password" className="form-control form-control-lg" placeholder="Password"  ref="__loginPwd"/>
+                            </div>
+                        </div>
                     </div>
-                    <div className={LoginCss.btn} onClick={e=>this.login()}>登录</div>
+                    <div className='form-group row'>
+                        <div className="col-sm-12 my-1">
+                            <button type="submit" class="btn btn-primary btn-lg col-sm-12" onClick={e=>this.login()}>登 录</button>
+                         </div>
+                    </div>
                 </div>
             </div>
         )
