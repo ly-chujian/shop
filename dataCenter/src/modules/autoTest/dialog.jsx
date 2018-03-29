@@ -58,18 +58,12 @@ export default class AutoTestDialog extends React.Component{
         if(this.observer.dialogData.params.show && this.observer.dialogData.params.id){
             performanceTool.setStart();
             Util.ajaxServer.doFetch("/api/at/edit/"+this.observer.dialogData.params.id,"post",data).then(d=>{
-                if(!d.rc){
-                    alert(d.data);
-                }
                 performanceTool.compare("AUTOEDIT");
                 this.props.cb(true);
             })
         }else{
             performanceTool.setStart();
             Util.ajaxServer.doFetch("/api/at/add","post",data).then(d=>{
-                if(!d.rc){
-                    alert(d.data);
-                }
                 performanceTool.compare("AUTOADD");
                 this.props.cb(true);
             })

@@ -87,7 +87,7 @@ var autoTestCtl = {
                 (function(arr){
                     if(count == arr.length){
                         console.log("completed");
-                        return res.status(200).json({rc:true,data:{y:y,n:n}});
+                        return res.status(200).json({status:"200",msg:"",data:{y:y,n:n}});
                     }
                     if(arr[count].rc){
                         y.push(arr[count].data.fileName);
@@ -109,14 +109,16 @@ var autoTestCtl = {
         for(var i=0;i<arr.length;i++){
             exec("mocha " + arr[i]);
         }
-        return res.status(200).json({rc:true,data:"ok"});
+        return res.status(200).json({status:"200",msg:"",data:null});
     },
     add:function(req,res){
-
         var describe = req.body.describe;
         var before = req.body.before;
         var items = req.body.items;
         var operator = req.session.user.name;
+        if(!req.session.user){
+            return res.status(200).json({status:"701",msg:"未登录!",data:null});
+        }
         var runTime = new Date().getTime();
 
         var at = new AutoTest({
@@ -128,10 +130,9 @@ var autoTestCtl = {
         at.markModified(at.items);
         at.save(function(error,doc){
             if(error){
-                return res.status(200).json({rc:false,data:error});
+                return res.status(200).json({status:"500",msg:"异常!",data:error});
             }else{
-                console.log("auto test insert success!");
-                return res.status(200).json({rc:true,data:doc});
+                return res.status(200).json({status:"200",msg:"",data:doc});
             }
         });
     },
@@ -147,9 +148,9 @@ var autoTestCtl = {
             before:before,describe:describe,items:items,operator:operator,runTime:runTime
         },function(error,doc){
             if(error){
-                return res.status(200).json({rc:false,data:error});
+                return res.status(200).json({status:"500",msg:"异常!",data:error});
             }else{
-                return res.status(200).json({rc:true,data:doc});
+                return res.status(200).json({status:"200",msg:"",data:doc});
             }
         })
     },
@@ -158,16 +159,16 @@ var autoTestCtl = {
         console.log(ids);
         AutoTest.remove({ _id: { $in: ids } },function(error,doc){
             if(error){
-                return res.status(200).json({rc:false,data:error});
+                return res.status(200).json({status:500,data:error,msg:"异常",params:{}});
             }else{
-                return res.status(200).json({rc:true,data:doc});
+                return res.status(200).json({status:200,data:doc,msg:"",params:{}});
             }
         });
     },
     list:function(req,res){
         AutoTest.find({describe:new RegExp(req.query.describe)},function(error,d){
             if(error){
-                res.status(200).json({rc:false,data:error});
+                res.status(200).json({status:500,data:error,msg:"异常",params:{}});
             }else{
                 var data = {
                     count:105,
@@ -192,7 +193,7 @@ var autoTestCtl = {
     getItemByIds:function(req,res){
         var ids = req.params.ids.split(',');
         autoTestCtl.getItems(ids).then(function(d){
-            res.status(200).json({rc:true,data:d});
+            res.status(200).json({status:200,data:d,msg:"",params:{}});
         })
     },
     getOne:function(id){
@@ -200,9 +201,9 @@ var autoTestCtl = {
         //var id = req.params.id;
         AutoTest.findById(id,function(err,doc){
             if(err){
-                defer.resolve({rc:false,data:error});
+                defer.resolve({status:500,data:err,msg:"异常",params:{}});
             }else{
-                defer.resolve({rc:true,data:doc});
+                defer.resolve({status:200,data:doc,msg:"",params:{}});
             }
         });
         return defer.promise;
