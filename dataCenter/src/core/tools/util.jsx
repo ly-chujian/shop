@@ -87,7 +87,7 @@ let Util = {
             fetch(url,options).then(d =>d.json()).then(function (data) {
                 let code = data.status;
                 if(code == "701"){
-                    that.$router.push({path:"todo"});
+                    that.$router.push({path:"login"});
                 }else{
                     if(code == "200"){
                         defer.resolve({data:data.data,params:data.params});

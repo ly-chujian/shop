@@ -58,12 +58,12 @@ app.all("*",function(req,res,next){
             res.sendFile(path.resolve(__dirname, '../dataCenter/dist/index.html'));
         }else{
             //正常调用api，验证用户权限
-            next();
-            //if (!req.session.user) {
-            //    return res.status(200).json({rc:false,data:"not login!"});
-            //}else{
-            //    next();
-            //}
+            // next();
+            if (!req.session.user) {
+                return res.status(200).json({status:"701",msg:"未登录!",data:null});
+            }else{
+               next();
+            }
         }
     }
 })

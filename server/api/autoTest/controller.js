@@ -116,9 +116,6 @@ var autoTestCtl = {
         var before = req.body.before;
         var items = req.body.items;
         var operator = req.session.user.name;
-        if(!req.session.user){
-            return res.status(200).json({status:"701",msg:"未登录!",data:null});
-        }
         var runTime = new Date().getTime();
 
         var at = new AutoTest({

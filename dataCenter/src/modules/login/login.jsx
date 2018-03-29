@@ -9,7 +9,7 @@ import Layout from "../layout/layout.jsx";
 import { observer, inject } from 'mobx-react';
 @inject('loginUserStore')
 @observer
-export default class LoginTmp extends React.Component{
+export default class Login extends React.Component{
     constructor(props){
         super(props);
         this.observer = this.props.loginUserStore;

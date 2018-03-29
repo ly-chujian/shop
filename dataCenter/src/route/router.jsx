@@ -4,7 +4,7 @@ import { renderRoutes } from 'react-router-config';
 
 import Loadable from 'react-loadable';
 
-import RouterCtl from "./map1.js";
+import RouterCtl from "./map.js";
 
 export default class RouterConfig extends React.Component{
     constructor(props){
@@ -43,10 +43,6 @@ export default class RouterConfig extends React.Component{
                     {
                         path: "/user",
                         component: this.routerMapCtl.getComponentsByName("/user")
-                    },
-                    {
-                        path: "/getInput",
-                        component: this.routerMapCtl.getComponentsByName("/getInput")
                     },
                     {
                         component: this.routerMapCtl.getComponentsByName("/noMatch")

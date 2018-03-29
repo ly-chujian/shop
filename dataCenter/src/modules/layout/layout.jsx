@@ -33,6 +33,7 @@ class Layout extends React.Component{
                     <ul  className="list-group" id="list-tab" role="tablist">
                         <li className="list-group-item list-group-item-action active" ><Link to="/goods">Goods</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/order">Order</Link></li>
+                        <li className="list-group-item list-group-item-action"><Link to="/login">去登录</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/user">User</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/auto">Auto Test</Link></li>
                     </ul>
@@ -46,14 +47,15 @@ class Layout extends React.Component{
                     </div>
                 </div>
             </div>
-                <div className={LayoutCss.nav}>
+                {/* <div className={LayoutCss.nav}>
                     <ul>
                         <li><Link to="/goods">Goods</Link></li>
+                        <li><Link to="/login">去登录</Link></li>
                         <li><Link to="/order">Order</Link></li>
                         <li><Link to="/user">User</Link></li>
                         <li><Link to="/auto">Auto Test</Link></li>
                     </ul>
-                </div>
+                </div> */}
                 <div className={LayoutCss.rightBox}>
                     <div className={LayoutCss.top}>
                         <span>{this.observer.name}</span>

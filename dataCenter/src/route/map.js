@@ -1,25 +1,21 @@
 /**
  * Created by wupeng5 on 2017/10/31.
  */
-
-import LoginTmp from "../modules/login/login.jsx";
+import React from 'react';
+import Loadable from 'react-loadable';
 import Layout from "../modules/layout/layout.jsx";
-import Goods from "../modules/goods/goods.jsx";
-import Order from "../modules/order/order.jsx";
-import User from "../modules/user/user.jsx";
-import AutoTest from "../modules/autoTest/autotest.jsx";
-import GetInput from "../modules/getInput/getInput.jsx";
+import Loading from '../modules/loading/loading.jsx';
 
 export default class RouterCtl{
     constructor() {
         this.allRouters = [
             {path:"/layout",comp:Layout},
-            {path:"/login",comp:LoginTmp},
-            {path:"/auto",comp:AutoTest},
-            {path:"/goods",comp:Goods},
-            {path:"/order",comp:Order},
-            {path:"/user",comp:User},
-            {path:"/getInput",comp:GetInput}
+            {path:"/login",comp:Loadable({ loader: () => import('../modules/login/login.jsx'), loading: () => <Loading />})},
+            {path:"/auto",comp:Loadable({ loader: () => import('../modules/autoTest/autoTest.jsx'), loading: () => <Loading />})},
+            {path:"/goods",comp:Loadable({ loader: () => import('../modules/goods/goods.jsx'), loading: () => <Loading />})},
+            {path:"/order",comp:Loadable({ loader: () => import('../modules/order/order.jsx'), loading: () => <Loading />})},
+            {path:"/user",comp:Loadable({ loader: () => import('../modules/user/user.jsx').then(x=>x.User), loading: () => <Loading />})},
+            // {path:"/user",comp:Loadable({ loader: () => import('../modules/user/user.jsx'), loading: () => <Loading />})},
         ];
     }
 
@@ -31,7 +27,7 @@ export default class RouterCtl{
             }
         })
         if(res == null){
-            res = AutoTest;
+            res = Loadable({ loader: () => import('../modules/autoTest/autoTest.jsx'), loading: () => <Loading />});
         }
         return res;
     };
