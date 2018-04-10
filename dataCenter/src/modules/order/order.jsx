@@ -30,7 +30,7 @@ export default class Order extends React.Component{
                 {key:"items.length",val:"用例个数"}
             ],
             getUrl:()=>{
-                return "/api/at/list?describe=";
+                // return "/api/at/list?describe=";
             },
             pageOption:{
                 sizeKey:"size",

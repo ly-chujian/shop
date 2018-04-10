@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link,BrowserRouter,Route,Switch} from 'react-router-dom';
-import LayoutCss from '../layout/layout.css';
+import LayoutCss from './layout.css';
 
 import { renderRoutes } from 'react-router-config';
 import Util from "../../core/tools/util.jsx";
 
-import Auth from "../auth/auth.jsx";
+import Auth from "../HOC/auth/auth.jsx";
 
 import { observer, inject } from 'mobx-react';
 @inject('loginUserStore')

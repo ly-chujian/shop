@@ -1,5 +1,5 @@
 import React from 'react';
-import Util from "../../core/tools/util.jsx";
+import Util from "../../../core/tools/util.jsx";
 // import {extendObservable} from 'mobx';
 import { observer, inject } from 'mobx-react';
 import { Redirect } from "react-router-dom";
@@ -25,20 +25,3 @@ export default class Auth extends React.Component{
         }
     }
 }
-
-// export const Auth = (Comp)=> {
-//     return class extends React.Component{
-//         constructor(props) {
-//             super(props);
-//             extendObservable(this, LoginUserStore);
-//         }
-//
-//         render(){
-//             console.log(this);
-//             return (
-//                 <Comp {...this.props} />
-//             )
-//         }
-//
-//     }
-// }

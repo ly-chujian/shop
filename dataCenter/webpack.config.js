@@ -1,33 +1,32 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");   //抽离css样式
+const CopyWebpackPlugin = require('copy-webpack-plugin');       //复制模块
+const HtmlWebpackPlugin = require('html-webpack-plugin');       //生成启动文件，并且引入响应的css js
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');      //压缩
+const CleanWebpackPlugin = require('clean-webpack-plugin');     //clean
 const path = require('path');
 const commonCss = new ExtractTextPlugin({
-    filename: (getPath) => {
-        return getPath('css/common.css').replace('css/js', 'css');
-    },
-    allChunks: true
+    filename:'css/common.css',  //打包后的文件
+    allChunks: true     //提取异步模块中的css
 });
 const styleCss = new ExtractTextPlugin({
-    filename: (getPath) => {
-        return getPath('css/style.css').replace('css/js', 'css');
-    },
-    allChunks: true
+    filename:'css/style.css',   //打包后的文件
+    allChunks: true     //提取异步模块中的css
 });
 module.exports = (evn = {}) => {
-    evn.Generative = evn.Generative == "true"
+    //package.json:
+    // "scripts": {
+    //     "dev": "webpack-dev-server --open",
+    //     "build": "webpack --progress --env.Generative=true"
+    //   },
+    evn.Generative = evn.Generative == "true"   //判断是否是生产环境
     console.log(`------------------- ${evn.Generative?'生产':'开发'}环境 -------------------`);
+
+     //生产，uat环境都需要的插件
     let plugins = [
-        //全局变量
-        // new webpack.ProvidePlugin({
-        // }),
-        // new CleanWebpackPlugin(['build']),
         commonCss,
         styleCss,
-        //第三方依赖
+        //提取node_modules里面的第三方依赖js，遇到css就跳过
         new webpack.optimize.CommonsChunkPlugin({
             name: "vendor",
             minChunks: function (module) {
@@ -43,6 +42,7 @@ module.exports = (evn = {}) => {
         new HtmlWebpackPlugin({
             template: './src/index.html'
         }),
+        //复制一些资源文件，比如一些只需要全局实例化一次的Js类
         new CopyWebpackPlugin([{
             from: './src/static',
             to: 'static'
@@ -53,7 +53,7 @@ module.exports = (evn = {}) => {
         plugins = [
             // 清理目录
             new CleanWebpackPlugin(['dist']),
-            // 压缩
+            // 压缩js
             new UglifyJSPlugin({
                 // warning: false,
                 // mangle: true,
@@ -68,24 +68,24 @@ module.exports = (evn = {}) => {
     }
     return {
         entry: {
-            'app': './src/app.jsx' //应用程序
+            'app': './src/app.jsx' //应用程序入口
         },
         output: {
-            path: path.resolve(__dirname, "dist"),
-            publicPath: evn.Generative ? './' : '/',
-            // publicPath: './',
-            filename: 'js/[name].js',
-            chunkFilename: 'js/[name].chunk.js'
+            path: path.resolve(__dirname, "dist"),      //打包后的文件，根目录以webpack.config.js为准-
+            publicPath: evn.Generative ? './' : '/',    //入口index文件里面的路径，可能和dev的路径不一致
+            filename: 'js/[name].js',                   //主文件
+            chunkFilename: 'js/[name].chunk.js'         //分包后的文件,分包必须配置这个属性
         },
-        // 启动 dev-server 的服务配置
+        // 启动 dev-server 的服务配置, 并且通过nodejs设置简单代理
         devServer: {
             inline: true, //检测文件变化，实时构建并刷新浏览器
             port: "8000",
+            //反向代理
             proxy: {
                 '/api': {
                     target: 'http://127.0.0.1:3008/',
                     pathRewrite: {
-                        "^/api": ""
+                        "^/api": ""         //是否重写api地址
                     },
                     secure: false
                 },
@@ -110,7 +110,6 @@ module.exports = (evn = {}) => {
                     include: path.resolve(__dirname, "src"),
                     use: styleCss.extract({
                         fallback: "style-loader",
-                        // 生产环境 不生成map 且压缩css
                         use: `css-loader?sourceMap=${!evn.Generative}&minimize=${evn.Generative}`
                     })
                 }, {
@@ -118,15 +117,9 @@ module.exports = (evn = {}) => {
                     exclude: path.resolve(__dirname, "src"),
                     use: commonCss.extract({
                         fallback: "style-loader",
-                        // 生产环境 不生成map 且压缩css
                         use: `css-loader?sourceMap=${!evn.Generative}&minimize=${evn.Generative}`
                     })
                 },
-                // {
-                //     test: /\.svg$/,
-                //     loader: 'svg-sprite-loader',
-                //     options: {}
-                // },
                 {
                     // test: /\.(gif|jpg|png|woff|eot|ttf)\??.*$/,
                     test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,

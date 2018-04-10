@@ -13,7 +13,8 @@ var EventKeys = {
 var ModuleRequestUrl = {
     "LOGIN":{
         login:"/api/login/login",
-        logout:"/api/login/logOut"
+        logout:"/api/login/logOut",
+        register:"/api/login/register"
     }
 }
 

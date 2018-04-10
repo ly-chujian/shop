@@ -5,9 +5,11 @@ import Body from "./body.jsx";
 import Paging from "./paging.jsx";
 import Css from "./__tk.css";
 
+import {ErrorBoundary} from "../../modules/HOC/didCatch/error.jsx";
+
 // import Perf from 'react-addons-perf';
 
-export default class TableList extends React.Component {
+class TableList extends React.Component {
 	constructor(props) {
 		super(props);
         // this._Perf = Perf;
@@ -182,3 +184,6 @@ export default class TableList extends React.Component {
 		);
 	}
 }
+
+// export default TableList;
+export default ErrorBoundary(TableList);
