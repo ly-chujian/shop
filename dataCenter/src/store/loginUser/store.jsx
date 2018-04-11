@@ -14,7 +14,6 @@ class ObservableStore {
     }
 
     @action getUserName(){
-        debugger
         return this.name;
     }
 }

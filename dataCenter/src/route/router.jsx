@@ -18,6 +18,7 @@ export default class RouterConfig extends React.Component{
     }
 
     getRouterByData(data){
+        //ajax请求返回菜单数据,然后进行数据的二次解析，组装成数组
         return [
             {
                 path: '/login',

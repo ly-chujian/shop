@@ -47,15 +47,6 @@ class Layout extends React.Component{
                     </div>
                 </div>
             </div>
-                {/* <div className={LayoutCss.nav}>
-                    <ul>
-                        <li><Link to="/goods">Goods</Link></li>
-                        <li><Link to="/login">去登录</Link></li>
-                        <li><Link to="/order">Order</Link></li>
-                        <li><Link to="/user">User</Link></li>
-                        <li><Link to="/auto">Auto Test</Link></li>
-                    </ul>
-                </div> */}
                 <div className={LayoutCss.rightBox}>
                     <div className={LayoutCss.top}>
                         <span>{this.observer.name}</span>

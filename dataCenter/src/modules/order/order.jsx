@@ -1,6 +1,7 @@
 import React from 'react';
 
 import TableList from "../../core/tableList/table";
+import Modal from "../../core/modal/model.jsx";
  
 export default class Order extends React.Component{
     constructor(props){
@@ -45,6 +46,10 @@ export default class Order extends React.Component{
                 };
             }
         }
+
+        this.state = {
+            showDialog:false
+        }
     }
 
     edit(row){
@@ -73,12 +78,37 @@ export default class Order extends React.Component{
         tk.search();
     }
 
+    dialog(){
+        this.setState({showDialog:true});
+    }
+
+    save(){
+        this.setState({showDialog:false});
+    }
+    close(){
+        this.setState({showDialog:false});
+    }
+
     render(){
+
+        let modal = this.state.showDialog?(
+            <Modal>
+                <div>
+                    <h1>this is dialog msg</h1>
+                    <input type='button' value="save" onClick={e=>{this.save()}} />
+                    <input type='button' value="close" onClick={e=>{this.close()}} />
+                </div>
+            </Modal>
+        ):null;
+
         return (
             <div>
                 <input type="button" onClick={this.change} value="get" />
                 <input type="button" onClick={this.search} value="search" />
+                <input type="button" onClick={e=>{this.dialog()}} value="dialog" />
                 <TableList ref='tk' options={this.tableOptions} />
+
+                {modal}
             </div>
         );
     }
