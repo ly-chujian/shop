@@ -19,7 +19,6 @@ export const ErrorBoundary = (Comp)=> {
 
         render(){
             if (this.state.errorInfo) {
-                // Error path
                 return (
                     <div>
                     <h2>Something went wrong.</h2>

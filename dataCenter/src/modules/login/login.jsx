@@ -30,6 +30,10 @@ export default class Login extends React.Component{
         }
     }
 
+    componentDidMount(){
+        this.refs['__loginName'].value = this.observer.user.name;
+    }
+
     register(){
         Util.ajaxServer.doFetch(ModuleRequestUrl.LOGIN.register,"post",{name:"a",pwd:"a"})
     }

@@ -49,7 +49,7 @@ class Layout extends React.Component{
             </div>
                 <div className={LayoutCss.rightBox}>
                     <div className={LayoutCss.top}>
-                        <span>{this.observer.name}</span>
+                        <span>{this.observer.user.name}</span>
                         <span className={LayoutCss.logout} onClick={e=>this.logOut()}>退出</span>
                     </div>
                     {renderRoutes(this.props.route.routes)}

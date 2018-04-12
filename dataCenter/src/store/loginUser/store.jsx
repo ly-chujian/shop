@@ -3,19 +3,24 @@
  */
 
 import {observable, action} from "mobx";
+import {create, persist} from "mobx-persist";
 
 class ObservableStore {
-    @observable name = "";
+
+    @persist("object") @observable user = {name:""};
 
     constructor() {}
 
     @action setUser(name){
-        this.name = name;
+        this.user = {name:name};
     }
 
     @action getUserName(){
-        return this.name;
+        return this.user.name;
     }
 }
 
 export const LoginUserStore = new ObservableStore();
+
+const hydrate = create({});
+hydrate('user',LoginUserStore)
