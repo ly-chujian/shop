@@ -8,6 +8,11 @@ export const ErrorBoundary = (Comp)=> {
             this.state = { error: null, errorInfo: null };
         }
 
+        //Comp渲染的时候执行，compInstance为Comp的实例
+        proc(compInstance) {
+            // compInstance.getData();
+        }
+
         componentDidCatch(error, errorInfo) {
             this.setState({
               error: error,
@@ -18,6 +23,9 @@ export const ErrorBoundary = (Comp)=> {
           }
 
         render(){
+            // debugger
+            const props = Object.assign({}, this.props, {ref: this.proc.bind(this)});
+            // const data = this.getData();
             if (this.state.errorInfo) {
                 return (
                     <div>
@@ -31,7 +39,7 @@ export const ErrorBoundary = (Comp)=> {
                 );
             }
             return (
-                <Comp {...this.props} />
+                <Comp {...props} />
             )
         }
     }
