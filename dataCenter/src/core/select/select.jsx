@@ -57,11 +57,11 @@ export default class Selet extends React.Component{
        // const {bottomData} = this.state;
         return (
             <div>
-               <div className="chooseZh">
-                    <div className="right">
-                        <div className="over"> 
+               <div className="chooseZh"  data-data='isHideData' >
+                    <div className="right"  data-data='isHideData' >
+                        <div className="over"  data-data='isHideData' > 
                             <TopData getTopData = {this.state.topData} getRemoveData = {this.getCkRemoveData}/>
-                            <input type="text"  value={this.state.value} className="input" onChange={this.inputChange}/>                
+                            <input type="text" data-data='isHideData'  value={this.state.value} className="input" onChange={this.inputChange}/>                
                         </div>
                     </div>
                 </div>
