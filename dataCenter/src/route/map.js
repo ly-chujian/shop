@@ -14,7 +14,7 @@ export default class RouterCtl{
             {path:"/auto",comp:Loadable({ loader: () => import('../modules/autoTest/autoTest.jsx'), loading: () => <Loading />})},
             {path:"/goods",comp:Loadable({ loader: () => import('../modules/goods/goods.jsx'), loading: () => <Loading />})},
             {path:"/order",comp:Loadable({ loader: () => import('../modules/order/order.jsx'), loading: () => <Loading />})},
-            {path:"/user",comp:Loadable({ loader: () => import('../modules/user/user.jsx').then(x=>x.User), loading: () => <Loading />})},
+            {path:"/select",comp:Loadable({ loader: () => import('../modules/select/demo.jsx').then(x=>x.User), loading: () => <Loading />})},
             // {path:"/user",comp:Loadable({ loader: () => import('../modules/user/user.jsx'), loading: () => <Loading />})},
         ];
     }

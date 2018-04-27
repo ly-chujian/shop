@@ -34,7 +34,7 @@ class Layout extends React.Component{
                         <li className="list-group-item list-group-item-action active" ><Link to="/goods">Goods</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/order">Order</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/login">去登录</Link></li>
-                        <li className="list-group-item list-group-item-action"><Link to="/user">User</Link></li>
+                        <li className="list-group-item list-group-item-action"><Link to="/select">select</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/auto">Auto Test</Link></li>
                     </ul>
                 </div>
@@ -67,7 +67,7 @@ class Layout extends React.Component{
         )
     }
 }
-// export default Auth(Layout);
+//export default Layout;
 export default class extends React.Component{
     render(){
         return (

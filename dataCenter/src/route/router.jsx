@@ -42,8 +42,8 @@ export default class RouterConfig extends React.Component{
                         component: this.routerMapCtl.getComponentsByName("/order")
                     },
                     {
-                        path: "/user",
-                        component: this.routerMapCtl.getComponentsByName("/user")
+                        path: "/select",
+                        component: this.routerMapCtl.getComponentsByName("/select")
                     },
                     {
                         component: this.routerMapCtl.getComponentsByName("/noMatch")
