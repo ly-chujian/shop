@@ -71,9 +71,9 @@ var personCtl = {
                     count:tmp.length,
                     total:1
                 }
-                return res.status(200).json({rc:true,data:result});
+                return res.status(200).json({status:"200",msg:"",data:result});
             }else{
-                return res.status(200).json({rc:false,data:"查询出错!"});
+                return res.status(200).json({status:"400",msg:"查询出错",data:null});
             }
         })
     },
