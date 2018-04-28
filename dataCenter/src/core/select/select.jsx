@@ -55,6 +55,9 @@ export default class Selet extends React.Component{
             value : ''
         })
     }
+    getTopData(){
+        return this.state.topData;
+    }
     render(){
        // const {bottomData} = this.state;
         return (
