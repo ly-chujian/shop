@@ -64,8 +64,8 @@ export default class Selet extends React.Component{
                             <input type="text" data-data='isHideData'  value={this.state.value} className="input" onChange={this.inputChange}/>                
                         </div>
                     </div>
+                    <BottomData getBotData={this.state.bottomData} getCkData={this.getCkRemoveData}/>
                 </div>
-                <BottomData getBotData={this.state.bottomData} getCkData={this.getCkRemoveData}/>
             </div>
         );
     }

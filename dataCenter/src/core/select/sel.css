@@ -28,10 +28,9 @@ body{
 
 
 .chooseZh {
-	padding-top:30px;
+	width: 100%;
 }
 .right {
-	width:80%;
 	border:1px solid #e6e6e6;
 	border-radius:5px;
 	padding:5px 0 0;
@@ -52,7 +51,7 @@ body{
 	overflow-y:auto;
 	max-height:150px;
 }
-.groupSpan span.icon{font-size:12px;}
+.groupSpan span.icon{font-size:12px;cursor: pointer; padding-left: 2px;}
 .item {
 	background:aliceblue;
 	border-radius:5px;
@@ -85,7 +84,6 @@ body{
 .pullItem {
 	overflow-x:hidden;
 	overflow-y:auto;
-	width:80%;
 	margin:auto;
 	max-height:150px;
 	margin-bottom:10px;
@@ -107,7 +105,7 @@ body{
 	color:white;
 }
 .over {
-	overflow:hidden;
+	overflow:hidden; white-space: nowrap;
 }
 .fl {
 	float:left;
@@ -115,4 +113,4 @@ body{
 .fr {
 	float:right;
 }
-.input{height: 30px;width: 200px;border:none;outline: none}
+.input{height: 30px;width: 50%;outline: none;min-width: 100px;border:none;}
