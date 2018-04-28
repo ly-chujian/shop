@@ -185,5 +185,5 @@ class TableList extends React.Component {
 	}
 }
 
-// export default TableList;
+//export default TableList;
 export default ErrorBoundary(TableList);

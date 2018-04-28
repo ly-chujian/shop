@@ -1,0 +1,119 @@
+body{
+    margin: 0;padding: 0;
+}
+.bg{
+    background: #f1f1f1;font-size: 14px;padding-top: 100px;
+}
+
+.container{
+    width: 300px;height: 300px;margin: 0 auto;padding:50px 30px;background: #fff;
+}
+
+.item label{
+    color: #444;
+}
+
+.item input{
+    border: 1px solid #cccccc;line-height: 40px;padding: 0px 10px;
+}
+
+.btn{
+    width: 150px;line-height: 40px;background: #0074D9;color: #fff;text-align: center;margin: 20px auto;
+}
+
+.ml14{
+    margin-left: 14px;
+}
+
+
+
+.chooseZh {
+	width: 100%;
+}
+.right {
+	border:1px solid #e6e6e6;
+	border-radius:5px;
+	padding:5px 0 0;
+	margin:auto;
+}
+.defaultSpan {
+	display:inline-block;
+	height:26px;
+	line-height:26px;
+	margin-bottom:5px;
+	margin-left:5px;
+}
+.groupSpan {
+	float:left;
+	margin-left:5px;
+	overflow-x:hidden;
+	overflow-y:auto;
+	max-height:150px;
+}
+.groupSpan span.icon{font-size:12px;cursor: pointer; padding-left: 2px;}
+.groupSpan  .item {
+	background:#fafafa;
+	border:1px solid #e8e8e8;
+	border-radius:2px;
+	padding:3px 5px;
+	margin-right:5px;
+	margin-bottom:5px;
+}
+.delG {
+	width:15px;
+	height:15px;
+	margin-left:3px;
+	border:1px solid #e6e6e6;
+	border-radius:50%;
+	background-color:#f2f2f2;
+}
+.clear {
+	width:15px;
+	height:15px;
+	margin-right:5px;
+	margin-top:6px;
+}
+.pull {
+	width:15px;
+	height:15px;
+	margin-top:6px;
+	margin-right:5px;
+}
+.pullItem p {text-align: left}
+.pullItem p span{float: right}
+.pullItem {
+	overflow-x:hidden;
+	overflow-y:auto;
+	margin:auto;
+	max-height:150px;
+	margin-bottom:10px;
+	border:1px solid #e6e6e6;
+	border-top:none;
+	border-radius:0 0 5px 5px;
+}
+.pullItem p {
+	height:34px;
+	line-height:34px;
+	padding:0 5px;margin:0;
+}
+.pullItem p span{color: #fff;}
+.pullItem p:HOVER {
+	background-color:#e9f7fe;
+	color:#575757;
+}
+.pullItem p:HOVER span{color: #dddddd}
+.pullItem .active{
+	background-color:#fafafa;
+	color:#575757;font-weight: bold;
+}
+.pullItem .active span{color: #3f91f7;}
+.over {
+	overflow:hidden; white-space: nowrap;
+}
+.fl {
+	float:left;
+}
+.fr {
+	float:right;
+}
+.input{height: 30px;width: 50%;outline: none;min-width: 100px;border:none;}
