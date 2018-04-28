@@ -11,13 +11,13 @@ export default class TopData extends React.Component{
         let topHtml = [];
         topData.map((item,index)=>{
             topHtml.push(              
-                   <div className="item over fl"  data-data='isHideData'  key = {Math.random()} ><span className="fl" data-data='isHideData'>{item.name}</span> <span className="icon icon-cuowu"  data-data='isHideData' onClick = {e=>this.remove(item)}></span></div>
+                   <div className="item over fl"  data-data='isHideData'  key = {Math.random()} ><span className="fl" data-data='isHideData'>{item.name}</span> <span className="icon icon-cuowu3"  data-data='isHideData' onClick = {e=>this.remove(e,item)}></span></div>
              )
         })
         return topHtml;
     }
-    remove(item){
-        console.log(item + 'remove')
+    remove(e,item){
+        e.nativeEvent.stopImmediatePropagation();
         this.props.getRemoveData(item,'remove')
     }
     render(){

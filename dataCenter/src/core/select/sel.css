@@ -45,17 +45,17 @@ body{
 }
 .groupSpan {
 	float:left;
-	/* width:90%; */
 	margin-left:5px;
 	overflow-x:hidden;
 	overflow-y:auto;
 	max-height:150px;
 }
 .groupSpan span.icon{font-size:12px;cursor: pointer; padding-left: 2px;}
-.item {
-	background:aliceblue;
-	border-radius:5px;
-	padding:5px;
+.groupSpan  .item {
+	background:#fafafa;
+	border:1px solid #e8e8e8;
+	border-radius:2px;
+	padding:3px 5px;
 	margin-right:5px;
 	margin-bottom:5px;
 }
@@ -92,18 +92,21 @@ body{
 	border-radius:0 0 5px 5px;
 }
 .pullItem p {
-	height:30px;
-	line-height:30px;
-	padding:0 5px;
+	height:34px;
+	line-height:34px;
+	padding:0 5px;margin:0;
 }
+.pullItem p span{color: #fff;}
 .pullItem p:HOVER {
-	background-color:#b3ceff;
-	color:white;
+	background-color:#e9f7fe;
+	color:#575757;
 }
-.active{
-	background-color:cornflowerblue;
-	color:white;
+.pullItem p:HOVER span{color: #dddddd}
+.pullItem .active{
+	background-color:#fafafa;
+	color:#575757;font-weight: bold;
 }
+.pullItem .active span{color: #3f91f7;}
 .over {
 	overflow:hidden; white-space: nowrap;
 }

@@ -32,12 +32,12 @@ export default class BottomData extends React.Component{
         let html = [];
         var listData = this.props.getBotData;
         listData.map((item,index)=>{
-            html.push(<p key = {Math.random()} data-data='isHideData' className = {item.ck ? 'hidecls active' : 'ckcls'} onClick={e=>this.chooseItem(item)}>{item.name} <span className="icon icon-duigou"></span></p>)
+            html.push(<p key = {Math.random()} data-data='isHideData' className = {item.ck ? 'hidecls active' : 'ckcls'} onClick={e=>this.chooseItem(e,item)}>{item.name} <span className="icon icon-duigou"></span></p>)
         })
         return html;
     }
-    chooseItem(item){
-        
+    chooseItem(e,item){
+       e.nativeEvent.stopImmediatePropagation();
        this.props.getCkData(item,'choose')
     } 
     render(){

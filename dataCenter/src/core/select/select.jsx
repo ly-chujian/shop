@@ -18,7 +18,9 @@ export default class Selet extends React.Component{
     componentDidMount(){
         
     }
-    inputChange(event){       
+    inputChange(event){   
+       event.nativeEvent.stopImmediatePropagation();
+       
         let _val = event.target.value;
         let searchData = [];
         this.state.cloneData.map((item,index)=>{
