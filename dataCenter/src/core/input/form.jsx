@@ -3,21 +3,35 @@ import React from 'react';
 export default class VForm extends React.Component{
     constructor(props){
         super(props);
+
+        this.instanceArray = [];
     }
 
     check(){
-        
+        console.log(1);
+    }
+
+    addInstance(instance){
+        this.instanceArray.push(instance);
     }
 
     componentDidMount(){
-        let children = this.props.children;
+        console.log(this.instanceArray);
     }
 
     render(){
-        console.log(this.props.children);
+        
+        let children = this.props.children;
+
+        if(Array.isArray(children)){
+            children = children.map(item=>{
+                return Object.assign({}, item, {props:{...item.props,addInstance:this.addInstance.bind(this)}});
+            })
+        }
+        
         return (
             <div>
-                {/* {this.props.children} */}
+                {children}
             </div>
         )
     }

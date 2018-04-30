@@ -1,7 +1,7 @@
 import React from 'react';
-import {InstanceInput} from './instanceInput.jsx';
+import {HOCInput} from './HOCInput';
 
-export default class VerificationInput extends React.Component{
+class InputItem extends React.Component{
     constructor(props){
         super(props);
         this.onChange = this.onChange.bind(this);
@@ -10,11 +10,12 @@ export default class VerificationInput extends React.Component{
             value:''
         }
         this.ntype = this.props.vtype;
-        this.el = null;
+        this.el = null;        
     }
+    
     onChange(e){
         let val = e.target.value;
-        if(!val){
+        if(val){
             this.setState({errorInfo:this.props.msg,value:val});
         }
     }
@@ -26,10 +27,10 @@ export default class VerificationInput extends React.Component{
     render(){
         return (
             <div>
-                <input ref={el=>this.el = el} className="form-control" type="text" value ={this.state.value} onChange = {this.onChange}/>
+                <input className="form-control" type="text" value={this.state.value} onChange = {this.onChange}/>
             </div>
         )
     }
 }
 
-// export default InstanceInput(VerificationInput)
+export default HOCInput(InputItem)
