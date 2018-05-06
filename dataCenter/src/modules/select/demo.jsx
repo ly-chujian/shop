@@ -1,25 +1,31 @@
 
 import React from 'react';
-import InputItem from '../../core/input/input.jsx';
+import VInput from '../../core/input/input.jsx';
 import VForm from '../../core/input/form';
 
-export class User extends React.Component{
+class User extends React.Component{
     constructor(props){
         super(props);
     }
 
-    componentDidMount(){
-        
+    submitForm(){
+        console.log(this.props.onVerification());
     }
 
     render(){
         return (
             <div>
+                Name:<input type="text"/>
+                <button>Search</button>
                 <VForm>
-                    <InputItem ntype="required" msg="aaa不允许为空"></InputItem>
-                    <InputItem ntype="required" msg="bbb不允许为空"></InputItem>
+                    Name:{this.props.addInstance("NAME",<VInput require ntype="phone" msg="name不允许为空"></VInput>)}
+                    Age:{this.props.addInstance("AGE",<VInput require ntype="email" msg="age不允许为空"></VInput>)}
+                    Other:<VInput ntype="required" msg="bbb不允许为空"></VInput>
                 </VForm>
+                <button onClick={this.submitForm.bind(this)}>Submit</button>
             </div>
         )
     }
 }
+
+export default VForm.setCreate(User)

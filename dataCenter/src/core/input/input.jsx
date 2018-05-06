@@ -1,36 +1,36 @@
 import React from 'react';
-import {HOCInput} from './HOCInput';
 
-class InputItem extends React.Component{
+export default class VInput extends React.Component{
     constructor(props){
         super(props);
         this.onChange = this.onChange.bind(this);
         this.state = {
-            errorInfo : '',
+            status:!this.props.require,
+            msg:this.props.msg,
             value:''
         }
         this.ntype = this.props.vtype;
-        this.el = null;        
+        this.el = null;
     }
     
     onChange(e){
         let val = e.target.value;
-        if(val){
-            this.setState({errorInfo:this.props.msg,value:val});
+        if(!val){
+            this.setState({status:false,msg:this.props.msg,value:val});
+        }else{
+            this.setState({status:true,msg:"",value:val});
         }
     }
 
     check(){
-        return this.state.errorInfo;
+        return {...this.state};
     }
 
     render(){
         return (
             <div>
-                <input className="form-control" type="text" value={this.state.value} onChange = {this.onChange}/>
+                <input className="form-control" type="text" value={this.state.value} onChange = {e=>{this.onChange(e)}}/>
             </div>
         )
     }
 }
-
-export default HOCInput(InputItem)
