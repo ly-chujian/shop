@@ -46,6 +46,10 @@ export default class RouterConfig extends React.Component{
                         component: this.routerMapCtl.getComponentsByName("/select")
                     },
                     {
+                        path: "/demo",
+                        component: this.routerMapCtl.getComponentsByName("/demo")
+                    },
+                    {
                         component: this.routerMapCtl.getComponentsByName("/noMatch")
                     }
                 ]

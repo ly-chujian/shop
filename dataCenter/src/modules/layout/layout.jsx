@@ -36,6 +36,7 @@ class Layout extends React.Component{
                         <li className="list-group-item list-group-item-action"><Link to="/login">去登录</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/select">select</Link></li>
                         <li className="list-group-item list-group-item-action"><Link to="/auto">Auto Test</Link></li>
+                        <li className="list-group-item list-group-item-action"><Link to="/demo">Demo</Link></li>
                     </ul>
                 </div>
                 <div className="col-8">
@@ -43,6 +44,7 @@ class Layout extends React.Component{
                     <div className="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
                     <div className="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
                     <div className="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+                    <div className="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
                     <div className="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
                     </div>
                 </div>
